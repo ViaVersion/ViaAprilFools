@@ -43,7 +43,7 @@ public class MetadataRewriter1_16to20w14infinite extends EntityRewriter<Clientbo
     }
 
     @Override
-    public void handleMetadata(int entityId, EntityType type, Metadata metadata, List<Metadata> metadatas, UserConnection connection) throws Exception {
+    public void handleMetadata(int entityId, EntityType type, Metadata metadata, List<Metadata> metadatas, UserConnection connection) {
         if (metadata.metaType() == MetaType1_14.Slot) {
             metadata.setValue(this.protocol.getItemRewriter().handleItemToClient(metadata.value()));
         } else if (metadata.metaType() == MetaType1_14.BlockID) {

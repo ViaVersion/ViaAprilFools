@@ -26,10 +26,10 @@ import com.viaversion.viaversion.api.minecraft.entities.Entity1_16Types;
 import com.viaversion.viaversion.api.protocol.remapper.PacketHandlers;
 import com.viaversion.viaversion.api.type.Type;
 import com.viaversion.viaversion.data.entity.EntityTrackerBase;
-import com.viaversion.viaversion.protocols.protocol1_14to1_13_2.data.RecipeRewriter1_14;
 import com.viaversion.viaversion.protocols.protocol1_16to1_15_2.ClientboundPackets1_16;
 import com.viaversion.viaversion.protocols.protocol1_16to1_15_2.Protocol1_16To1_15_2;
 import com.viaversion.viaversion.protocols.protocol1_16to1_15_2.ServerboundPackets1_16;
+import com.viaversion.viaversion.rewriter.RecipeRewriter;
 import com.viaversion.viaversion.rewriter.StatisticsRewriter;
 import com.viaversion.viaversion.rewriter.TagRewriter;
 import net.raphimc.viaaprilfools.api.ItemBackwardsMappings;
@@ -73,7 +73,7 @@ public class Protocol1_16to20w14infinite extends BackwardsProtocol<ClientboundPa
         soundRewriter.registerSound(ClientboundPackets20w14infinite.ENTITY_SOUND);
         soundRewriter.registerNamedSound(ClientboundPackets20w14infinite.NAMED_SOUND);
         soundRewriter.registerStopSound(ClientboundPackets20w14infinite.STOP_SOUND);
-        new RecipeRewriter1_14<>(this).registerDefaultHandler(ClientboundPackets20w14infinite.DECLARE_RECIPES);
+        new RecipeRewriter<>(this).register(ClientboundPackets20w14infinite.DECLARE_RECIPES);
 
         this.registerClientbound(ClientboundPackets20w14infinite.CHAT_MESSAGE, new PacketHandlers() {
             @Override

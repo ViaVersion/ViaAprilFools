@@ -18,6 +18,7 @@
 package net.raphimc.viaaprilfools.api;
 
 import com.viaversion.viabackwards.api.data.BackwardsMappings;
+import com.viaversion.viaversion.api.Via;
 import com.viaversion.viaversion.api.data.MappingDataLoader;
 import com.viaversion.viaversion.api.data.Mappings;
 import com.viaversion.viaversion.api.data.ParticleMappings;
@@ -37,7 +38,9 @@ public class ItemBackwardsMappings extends BackwardsMappings {
 
     @Override
     public void load() {
-        this.getLogger().info("Loading " + this.oldVersion + " -> " + this.newVersion + " mappings...");
+        if (Via.getManager().isDebug()) {
+            this.getLogger().info("Loading " + this.oldVersion + " -> " + this.newVersion + " mappings...");
+        }
         JsonObject diffmapping = this.hasDiffFile ? this.loadDiffFile() : null;
         JsonObject oldMappings = MappingDataLoader.loadData("mapping-" + this.oldVersion + ".json", true);
         JsonObject newMappings = MappingDataLoader.loadData("mapping-" + this.newVersion + ".json", true);

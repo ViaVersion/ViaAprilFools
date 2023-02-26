@@ -17,6 +17,7 @@ If you just want to use ViaAprilFools yourself you can check out some projects w
 
 ### Projects implementing ViaAprilFools
  - [ViaProxy](https://github.com/RaphiMC/ViaProxy): Standalone proxy which uses ViaVersion to translate between minecraft versions. Allows Minecraft 1.7+ clients to join to any version server.
+ - [ViaFabricPlus](https://github.com/FlorianMichael/ViaFabricPlus): Fabric mod for the latest minecraft version with QoL fixes and enhancements to the gameplay.
 
 ## Releases
 ### Gradle/Maven

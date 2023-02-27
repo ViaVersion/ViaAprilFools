@@ -24,7 +24,7 @@ dependencies {
     compileOnly("com.viaversion:viabackwards-common:4.6.0-23w06a-SNAPSHOT") {
         exclude group: "com.viaversion", module: "viaversion"
     }
-    compileOnly "org.yaml:snakeyaml:1.33"
+    compileOnly "org.yaml:snakeyaml:2.0"
 }
 
 blossom {

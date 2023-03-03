@@ -32,7 +32,6 @@ import com.viaversion.viaversion.protocols.protocol1_16to1_15_2.ServerboundPacke
 import com.viaversion.viaversion.rewriter.RecipeRewriter;
 import com.viaversion.viaversion.rewriter.StatisticsRewriter;
 import com.viaversion.viaversion.rewriter.TagRewriter;
-import net.raphimc.viaaprilfools.api.ItemBackwardsMappings;
 import net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite.metadata.MetadataRewriter1_16to20w14infinite;
 import net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite.packets.BlockItemPackets20w14infinite;
 import net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite.packets.EntityPackets20w14infinite;
@@ -41,7 +40,7 @@ import java.util.UUID;
 
 public class Protocol1_16to20w14infinite extends BackwardsProtocol<ClientboundPackets20w14infinite, ClientboundPackets1_16, ServerboundPackets20w14infinite, ServerboundPackets1_16> {
 
-    public static final BackwardsMappings MAPPINGS = new ItemBackwardsMappings("20w14infinite", "1.16");
+    public static final BackwardsMappings MAPPINGS = new BackwardsMappings("20w14infinite", "1.16", null, true);
     private static final UUID ZERO_UUID = new UUID(0, 0);
 
     private BlockItemPackets20w14infinite blockItemPackets;

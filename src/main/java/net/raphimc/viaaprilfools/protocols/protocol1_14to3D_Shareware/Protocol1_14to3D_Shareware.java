@@ -29,14 +29,13 @@ import com.viaversion.viaversion.protocols.protocol1_14to1_13_2.ClientboundPacke
 import com.viaversion.viaversion.protocols.protocol1_14to1_13_2.Protocol1_14To1_13_2;
 import com.viaversion.viaversion.protocols.protocol1_14to1_13_2.ServerboundPackets1_14;
 import com.viaversion.viaversion.protocols.protocol1_14to1_13_2.types.Chunk1_14Type;
-import net.raphimc.viaaprilfools.api.ItemBackwardsMappings;
 import net.raphimc.viaaprilfools.protocols.protocol1_14to3D_Shareware.packets.BlockItemPackets3D_Shareware;
 import net.raphimc.viaaprilfools.protocols.protocol1_14to3D_Shareware.packets.EntityPackets3D_Shareware;
 import net.raphimc.viaaprilfools.protocols.protocol1_14to3D_Shareware.storage.ChunkCenterTracker3D_Shareware;
 
 public class Protocol1_14to3D_Shareware extends BackwardsProtocol<ClientboundPackets3D_Shareware, ClientboundPackets1_14, ServerboundPackets3D_Shareware, ServerboundPackets1_14> {
 
-    public static final BackwardsMappings MAPPINGS = new ItemBackwardsMappings("3D_Shareware", "1.14");
+    public static final BackwardsMappings MAPPINGS = new BackwardsMappings("3D_Shareware", "1.14", null, true);
     public static final int SERVERSIDE_VIEW_DISTANCE = 64;
 
     private BlockItemPackets3D_Shareware blockItemPackets;

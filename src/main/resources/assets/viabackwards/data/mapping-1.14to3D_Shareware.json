@@ -1,19 +1,19 @@
 {
   "items": {
-    "minecraft:red_key": {
-      "id": "minecraft:tripwire_hook",
+    "red_key": {
+      "id": "tripwire_hook",
       "name": "3D Shareware Red Key"
     },
-    "minecraft:blue_key": {
-      "id": "minecraft:tripwire_hook",
+    "blue_key": {
+      "id": "tripwire_hook",
       "name": "3D Shareware Blue Key"
     },
-    "minecraft:yellow_key": {
-      "id": "minecraft:tripwire_hook",
+    "yellow_key": {
+      "id": "tripwire_hook",
       "name": "3D Shareware Yellow Key"
     },
-    "minecraft:3d": {
-      "id": "minecraft:golden_carrot",
+    "3d": {
+      "id": "golden_carrot",
       "name": "3D Shareware 3D"
     }
   },

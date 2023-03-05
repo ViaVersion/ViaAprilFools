@@ -40,7 +40,7 @@ import java.util.UUID;
 
 public class Protocol1_16to20w14infinite extends BackwardsProtocol<ClientboundPackets20w14infinite, ClientboundPackets1_16, ServerboundPackets20w14infinite, ServerboundPackets1_16> {
 
-    public static final BackwardsMappings MAPPINGS = new BackwardsMappings("20w14infinite", "1.16", null, true);
+    public static final BackwardsMappings MAPPINGS = new BackwardsMappings("20w14infinite", "1.16");
     private static final UUID ZERO_UUID = new UUID(0, 0);
 
     private BlockItemPackets20w14infinite blockItemPackets;

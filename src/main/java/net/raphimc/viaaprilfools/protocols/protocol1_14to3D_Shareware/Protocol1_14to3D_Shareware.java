@@ -35,7 +35,7 @@ import net.raphimc.viaaprilfools.protocols.protocol1_14to3D_Shareware.storage.Ch
 
 public class Protocol1_14to3D_Shareware extends BackwardsProtocol<ClientboundPackets3D_Shareware, ClientboundPackets1_14, ServerboundPackets3D_Shareware, ServerboundPackets1_14> {
 
-    public static final BackwardsMappings MAPPINGS = new BackwardsMappings("3D_Shareware", "1.14", null, true);
+    public static final BackwardsMappings MAPPINGS = new BackwardsMappings("3D_Shareware", "1.14");
     public static final int SERVERSIDE_VIEW_DISTANCE = 64;
 
     private BlockItemPackets3D_Shareware blockItemPackets;

@@ -1,5 +1,5 @@
 # ViaAprilFools
-ViaVersion addon to add support for some notable minecraft snapshots.
+ViaVersion addon to add support for some notable Minecraft snapshots.
 
 ViaAprilFools is not usable by itself as a standalone software, as it is an addon for ViaVersion which adds more protocol translators.
 ViaAprilFools is intended to be implemented in a ViaVersion based protocol translator.
@@ -16,8 +16,8 @@ If you just want to use ViaAprilFools yourself you can check out some projects w
 - 3D Shareware
 
 ### Projects implementing ViaAprilFools
- - [ViaProxy](https://github.com/RaphiMC/ViaProxy): Standalone proxy which uses ViaVersion to translate between minecraft versions. Allows Minecraft 1.7+ clients to join to any version server.
- - [ViaFabricPlus](https://github.com/FlorianMichael/ViaFabricPlus): Fabric mod for the latest minecraft version with QoL fixes and enhancements to the gameplay.
+ - [ViaProxy](https://github.com/RaphiMC/ViaProxy): Standalone proxy which uses ViaVersion to translate between Minecraft versions. Allows Minecraft 1.7+ clients to join to any version server.
+ - [ViaFabricPlus](https://github.com/FlorianMichael/ViaFabricPlus): Fabric mod for the latest Minecraft version with QoL fixes and enhancements to the gameplay.
 
 ## Releases
 ### Gradle/Maven

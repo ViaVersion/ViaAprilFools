@@ -20,6 +20,7 @@ package net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite;
 import com.viaversion.viabackwards.api.BackwardsProtocol;
 import com.viaversion.viabackwards.api.data.BackwardsMappings;
 import com.viaversion.viabackwards.api.rewriters.SoundRewriter;
+import com.viaversion.viaversion.api.Via;
 import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.minecraft.RegistryType;
 import com.viaversion.viaversion.api.minecraft.entities.Entity1_16Types;
@@ -29,6 +30,7 @@ import com.viaversion.viaversion.data.entity.EntityTrackerBase;
 import com.viaversion.viaversion.protocols.protocol1_16to1_15_2.ClientboundPackets1_16;
 import com.viaversion.viaversion.protocols.protocol1_16to1_15_2.Protocol1_16To1_15_2;
 import com.viaversion.viaversion.protocols.protocol1_16to1_15_2.ServerboundPackets1_16;
+import com.viaversion.viaversion.protocols.protocol1_16to1_15_2.provider.PlayerAbilitiesProvider;
 import com.viaversion.viaversion.rewriter.RecipeRewriter;
 import com.viaversion.viaversion.rewriter.StatisticsRewriter;
 import com.viaversion.viaversion.rewriter.TagRewriter;
@@ -111,11 +113,11 @@ public class Protocol1_16to20w14infinite extends BackwardsProtocol<ClientboundPa
         this.registerServerbound(ServerboundPackets1_16.PLAYER_ABILITIES, new PacketHandlers() {
             @Override
             public void register() {
+                map(Type.BYTE); // Flags
                 handler(wrapper -> {
-                    wrapper.passthrough(Type.BYTE);
-                    // Flying and walking speed - not important anyways
-                    wrapper.write(Type.FLOAT, 0.05F);
-                    wrapper.write(Type.FLOAT, 0.1F);
+                    final PlayerAbilitiesProvider playerAbilities = Via.getManager().getProviders().get(PlayerAbilitiesProvider.class);
+                    wrapper.write(Type.FLOAT, playerAbilities.getFlyingSpeed());
+                    wrapper.write(Type.FLOAT, playerAbilities.getWalkingSpeed());
                 });
             }
         });

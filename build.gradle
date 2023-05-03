@@ -20,8 +20,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly "com.viaversion:viaversion:4.6.0-1.19.4-pre3-SNAPSHOT"
-    compileOnly("com.viaversion:viabackwards-common:4.6.0-1.19.4-pre3-SNAPSHOT") {
+    compileOnly "com.viaversion:viaversion:4.7.0-23w17a-SNAPSHOT"
+    compileOnly("com.viaversion:viabackwards-common:4.7.0-23w17a-SNAPSHOT") {
         exclude group: "com.viaversion", module: "viaversion"
     }
     compileOnly "org.yaml:snakeyaml:2.0"

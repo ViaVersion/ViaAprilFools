@@ -57,34 +57,25 @@ public class Protocol1_14to3D_Shareware extends BackwardsProtocol<ClientboundPac
         soundRewriter.registerNamedSound(ClientboundPackets3D_Shareware.NAMED_SOUND);
         soundRewriter.registerStopSound(ClientboundPackets3D_Shareware.STOP_SOUND);
 
-        this.registerClientbound(ClientboundPackets3D_Shareware.CHUNK_DATA, new PacketHandlers() {
-            @Override
-            public void register() {
-                handler(wrapper -> {
-                    final Chunk chunk = wrapper.passthrough(new Chunk1_14Type());
-                    ChunkCenterTracker3D_Shareware entityTracker = wrapper.user().get(ChunkCenterTracker3D_Shareware.class);
-                    final int diffX = Math.abs(entityTracker.getChunkCenterX() - chunk.getX());
-                    final int diffZ = Math.abs(entityTracker.getChunkCenterZ() - chunk.getZ());
-                    if (entityTracker.isForceSendCenterChunk() || diffX >= SERVERSIDE_VIEW_DISTANCE || diffZ >= SERVERSIDE_VIEW_DISTANCE) {
-                        final PacketWrapper fakePosLook = wrapper.create(ClientboundPackets1_14.UPDATE_VIEW_POSITION); // Set center chunk
-                        fakePosLook.write(Type.VAR_INT, chunk.getX());
-                        fakePosLook.write(Type.VAR_INT, chunk.getZ());
-                        fakePosLook.send(Protocol1_14to3D_Shareware.class);
-                        entityTracker.setChunkCenterX(chunk.getX());
-                        entityTracker.setChunkCenterZ(chunk.getZ());
-                    }
-                });
+        this.registerClientbound(ClientboundPackets3D_Shareware.CHUNK_DATA, wrapper -> {
+            final ChunkCenterTracker3D_Shareware entityTracker = wrapper.user().get(ChunkCenterTracker3D_Shareware.class);
+
+            final Chunk chunk = wrapper.passthrough(new Chunk1_14Type());
+            final int diffX = Math.abs(entityTracker.getChunkCenterX() - chunk.getX());
+            final int diffZ = Math.abs(entityTracker.getChunkCenterZ() - chunk.getZ());
+
+            if (entityTracker.isForceSendCenterChunk() || diffX >= SERVERSIDE_VIEW_DISTANCE || diffZ >= SERVERSIDE_VIEW_DISTANCE) {
+                final PacketWrapper fakePosLook = wrapper.create(ClientboundPackets1_14.UPDATE_VIEW_POSITION); // Set center chunk
+                fakePosLook.write(Type.VAR_INT, chunk.getX());
+                fakePosLook.write(Type.VAR_INT, chunk.getZ());
+                fakePosLook.send(Protocol1_14to3D_Shareware.class);
+                entityTracker.setChunkCenterX(chunk.getX());
+                entityTracker.setChunkCenterZ(chunk.getZ());
             }
         });
-        this.registerClientbound(ClientboundPackets3D_Shareware.RESPAWN, new PacketHandlers() {
-            @Override
-            public void register() {
-                handler(wrapper -> {
-                    ChunkCenterTracker3D_Shareware entityTracker = wrapper.user().get(ChunkCenterTracker3D_Shareware.class);
-                    // The client may reset the center chunk if dimension is changed
-                    entityTracker.setForceSendCenterChunk(true);
-                });
-            }
+        this.registerClientbound(ClientboundPackets3D_Shareware.RESPAWN, wrapper -> {
+            // The client may reset the center chunk if dimension is changed
+            wrapper.user().get(ChunkCenterTracker3D_Shareware.class).setForceSendCenterChunk(true);
         });
     }
 

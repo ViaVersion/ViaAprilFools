@@ -116,8 +116,8 @@ public class Protocol1_16to20w14infinite extends BackwardsProtocol<ClientboundPa
                 map(Type.BYTE); // Flags
                 handler(wrapper -> {
                     final PlayerAbilitiesProvider playerAbilities = Via.getManager().getProviders().get(PlayerAbilitiesProvider.class);
-                    wrapper.write(Type.FLOAT, playerAbilities.getFlyingSpeed());
-                    wrapper.write(Type.FLOAT, playerAbilities.getWalkingSpeed());
+                    wrapper.write(Type.FLOAT, playerAbilities.getFlyingSpeed(wrapper.user()));
+                    wrapper.write(Type.FLOAT, playerAbilities.getWalkingSpeed(wrapper.user()));
                 });
             }
         });

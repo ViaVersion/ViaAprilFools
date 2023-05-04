@@ -69,32 +69,24 @@ public class EntityPackets20w14infinite {
         metadataRewriter.registerRemoveEntities(ClientboundPackets20w14infinite.DESTROY_ENTITIES);
 
         // Spawn lightning -> Spawn entity
-        protocol.registerClientbound(ClientboundPackets20w14infinite.SPAWN_GLOBAL_ENTITY, ClientboundPackets1_16.SPAWN_ENTITY, new PacketHandlers() {
-            @Override
-            public void register() {
-                handler(new PacketHandler() {
-                    @Override
-                    public void handle(PacketWrapper packetWrapper) throws Exception {
-                        int entityId = packetWrapper.passthrough(Type.VAR_INT); // entity id
-                        packetWrapper.user().getEntityTracker(Protocol1_16to20w14infinite.class).addEntity(entityId, Entity1_16Types.LIGHTNING_BOLT);
+        protocol.registerClientbound(ClientboundPackets20w14infinite.SPAWN_GLOBAL_ENTITY, ClientboundPackets1_16.SPAWN_ENTITY, wrapper -> {
+            final int entityId = wrapper.passthrough(Type.VAR_INT); // entity id
+            wrapper.user().getEntityTracker(Protocol1_16to20w14infinite.class).addEntity(entityId, Entity1_16Types.LIGHTNING_BOLT);
 
-                        packetWrapper.write(Type.UUID, UUID.randomUUID()); // uuid
-                        packetWrapper.write(Type.VAR_INT, Entity1_16Types.LIGHTNING_BOLT.getId()); // entity type
+            wrapper.write(Type.UUID, UUID.randomUUID()); // uuid
+            wrapper.write(Type.VAR_INT, Entity1_16Types.LIGHTNING_BOLT.getId()); // entity type
 
-                        packetWrapper.read(Type.BYTE); // remove type
+            wrapper.read(Type.BYTE); // remove type
 
-                        packetWrapper.passthrough(Type.DOUBLE); // x
-                        packetWrapper.passthrough(Type.DOUBLE); // y
-                        packetWrapper.passthrough(Type.DOUBLE); // z
-                        packetWrapper.write(Type.BYTE, (byte) 0); // yaw
-                        packetWrapper.write(Type.BYTE, (byte) 0); // pitch
-                        packetWrapper.write(Type.INT, 0); // data
-                        packetWrapper.write(Type.SHORT, (short) 0); // velocity
-                        packetWrapper.write(Type.SHORT, (short) 0); // velocity
-                        packetWrapper.write(Type.SHORT, (short) 0); // velocity
-                    }
-                });
-            }
+            wrapper.passthrough(Type.DOUBLE); // x
+            wrapper.passthrough(Type.DOUBLE); // y
+            wrapper.passthrough(Type.DOUBLE); // z
+            wrapper.write(Type.BYTE, (byte) 0); // yaw
+            wrapper.write(Type.BYTE, (byte) 0); // pitch
+            wrapper.write(Type.INT, 0); // data
+            wrapper.write(Type.SHORT, (short) 0); // velocity
+            wrapper.write(Type.SHORT, (short) 0); // velocity
+            wrapper.write(Type.SHORT, (short) 0); // velocity
         });
         protocol.registerClientbound(ClientboundPackets20w14infinite.RESPAWN, new PacketHandlers() {
             @Override
@@ -105,7 +97,7 @@ public class EntityPackets20w14infinite {
                 handler(wrapper -> {
                     wrapper.write(Type.BYTE, (byte) -1); // Previous gamemode, set to none
 
-                    String levelType = wrapper.read(Type.STRING);
+                    final String levelType = wrapper.read(Type.STRING);
                     wrapper.write(Type.BOOLEAN, false); // debug
                     wrapper.write(Type.BOOLEAN, levelType.equals("flat"));
                     wrapper.write(Type.BOOLEAN, true); // keep all playerdata
@@ -138,49 +130,44 @@ public class EntityPackets20w14infinite {
                 });
             }
         });
-        protocol.registerClientbound(ClientboundPackets20w14infinite.ENTITY_PROPERTIES, new PacketHandlers() {
-            @Override
-            public void register() {
-                handler(wrapper -> {
-                    wrapper.passthrough(Type.VAR_INT);
-                    int size = wrapper.passthrough(Type.INT);
-                    int actualSize = size;
-                    for (int i = 0; i < size; i++) {
-                        // Attributes have been renamed and are now namespaced identifiers
-                        String key = wrapper.read(Type.STRING);
-                        String attributeIdentifier = Via.getManager().getProtocolManager().getProtocol(Protocol1_16To1_15_2.class).getMappingData().getAttributeMappings().get(key);
-                        if (attributeIdentifier == null) {
-                            attributeIdentifier = "minecraft:" + key;
-                            if (!com.viaversion.viaversion.protocols.protocol1_13to1_12_2.data.MappingData.isValid1_13Channel(attributeIdentifier)) {
-                                if (!Via.getConfig().isSuppressConversionWarnings()) {
-                                    ViaAprilFools.getPlatform().getLogger().warning("Invalid attribute: " + key);
-                                }
-                                actualSize--;
-                                wrapper.read(Type.DOUBLE);
-                                int modifierSize = wrapper.read(Type.VAR_INT);
-                                for (int j = 0; j < modifierSize; j++) {
-                                    wrapper.read(Type.UUID);
-                                    wrapper.read(Type.DOUBLE);
-                                    wrapper.read(Type.BYTE);
-                                }
-                                continue;
-                            }
+        protocol.registerClientbound(ClientboundPackets20w14infinite.ENTITY_PROPERTIES, wrapper -> {
+            wrapper.passthrough(Type.VAR_INT);
+            int size = wrapper.passthrough(Type.INT);
+            int actualSize = size;
+            for (int i = 0; i < size; i++) {
+                // Attributes have been renamed and are now namespaced identifiers
+                String key = wrapper.read(Type.STRING);
+                String attributeIdentifier = Via.getManager().getProtocolManager().getProtocol(Protocol1_16To1_15_2.class).getMappingData().getAttributeMappings().get(key);
+                if (attributeIdentifier == null) {
+                    attributeIdentifier = "minecraft:" + key;
+                    if (!com.viaversion.viaversion.protocols.protocol1_13to1_12_2.data.MappingData.isValid1_13Channel(attributeIdentifier)) {
+                        if (!Via.getConfig().isSuppressConversionWarnings()) {
+                            ViaAprilFools.getPlatform().getLogger().warning("Invalid attribute: " + key);
                         }
-
-                        wrapper.write(Type.STRING, attributeIdentifier);
-
-                        wrapper.passthrough(Type.DOUBLE);
-                        int modifierSize = wrapper.passthrough(Type.VAR_INT);
+                        actualSize--;
+                        wrapper.read(Type.DOUBLE);
+                        int modifierSize = wrapper.read(Type.VAR_INT);
                         for (int j = 0; j < modifierSize; j++) {
-                            wrapper.passthrough(Type.UUID);
-                            wrapper.passthrough(Type.DOUBLE);
-                            wrapper.passthrough(Type.BYTE);
+                            wrapper.read(Type.UUID);
+                            wrapper.read(Type.DOUBLE);
+                            wrapper.read(Type.BYTE);
                         }
+                        continue;
                     }
-                    if (size != actualSize) {
-                        wrapper.set(Type.INT, 0, actualSize);
-                    }
-                });
+                }
+
+                wrapper.write(Type.STRING, attributeIdentifier);
+
+                wrapper.passthrough(Type.DOUBLE);
+                int modifierSize = wrapper.passthrough(Type.VAR_INT);
+                for (int j = 0; j < modifierSize; j++) {
+                    wrapper.passthrough(Type.UUID);
+                    wrapper.passthrough(Type.DOUBLE);
+                    wrapper.passthrough(Type.BYTE);
+                }
+            }
+            if (size != actualSize) {
+                wrapper.set(Type.INT, 0, actualSize);
             }
         });
     }

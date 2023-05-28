@@ -21,11 +21,36 @@ If you just want to use ViaAprilFools yourself you can check out some projects w
 
 ## Releases
 ### Gradle/Maven
-To use ViaAprilFools with Gradle/Maven you can use this [Maven server](https://maven.lenni0451.net/#/releases/net/raphimc/ViaAprilFools) or [Jitpack](https://jitpack.io/#RaphiMC/ViaAprilFools).  
-You can also find instructions how to implement it into your build script there.
+To use ViaProxy with Gradle/Maven you can use the ViaVersion maven server:
+```groovy
+repositories {
+    maven { url "https://repo.viaversion.com" }
+}
+
+dependencies {
+    implementation("net.raphimc:ViaAprilFools:2.0.7-SNAPSHOT") // Get latest version from releases
+}
+```
+
+```xml
+<repositories>
+    <repository>
+        <id>viaversion</id>
+        <url>https://repo.viaversion.com</url>
+    </repository>
+</repositories>
+
+<dependencies>
+    <dependency>
+        <groupId>net.raphimc</groupId>
+        <artifactId>ViaAprilFools</artifactId>
+        <version>2.0.7-SNAPSHOT</version> <!-- Get latest version from releases -->
+    </dependency>
+</dependencies>
+```
 
 ### Jar File
-If you just want the latest jar file you can download it from this [Jenkins](https://build.lenni0451.net/job/ViaAprilFools/).
+If you just want the latest jar file you can download it from this [Jenkins](https://ci.viaversion.com/view/All/job/ViaAprilFools/).
 
 ## Usage
 ViaAprilFools requires you to have an already functional ViaVersion implementation for your platform.

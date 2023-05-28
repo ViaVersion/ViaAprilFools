@@ -21,7 +21,7 @@ If you just want to use ViaAprilFools yourself you can check out some projects w
 
 ## Releases
 ### Gradle/Maven
-To use ViaProxy with Gradle/Maven you can use the ViaVersion maven server:
+To use ViaAprilFools with Gradle/Maven you can use the ViaVersion maven server:
 ```groovy
 repositories {
     maven { url "https://repo.viaversion.com" }

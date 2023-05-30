@@ -94,5 +94,5 @@ Make sure to add the enable listener before the Via manager is initialized (``((
 ## Contact
 If you encounter any issues, please report them on the
 [issue tracker](https://github.com/RaphiMC/ViaAprilFools/issues).  
-If you just want to talk or need help implementing ViaAprilFools feel free to join my
-[Discord](https://discord.gg/dCzT9XHEWu).
+If you just want to talk or need help implementing ViaAprilFools feel free to join the ViaVersion
+[Discord](https://discord.gg/viaversion).

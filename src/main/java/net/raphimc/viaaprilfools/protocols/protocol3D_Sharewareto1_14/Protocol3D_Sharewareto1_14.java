@@ -32,7 +32,6 @@ public class Protocol3D_Sharewareto1_14 extends BackwardsProtocol<ClientboundPac
     @Override
     protected void registerPackets() {
         this.cancelClientbound(ClientboundPackets1_14.UPDATE_VIEW_POSITION);
-        this.cancelClientbound(ClientboundPackets1_14.ACKNOWLEDGE_PLAYER_DIGGING);
     }
 
 }

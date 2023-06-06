@@ -40,7 +40,7 @@ public class Protocol1_16_2toCombatTest8c extends AbstractProtocol<ClientboundPa
                 map(Type.BOOLEAN); //chatColors
                 map(Type.UNSIGNED_BYTE); //playerModelBitMask
                 map(Type.VAR_INT); //mainArm
-                handler(wrapper -> wrapper.write(Type.BOOLEAN, false)); //useShieldOnCrouch
+                create(Type.BOOLEAN, false); //useShieldOnCrouch
             }
         });
     }

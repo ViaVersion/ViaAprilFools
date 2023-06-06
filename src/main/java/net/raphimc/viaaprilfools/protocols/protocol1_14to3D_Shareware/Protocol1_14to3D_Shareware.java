@@ -23,7 +23,6 @@ import com.viaversion.viabackwards.api.rewriters.SoundRewriter;
 import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.minecraft.chunks.Chunk;
 import com.viaversion.viaversion.api.protocol.packet.PacketWrapper;
-import com.viaversion.viaversion.api.protocol.remapper.PacketHandlers;
 import com.viaversion.viaversion.api.type.Type;
 import com.viaversion.viaversion.protocols.protocol1_14to1_13_2.ClientboundPackets1_14;
 import com.viaversion.viaversion.protocols.protocol1_14to1_13_2.Protocol1_14To1_13_2;
@@ -36,7 +35,7 @@ import net.raphimc.viaaprilfools.protocols.protocol1_14to3D_Shareware.storage.Ch
 public class Protocol1_14to3D_Shareware extends BackwardsProtocol<ClientboundPackets3D_Shareware, ClientboundPackets1_14, ServerboundPackets3D_Shareware, ServerboundPackets1_14> {
 
     public static final BackwardsMappings MAPPINGS = new BackwardsMappings("3D_Shareware", "1.14");
-    public static final int SERVERSIDE_VIEW_DISTANCE = 64;
+    private static final int SERVERSIDE_VIEW_DISTANCE = 64;
 
     private BlockItemPackets3D_Shareware blockItemPackets;
 
@@ -48,8 +47,8 @@ public class Protocol1_14to3D_Shareware extends BackwardsProtocol<ClientboundPac
     protected void registerPackets() {
         executeAsyncAfterLoaded(Protocol1_14To1_13_2.class, MAPPINGS::load);
 
-        blockItemPackets = new BlockItemPackets3D_Shareware(this);
-        blockItemPackets.register();
+        this.blockItemPackets = new BlockItemPackets3D_Shareware(this);
+        this.blockItemPackets.register();
         new EntityPackets3D_Shareware(this).registerPackets();
         final SoundRewriter<ClientboundPackets3D_Shareware> soundRewriter = new SoundRewriter<>(this);
         soundRewriter.registerSound(ClientboundPackets3D_Shareware.SOUND);

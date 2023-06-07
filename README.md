@@ -28,7 +28,7 @@ repositories {
 }
 
 dependencies {
-    implementation("net.raphimc:ViaAprilFools:2.0.7-SNAPSHOT") // Get latest version from releases
+    implementation("net.raphimc:ViaAprilFools:2.0.7") // Get latest version from releases
 }
 ```
 
@@ -44,7 +44,7 @@ dependencies {
     <dependency>
         <groupId>net.raphimc</groupId>
         <artifactId>ViaAprilFools</artifactId>
-        <version>2.0.7-SNAPSHOT</version> <!-- Get latest version from releases -->
+        <version>2.0.7</version> <!-- Get latest version from releases -->
     </dependency>
 </dependencies>
 ```

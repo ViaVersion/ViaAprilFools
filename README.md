@@ -54,8 +54,7 @@ If you just want the latest jar file you can download it from this [Jenkins](htt
 
 ## Usage
 ViaAprilFools requires you to have an already functional ViaVersion implementation for your platform.
-If you don't have one you can check out [ViaLoader](https://github.com/ViaVersion/ViaLoader) for an abstracted and simplified, but still customizable implementation,
-or [ViaLoadingBase](https://github.com/FlorianMichael/ViaLoadingBase) for a quick and easy implementation.
+If you don't have one you can check out [ViaLoader](https://github.com/ViaVersion/ViaLoader) for an abstracted and simplified, but still customizable implementation.
 You can also go to the other [ViaVersion](https://github.com/ViaVersion) repositories and look at their server and proxy implementations.
 
 ### Base Implementation

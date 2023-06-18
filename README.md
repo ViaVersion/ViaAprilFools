@@ -16,8 +16,8 @@ If you just want to use ViaAprilFools yourself you can check out some projects w
 - 3D Shareware
 
 ### Projects implementing ViaAprilFools
- - [ViaProxy](https://github.com/RaphiMC/ViaProxy): Standalone proxy which uses ViaVersion to translate between Minecraft versions. Allows Minecraft 1.7+ clients to join to any version server.
- - [ViaFabricPlus](https://github.com/FlorianMichael/ViaFabricPlus): Fabric mod for the latest Minecraft version with QoL fixes and enhancements to the gameplay.
+ - [ViaProxy](https://github.com/ViaVersion/ViaProxy): Standalone proxy which uses ViaVersion to translate between Minecraft versions. Allows Minecraft 1.7+ clients to join to any version server.
+ - [ViaFabricPlus](https://github.com/ViaVersion/ViaFabricPlus): Fabric mod for the latest Minecraft version with QoL fixes and enhancements to the gameplay.
 
 ## Releases
 ### Gradle/Maven
@@ -54,9 +54,9 @@ If you just want the latest jar file you can download it from this [Jenkins](htt
 
 ## Usage
 ViaAprilFools requires you to have an already functional ViaVersion implementation for your platform.
-If you don't have one you can check out [ViaProtocolHack](https://github.com/RaphiMC/ViaProtocolHack) for an abstracted and simplified, but still customizable implementation,
+If you don't have one you can check out [ViaLoader](https://github.com/ViaVersion/ViaLoader) for an abstracted and simplified, but still customizable implementation,
 or [ViaLoadingBase](https://github.com/FlorianMichael/ViaLoadingBase) for a quick and easy implementation.
-You can also go to the official [ViaVersion](https://github.com/ViaVersion) repositories and look at their server and proxy implementations.
+You can also go to the other [ViaVersion](https://github.com/ViaVersion) repositories and look at their server and proxy implementations.
 
 ### Base Implementation
 #### ViaAprilFools platform implementation
@@ -93,6 +93,6 @@ Make sure to add the enable listener before the Via manager is initialized (``((
 
 ## Contact
 If you encounter any issues, please report them on the
-[issue tracker](https://github.com/RaphiMC/ViaAprilFools/issues).  
+[issue tracker](https://github.com/ViaVersion/ViaAprilFools/issues).  
 If you just want to talk or need help implementing ViaAprilFools feel free to join the ViaVersion
 [Discord](https://discord.gg/viaversion).

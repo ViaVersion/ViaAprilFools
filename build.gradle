@@ -47,6 +47,7 @@ publishing {
         maven {
             name = "Via"
             url = "https://repo.viaversion.com/"
+
             credentials(PasswordCredentials)
             authentication {
                 basic(BasicAuthentication)
@@ -60,6 +61,28 @@ publishing {
             version = project.maven_version
 
             from components.java
+
+            pom {
+                name = "ViaAprilFools"
+                description = "ViaVersion addon to add support for some notable Minecraft snapshots"
+                url = "https://github.com/ViaVersion/ViaAprilFools"
+                licenses {
+                    license {
+                        name = "GPL-3.0 License"
+                        url = "https://github.com/ViaVersion/ViaAprilFools/blob/main/LICENSE"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "RK_01"
+                    }
+                }
+                scm {
+                    connection = "scm:git:git://github.com/ViaVersion/ViaAprilFools.git"
+                    developerConnection = "scm:git:ssh://github.com/ViaVersion/ViaAprilFools.git"
+                    url = "https://github.com/ViaVersion/ViaAprilFools.git"
+                }
+            }
         }
     }
 }

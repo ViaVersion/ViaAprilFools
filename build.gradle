@@ -29,6 +29,7 @@ dependencies {
 
 blossom {
     replaceToken("\${version}", project.version, "src/main/java/net/raphimc/viaaprilfools/ViaAprilFools.java")
+    replaceToken("\${impl_version}", "git-${project.archivesBaseName}-${project.version}:${latestCommitHash()}", "src/main/java/net/raphimc/viaaprilfools/ViaAprilFools.java")
 }
 
 java {
@@ -85,4 +86,13 @@ publishing {
             }
         }
     }
+}
+
+String latestCommitHash() {
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine "git", "rev-parse", "--short", "HEAD"
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
 }

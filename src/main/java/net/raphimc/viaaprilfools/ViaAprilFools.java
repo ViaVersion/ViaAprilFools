@@ -23,6 +23,7 @@ import net.raphimc.viaaprilfools.platform.ViaAprilFoolsPlatform;
 public class ViaAprilFools {
 
     public static final String VERSION = "${version}";
+    public static final String IMPL_VERSION = "${impl_version}";
 
     private static ViaAprilFoolsPlatform platform;
     private static ViaAprilFoolsConfig config;

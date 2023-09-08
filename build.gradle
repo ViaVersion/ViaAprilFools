@@ -22,11 +22,11 @@ repositories {
 }
 
 dependencies {
-    implementation "com.viaversion:viaversion:4.8.0-23w31a-SNAPSHOT"
-    implementation("com.viaversion:viabackwards-common:4.8.0-23w31a-SNAPSHOT") {
+    compileOnly "com.viaversion:viaversion:4.8.0-23w31a-SNAPSHOT"
+    compileOnly("com.viaversion:viabackwards-common:4.8.0-23w31a-SNAPSHOT") {
         exclude group: "com.viaversion", module: "viaversion"
     }
-    implementation "org.yaml:snakeyaml:2.2"
+    compileOnly "org.yaml:snakeyaml:2.2"
 }
 
 sourceSets {

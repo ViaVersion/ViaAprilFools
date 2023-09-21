@@ -22,8 +22,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly "com.viaversion:viaversion:4.8.0-23w31a-SNAPSHOT"
-    compileOnly("com.viaversion:viabackwards-common:4.8.0-23w31a-SNAPSHOT") {
+    compileOnly "com.viaversion:viaversion:4.8.0"
+    compileOnly("com.viaversion:viabackwards-common:4.8.0") {
         exclude group: "com.viaversion", module: "viaversion"
     }
     compileOnly "org.yaml:snakeyaml:2.2"

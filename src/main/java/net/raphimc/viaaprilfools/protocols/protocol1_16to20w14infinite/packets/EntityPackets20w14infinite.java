@@ -19,7 +19,6 @@ package net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite.packets;
 
 import com.viaversion.viaversion.api.Via;
 import com.viaversion.viaversion.api.minecraft.entities.Entity1_16Types;
-import com.viaversion.viaversion.api.protocol.packet.PacketWrapper;
 import com.viaversion.viaversion.api.protocol.remapper.PacketHandler;
 import com.viaversion.viaversion.api.protocol.remapper.PacketHandlers;
 import com.viaversion.viaversion.api.type.Type;

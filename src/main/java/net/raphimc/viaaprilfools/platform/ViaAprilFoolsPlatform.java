@@ -39,8 +39,8 @@ public interface ViaAprilFoolsPlatform {
         final ViaAprilFoolsConfig config = new ViaAprilFoolsConfig(new File(dataFolder, "viaaprilfools.yml"));
         config.reload();
         ViaAprilFools.init(this, config);
-        Via.getManager().getSubPlatforms().add(ViaAprilFools.IMPL_VERSION);
         Via.getManager().getConfigurationProvider().register(config);
+        Via.getManager().getSubPlatforms().add(ViaAprilFools.IMPL_VERSION);
 
 
         final ProtocolManager protocolManager = Via.getManager().getProtocolManager();

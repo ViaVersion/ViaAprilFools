@@ -17,6 +17,7 @@
  */
 package net.raphimc.viaaprilfools;
 
+import com.viaversion.viaversion.api.Via;
 import com.viaversion.viaversion.util.Config;
 
 import java.io.File;
@@ -29,11 +30,12 @@ public class ViaAprilFoolsConfig extends Config implements net.raphimc.viaaprilf
 
     public ViaAprilFoolsConfig(final File configFile) {
         super(configFile);
+        Via.getManager().getConfigurationProvider().register(this);
     }
 
     @Override
-    public void reloadConfig() {
-        super.reloadConfig();
+    public void reload() {
+        super.reload();
         this.loadFields();
     }
 

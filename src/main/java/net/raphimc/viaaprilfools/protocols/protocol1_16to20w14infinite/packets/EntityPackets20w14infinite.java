@@ -111,7 +111,7 @@ public class EntityPackets20w14infinite {
                 handler(wrapper -> {
                     wrapper.write(Type.BYTE, (byte) -1); // Previous gamemode, set to none
                     wrapper.write(Type.STRING_ARRAY, WORLD_NAMES); // World list - only used for command completion
-                    wrapper.write(Type.NBT, EntityPackets.DIMENSIONS_TAG); // Dimension registry
+                    wrapper.write(Type.NAMED_COMPOUND_TAG, EntityPackets.DIMENSIONS_TAG); // Dimension registry
                 });
                 handler(DIMENSION_HANDLER); // Dimension
                 map(Type.LONG); // Seed

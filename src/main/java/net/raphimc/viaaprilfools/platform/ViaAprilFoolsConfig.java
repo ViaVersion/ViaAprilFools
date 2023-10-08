@@ -17,6 +17,8 @@
  */
 package net.raphimc.viaaprilfools.platform;
 
-public interface ViaAprilFoolsConfig {
+import com.viaversion.viaversion.api.configuration.Config;
+
+public interface ViaAprilFoolsConfig extends Config {
 
 }

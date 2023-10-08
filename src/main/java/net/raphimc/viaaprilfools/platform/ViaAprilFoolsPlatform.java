@@ -37,7 +37,7 @@ public interface ViaAprilFoolsPlatform {
 
     default void init(final File dataFolder) {
         final ViaAprilFoolsConfig config = new ViaAprilFoolsConfig(new File(dataFolder, "viaaprilfools.yml"));
-        config.reloadConfig();
+        config.reload();
         ViaAprilFools.init(this, config);
         Via.getManager().getSubPlatforms().add(ViaAprilFools.IMPL_VERSION);
 

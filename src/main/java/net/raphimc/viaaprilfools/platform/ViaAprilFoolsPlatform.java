@@ -40,6 +40,8 @@ public interface ViaAprilFoolsPlatform {
         config.reload();
         ViaAprilFools.init(this, config);
         Via.getManager().getSubPlatforms().add(ViaAprilFools.IMPL_VERSION);
+        Via.getManager().getConfigurationProvider().register(config);
+
 
         final ProtocolManager protocolManager = Via.getManager().getProtocolManager();
 

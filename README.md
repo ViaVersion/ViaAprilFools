@@ -51,7 +51,7 @@ dependencies {
 ```
 
 ### Jar File
-If you just want the latest jar file you can download it from [GitHub Actions](https://github.com/RaphiMC/ViaAprilFools/actions/workflows/build.yml) or [Lenni0451's Jenkins](https://build.lenni0451.net/job/ViaAprilFools/).
+If you just want the latest jar file you can download it from [GitHub Actions](https://github.com/RaphiMC/ViaAprilFools/actions/workflows/build.yml) or the [ViaVersion Jenkins](https://ci.viaversion.com/view/All/job/ViaAprilFools/).
 
 ## Usage
 ViaAprilFools requires you to have an already functional ViaVersion implementation for your platform.

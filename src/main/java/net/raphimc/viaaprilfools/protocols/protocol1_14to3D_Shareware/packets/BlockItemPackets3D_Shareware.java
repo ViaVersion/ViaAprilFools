@@ -33,13 +33,13 @@ public class BlockItemPackets3D_Shareware extends ItemRewriter<ClientboundPacket
     @Override
     protected void registerPackets() {
         this.registerSetCooldown(ClientboundPackets3D_Shareware.COOLDOWN);
-        this.registerWindowItems(ClientboundPackets3D_Shareware.WINDOW_ITEMS, Type.FLAT_VAR_INT_ITEM_ARRAY);
-        this.registerSetSlot(ClientboundPackets3D_Shareware.SET_SLOT, Type.FLAT_VAR_INT_ITEM);
-        this.registerEntityEquipment(ClientboundPackets3D_Shareware.ENTITY_EQUIPMENT, Type.FLAT_VAR_INT_ITEM);
-        this.registerAdvancements(ClientboundPackets3D_Shareware.ADVANCEMENTS, Type.FLAT_VAR_INT_ITEM);
-        this.registerClickWindow(ServerboundPackets1_14.CLICK_WINDOW, Type.FLAT_VAR_INT_ITEM);
-        this.registerCreativeInvAction(ServerboundPackets1_14.CREATIVE_INVENTORY_ACTION, Type.FLAT_VAR_INT_ITEM);
-        this.registerSpawnParticle(ClientboundPackets3D_Shareware.SPAWN_PARTICLE, Type.FLAT_VAR_INT_ITEM, Type.FLOAT);
+        this.registerWindowItems(ClientboundPackets3D_Shareware.WINDOW_ITEMS, Type.ITEM1_13_2_SHORT_ARRAY);
+        this.registerSetSlot(ClientboundPackets3D_Shareware.SET_SLOT, Type.ITEM1_13_2);
+        this.registerEntityEquipment(ClientboundPackets3D_Shareware.ENTITY_EQUIPMENT, Type.ITEM1_13_2);
+        this.registerAdvancements(ClientboundPackets3D_Shareware.ADVANCEMENTS, Type.ITEM1_13_2);
+        this.registerClickWindow(ServerboundPackets1_14.CLICK_WINDOW, Type.ITEM1_13_2);
+        this.registerCreativeInvAction(ServerboundPackets1_14.CREATIVE_INVENTORY_ACTION, Type.ITEM1_13_2);
+        this.registerSpawnParticle(ClientboundPackets3D_Shareware.SPAWN_PARTICLE, Type.ITEM1_13_2, Type.FLOAT);
 
         this.protocol.registerClientbound(ClientboundPackets3D_Shareware.TRADE_LIST, new PacketHandlers() {
             public void register() {
@@ -48,10 +48,10 @@ public class BlockItemPackets3D_Shareware extends ItemRewriter<ClientboundPacket
                     int size = wrapper.passthrough(Type.UNSIGNED_BYTE);
 
                     for (int i = 0; i < size; ++i) {
-                        BlockItemPackets3D_Shareware.this.handleItemToClient(wrapper.passthrough(Type.FLAT_VAR_INT_ITEM));
-                        BlockItemPackets3D_Shareware.this.handleItemToClient(wrapper.passthrough(Type.FLAT_VAR_INT_ITEM));
+                        BlockItemPackets3D_Shareware.this.handleItemToClient(wrapper.passthrough(Type.ITEM1_13_2));
+                        BlockItemPackets3D_Shareware.this.handleItemToClient(wrapper.passthrough(Type.ITEM1_13_2));
                         if (wrapper.passthrough(Type.BOOLEAN)) {
-                            BlockItemPackets3D_Shareware.this.handleItemToClient(wrapper.passthrough(Type.FLAT_VAR_INT_ITEM));
+                            BlockItemPackets3D_Shareware.this.handleItemToClient(wrapper.passthrough(Type.ITEM1_13_2));
                         }
 
                         wrapper.passthrough(Type.BOOLEAN);

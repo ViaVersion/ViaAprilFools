@@ -47,13 +47,13 @@ public class BlockItemPackets20w14infinite extends ItemRewriter<ClientboundPacke
     @Override
     protected void registerPackets() {
         this.registerSetCooldown(ClientboundPackets20w14infinite.COOLDOWN);
-        this.registerWindowItems(ClientboundPackets20w14infinite.WINDOW_ITEMS, Type.FLAT_VAR_INT_ITEM_ARRAY);
-        this.registerSetSlot(ClientboundPackets20w14infinite.SET_SLOT, Type.FLAT_VAR_INT_ITEM);
+        this.registerWindowItems(ClientboundPackets20w14infinite.WINDOW_ITEMS, Type.ITEM1_13_2_SHORT_ARRAY);
+        this.registerSetSlot(ClientboundPackets20w14infinite.SET_SLOT, Type.ITEM1_13_2);
         this.registerTradeList(ClientboundPackets20w14infinite.TRADE_LIST);
-        this.registerAdvancements(ClientboundPackets20w14infinite.ADVANCEMENTS, Type.FLAT_VAR_INT_ITEM);
-        this.registerSpawnParticle(ClientboundPackets20w14infinite.SPAWN_PARTICLE, Type.FLAT_VAR_INT_ITEM, Type.DOUBLE);
-        this.registerClickWindow(ServerboundPackets1_16.CLICK_WINDOW, Type.FLAT_VAR_INT_ITEM);
-        this.registerCreativeInvAction(ServerboundPackets1_16.CREATIVE_INVENTORY_ACTION, Type.FLAT_VAR_INT_ITEM);
+        this.registerAdvancements(ClientboundPackets20w14infinite.ADVANCEMENTS, Type.ITEM1_13_2);
+        this.registerSpawnParticle(ClientboundPackets20w14infinite.SPAWN_PARTICLE, Type.ITEM1_13_2, Type.DOUBLE);
+        this.registerClickWindow(ServerboundPackets1_16.CLICK_WINDOW, Type.ITEM1_13_2);
+        this.registerCreativeInvAction(ServerboundPackets1_16.CREATIVE_INVENTORY_ACTION, Type.ITEM1_13_2);
         final BlockRewriter<ClientboundPackets20w14infinite> blockRewriter = new BlockRewriter<>(this.protocol, Type.POSITION1_14);
         blockRewriter.registerBlockAction(ClientboundPackets20w14infinite.BLOCK_ACTION);
         blockRewriter.registerBlockChange(ClientboundPackets20w14infinite.BLOCK_CHANGE);
@@ -114,7 +114,7 @@ public class BlockItemPackets20w14infinite extends ItemRewriter<ClientboundPacke
                 handler(wrapper -> {
                     int slot = wrapper.read(Type.VAR_INT);
                     wrapper.write(Type.BYTE, (byte) slot);
-                    handleItemToClient(wrapper.passthrough(Type.FLAT_VAR_INT_ITEM));
+                    handleItemToClient(wrapper.passthrough(Type.ITEM1_13_2));
                 });
             }
         });
@@ -122,7 +122,7 @@ public class BlockItemPackets20w14infinite extends ItemRewriter<ClientboundPacke
         protocol.registerServerbound(ServerboundPackets1_16.EDIT_BOOK, new PacketHandlers() {
             @Override
             public void register() {
-                handler(wrapper -> handleItemToServer(wrapper.passthrough(Type.FLAT_VAR_INT_ITEM)));
+                handler(wrapper -> handleItemToServer(wrapper.passthrough(Type.ITEM1_13_2)));
             }
         });
     }

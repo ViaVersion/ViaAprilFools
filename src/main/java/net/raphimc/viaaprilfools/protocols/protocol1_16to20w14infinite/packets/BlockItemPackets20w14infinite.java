@@ -24,12 +24,12 @@ import com.viaversion.viaversion.api.minecraft.chunks.DataPalette;
 import com.viaversion.viaversion.api.minecraft.chunks.PaletteType;
 import com.viaversion.viaversion.api.protocol.remapper.PacketHandlers;
 import com.viaversion.viaversion.api.type.Type;
+import com.viaversion.viaversion.api.type.types.chunk.ChunkType1_15;
+import com.viaversion.viaversion.api.type.types.chunk.ChunkType1_16;
 import com.viaversion.viaversion.libs.opennbt.tag.builtin.CompoundTag;
 import com.viaversion.viaversion.libs.opennbt.tag.builtin.LongArrayTag;
 import com.viaversion.viaversion.libs.opennbt.tag.builtin.Tag;
-import com.viaversion.viaversion.protocols.protocol1_15to1_14_4.types.Chunk1_15Type;
 import com.viaversion.viaversion.protocols.protocol1_16to1_15_2.ServerboundPackets1_16;
-import com.viaversion.viaversion.protocols.protocol1_16to1_15_2.types.Chunk1_16Type;
 import com.viaversion.viaversion.rewriter.BlockRewriter;
 import com.viaversion.viaversion.util.CompactArrayUtil;
 import net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite.ClientboundPackets20w14infinite;
@@ -73,8 +73,8 @@ public class BlockItemPackets20w14infinite extends ItemRewriter<ClientboundPacke
             @Override
             public void register() {
                 handler(wrapper -> {
-                    Chunk chunk = wrapper.read(new Chunk1_15Type());
-                    wrapper.write(new Chunk1_16Type(), chunk);
+                    Chunk chunk = wrapper.read(new ChunkType1_15());
+                    wrapper.write(new ChunkType1_16(), chunk);
 
                     chunk.setIgnoreOldLightData(chunk.isFullChunk());
 

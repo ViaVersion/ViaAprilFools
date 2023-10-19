@@ -18,7 +18,7 @@
 package net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite.packets;
 
 import com.viaversion.viaversion.api.Via;
-import com.viaversion.viaversion.api.minecraft.entities.Entity1_16Types;
+import com.viaversion.viaversion.api.minecraft.entities.EntityTypes1_16;
 import com.viaversion.viaversion.api.protocol.remapper.PacketHandler;
 import com.viaversion.viaversion.api.protocol.remapper.PacketHandlers;
 import com.viaversion.viaversion.api.type.Type;
@@ -61,19 +61,19 @@ public class EntityPackets20w14infinite {
 
     public static void register(Protocol1_16to20w14infinite protocol) {
         MetadataRewriter1_16to20w14infinite metadataRewriter = protocol.get(MetadataRewriter1_16to20w14infinite.class);
-        metadataRewriter.registerTrackerWithData(ClientboundPackets20w14infinite.SPAWN_ENTITY, Entity1_16Types.FALLING_BLOCK);
+        metadataRewriter.registerTrackerWithData(ClientboundPackets20w14infinite.SPAWN_ENTITY, EntityTypes1_16.FALLING_BLOCK);
         metadataRewriter.registerTracker(ClientboundPackets20w14infinite.SPAWN_MOB);
-        metadataRewriter.registerTracker(ClientboundPackets20w14infinite.SPAWN_PLAYER, Entity1_16Types.PLAYER);
+        metadataRewriter.registerTracker(ClientboundPackets20w14infinite.SPAWN_PLAYER, EntityTypes1_16.PLAYER);
         metadataRewriter.registerMetadataRewriter(ClientboundPackets20w14infinite.ENTITY_METADATA, Types1_14.METADATA_LIST);
         metadataRewriter.registerRemoveEntities(ClientboundPackets20w14infinite.DESTROY_ENTITIES);
 
         // Spawn lightning -> Spawn entity
         protocol.registerClientbound(ClientboundPackets20w14infinite.SPAWN_GLOBAL_ENTITY, ClientboundPackets1_16.SPAWN_ENTITY, wrapper -> {
             final int entityId = wrapper.passthrough(Type.VAR_INT); // entity id
-            wrapper.user().getEntityTracker(Protocol1_16to20w14infinite.class).addEntity(entityId, Entity1_16Types.LIGHTNING_BOLT);
+            wrapper.user().getEntityTracker(Protocol1_16to20w14infinite.class).addEntity(entityId, EntityTypes1_16.LIGHTNING_BOLT);
 
             wrapper.write(Type.UUID, UUID.randomUUID()); // uuid
-            wrapper.write(Type.VAR_INT, Entity1_16Types.LIGHTNING_BOLT.getId()); // entity type
+            wrapper.write(Type.VAR_INT, EntityTypes1_16.LIGHTNING_BOLT.getId()); // entity type
 
             wrapper.read(Type.BYTE); // remove type
 
@@ -117,7 +117,7 @@ public class EntityPackets20w14infinite {
                 map(Type.LONG); // Seed
                 map(Type.UNSIGNED_BYTE); // Max players
                 handler(wrapper -> {
-                    wrapper.user().getEntityTracker(Protocol1_16to20w14infinite.class).addEntity(wrapper.get(Type.INT, 0), Entity1_16Types.PLAYER);
+                    wrapper.user().getEntityTracker(Protocol1_16to20w14infinite.class).addEntity(wrapper.get(Type.INT, 0), EntityTypes1_16.PLAYER);
 
                     final String type = wrapper.read(Type.STRING);// level type
                     wrapper.passthrough(Type.VAR_INT); // View distance

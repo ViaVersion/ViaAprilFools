@@ -18,7 +18,6 @@
 package net.raphimc.viaaprilfools.protocols.protocol1_14to3D_Shareware.packets;
 
 import com.viaversion.viaversion.api.minecraft.metadata.Metadata;
-import com.viaversion.viaversion.api.minecraft.metadata.types.MetaType1_14;
 import com.viaversion.viaversion.api.protocol.remapper.PacketHandlers;
 import com.viaversion.viaversion.api.type.Type;
 import com.viaversion.viaversion.api.type.types.version.Types1_14;
@@ -81,7 +80,7 @@ public class EntityPackets3D_Shareware {
 
     public void handleMetadata(final List<Metadata> metadataList) {
         for (Metadata metadata : metadataList) {
-            if (metadata.metaType() == MetaType1_14.Slot) {
+            if (metadata.metaType() == Types1_14.META_TYPES.itemType) {
                 metadata.setValue(this.protocol.getItemRewriter().handleItemToClient(metadata.value()));
             }
         }

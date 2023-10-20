@@ -73,8 +73,8 @@ public class BlockItemPackets20w14infinite extends ItemRewriter<ClientboundPacke
             @Override
             public void register() {
                 handler(wrapper -> {
-                    Chunk chunk = wrapper.read(new ChunkType1_15());
-                    wrapper.write(new ChunkType1_16(), chunk);
+                    Chunk chunk = wrapper.read(ChunkType1_15.TYPE);
+                    wrapper.write(ChunkType1_16.TYPE, chunk);
 
                     chunk.setIgnoreOldLightData(chunk.isFullChunk());
 

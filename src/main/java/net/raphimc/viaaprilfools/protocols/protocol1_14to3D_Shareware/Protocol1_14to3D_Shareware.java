@@ -59,7 +59,7 @@ public class Protocol1_14to3D_Shareware extends BackwardsProtocol<ClientboundPac
         this.registerClientbound(ClientboundPackets3D_Shareware.CHUNK_DATA, wrapper -> {
             final ChunkCenterTracker3D_Shareware entityTracker = wrapper.user().get(ChunkCenterTracker3D_Shareware.class);
 
-            final Chunk chunk = wrapper.passthrough(new ChunkType1_14());
+            final Chunk chunk = wrapper.passthrough(ChunkType1_14.TYPE);
             final int diffX = Math.abs(entityTracker.getChunkCenterX() - chunk.getX());
             final int diffZ = Math.abs(entityTracker.getChunkCenterZ() - chunk.getZ());
 

@@ -80,7 +80,7 @@ public class Protocol1_14to3D_Shareware extends BackwardsProtocol<ClientboundPac
 
     @Override
     public void init(UserConnection userConnection) {
-        userConnection.put(new ChunkCenterTracker3D_Shareware(userConnection));
+        userConnection.put(new ChunkCenterTracker3D_Shareware());
     }
 
     @Override

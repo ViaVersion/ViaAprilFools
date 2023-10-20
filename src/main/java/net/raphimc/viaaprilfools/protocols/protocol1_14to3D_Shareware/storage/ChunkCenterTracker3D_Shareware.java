@@ -17,17 +17,12 @@
  */
 package net.raphimc.viaaprilfools.protocols.protocol1_14to3D_Shareware.storage;
 
-import com.viaversion.viaversion.api.connection.StoredObject;
-import com.viaversion.viaversion.api.connection.UserConnection;
+import com.viaversion.viaversion.api.connection.StorableObject;
 
-public class ChunkCenterTracker3D_Shareware extends StoredObject {
+public class ChunkCenterTracker3D_Shareware implements StorableObject {
 
     private boolean forceSendCenterChunk = true;
     private int chunkCenterX, chunkCenterZ;
-
-    public ChunkCenterTracker3D_Shareware(UserConnection user) {
-        super(user);
-    }
 
     public boolean isForceSendCenterChunk() {
         return forceSendCenterChunk;

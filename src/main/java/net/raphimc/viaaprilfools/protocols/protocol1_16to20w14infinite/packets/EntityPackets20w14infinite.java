@@ -26,6 +26,7 @@ import com.viaversion.viaversion.api.type.types.version.Types1_14;
 import com.viaversion.viaversion.protocols.protocol1_16to1_15_2.ClientboundPackets1_16;
 import com.viaversion.viaversion.protocols.protocol1_16to1_15_2.Protocol1_16To1_15_2;
 import com.viaversion.viaversion.protocols.protocol1_16to1_15_2.packets.EntityPackets;
+import com.viaversion.viaversion.util.Key;
 import net.raphimc.viaaprilfools.ViaAprilFools;
 import net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite.ClientboundPackets20w14infinite;
 import net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite.Protocol1_16to20w14infinite;
@@ -139,7 +140,7 @@ public class EntityPackets20w14infinite {
                 String attributeIdentifier = Via.getManager().getProtocolManager().getProtocol(Protocol1_16To1_15_2.class).getMappingData().getAttributeMappings().get(key);
                 if (attributeIdentifier == null) {
                     attributeIdentifier = "minecraft:" + key;
-                    if (!com.viaversion.viaversion.protocols.protocol1_13to1_12_2.data.MappingData.isValid1_13Channel(attributeIdentifier)) {
+                    if (!Key.isValid(attributeIdentifier)) {
                         if (!Via.getConfig().isSuppressConversionWarnings()) {
                             ViaAprilFools.getPlatform().getLogger().warning("Invalid attribute: " + key);
                         }

@@ -23,9 +23,8 @@ repositories {
 
 dependencies {
     compileOnly "com.viaversion:viaversion-common:4.9.0-23w44a-SNAPSHOT"
-    compileOnly("com.viaversion:viabackwards-common:4.9.0-23w44a-SNAPSHOT") {
-        exclude group: "com.viaversion", module: "viaversion"
-    }
+    compileOnly "com.viaversion:viabackwards-common:4.9.0-23w44a-SNAPSHOT"
+    compileOnly "com.google.guava:guava:32.1.3-jre"
     compileOnly "org.yaml:snakeyaml:2.2"
 }
 

@@ -1,6 +1,7 @@
 plugins {
     id "java-library"
     id "maven-publish"
+    id "idea"
     id "net.raphimc.class-token-replacer" version "1.0.0"
 }
 
@@ -90,6 +91,14 @@ publishing {
                     url = "https://github.com/ViaVersion/ViaAprilFools.git"
                 }
             }
+        }
+    }
+}
+
+idea {
+    module {
+        ["run"].each {
+            excludeDirs << file("$it")
         }
     }
 }

@@ -137,7 +137,7 @@ public class EntityPackets20w14infinite {
             for (int i = 0; i < size; i++) {
                 // Attributes have been renamed and are now namespaced identifiers
                 String key = wrapper.read(Type.STRING);
-                String attributeIdentifier = Via.getManager().getProtocolManager().getProtocol(Protocol1_16To1_15_2.class).getMappingData().getAttributeMappings().get(key);
+                String attributeIdentifier = Via.getManager().getProtocolManager().getProtocol(Protocol1_16To1_15_2.class).getMappingData().attributeIdentifierMappings().get(key);
                 if (attributeIdentifier == null) {
                     attributeIdentifier = "minecraft:" + key;
                     if (!Key.isValid(attributeIdentifier)) {

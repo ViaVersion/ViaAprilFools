@@ -17,17 +17,12 @@
  */
 package net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite.metadata;
 
-import com.viaversion.viaversion.api.connection.UserConnection;
-import com.viaversion.viaversion.api.minecraft.Particle;
 import com.viaversion.viaversion.api.minecraft.entities.EntityType;
 import com.viaversion.viaversion.api.minecraft.entities.EntityTypes1_16;
-import com.viaversion.viaversion.api.minecraft.metadata.Metadata;
 import com.viaversion.viaversion.api.type.types.version.Types1_14;
 import com.viaversion.viaversion.rewriter.EntityRewriter;
 import net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite.ClientboundPackets20w14infinite;
 import net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite.Protocol1_16to20w14infinite;
-
-import java.util.List;
 
 public class MetadataRewriter1_16to20w14infinite extends EntityRewriter<ClientboundPackets20w14infinite, Protocol1_16to20w14infinite> {
 
@@ -38,37 +33,21 @@ public class MetadataRewriter1_16to20w14infinite extends EntityRewriter<Clientbo
     }
 
     @Override
-    public EntityType typeFromId(int type) {
-        return EntityTypes1_16.getTypeFromId(type);
+    protected void registerRewrites() {
+        registerMetaTypeHandler(Types1_14.META_TYPES.itemType, Types1_14.META_TYPES.blockStateType, null, Types1_14.META_TYPES.particleType);
+
+        filter().type(EntityTypes1_16.MINECART_ABSTRACT).index(10).handler((event, meta) -> {
+            // Convert to new block id
+            int data = (int) meta.getValue();
+            meta.setValue(protocol.getMappingData().getNewBlockStateId(data));
+        });
+
+        filter().type(EntityTypes1_16.ABSTRACT_ARROW).removeIndex(8);
     }
 
     @Override
-    public void handleMetadata(int entityId, EntityType type, Metadata metadata, List<Metadata> metadatas, UserConnection connection) {
-        if (metadata.metaType() == Types1_14.META_TYPES.itemType) {
-            metadata.setValue(this.protocol.getItemRewriter().handleItemToClient(metadata.value()));
-        } else if (metadata.metaType() == Types1_14.META_TYPES.blockStateType) {
-            int data = (int) metadata.getValue();
-            metadata.setValue(protocol.getMappingData().getNewBlockStateId(data));
-        } else if (metadata.metaType() == Types1_14.META_TYPES.particleType) {
-            rewriteParticle((Particle) metadata.getValue());
-        }
-
-        if (type == null) return;
-
-        if (type.isOrHasParent(EntityTypes1_16.MINECART_ABSTRACT)
-                && metadata.id() == 10) {
-            // Convert to new block id
-            int data = (int) metadata.getValue();
-            metadata.setValue(protocol.getMappingData().getNewBlockStateId(data));
-        }
-
-        if (type.isOrHasParent(EntityTypes1_16.ABSTRACT_ARROW)) {
-            if (metadata.id() == 8) {
-                metadatas.remove(metadata);
-            } else if (metadata.id() > 8) {
-                metadata.setId(metadata.id() - 1);
-            }
-        }
+    public EntityType typeFromId(int type) {
+        return EntityTypes1_16.getTypeFromId(type);
     }
 
 }

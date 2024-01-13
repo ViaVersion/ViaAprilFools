@@ -34,10 +34,10 @@ import net.raphimc.viaaprilfools.protocols.protocol1_14to3D_Shareware.storage.Ch
 
 public class Protocol1_14to3D_Shareware extends BackwardsProtocol<ClientboundPackets3D_Shareware, ClientboundPackets1_14, ServerboundPackets3D_Shareware, ServerboundPackets1_14> {
 
-    public static final BackwardsMappings MAPPINGS = new BackwardsMappings("3D_Shareware", "1.14");
+    public static final BackwardsMappings MAPPINGS = new BackwardsMappings("3D_Shareware", "1.14", Protocol1_14To1_13_2.class);
     private static final int SERVERSIDE_VIEW_DISTANCE = 64;
 
-    private BlockItemPackets3D_Shareware blockItemPackets;
+    private final BlockItemPackets3D_Shareware blockItemPackets = new BlockItemPackets3D_Shareware(this);
 
     public Protocol1_14to3D_Shareware() {
         super(ClientboundPackets3D_Shareware.class, ClientboundPackets1_14.class, ServerboundPackets3D_Shareware.class, ServerboundPackets1_14.class);
@@ -45,10 +45,8 @@ public class Protocol1_14to3D_Shareware extends BackwardsProtocol<ClientboundPac
 
     @Override
     protected void registerPackets() {
-        executeAsyncAfterLoaded(Protocol1_14To1_13_2.class, MAPPINGS::load);
+        super.registerPackets();
 
-        this.blockItemPackets = new BlockItemPackets3D_Shareware(this);
-        this.blockItemPackets.register();
         new EntityPackets3D_Shareware(this).registerPackets();
         final SoundRewriter<ClientboundPackets3D_Shareware> soundRewriter = new SoundRewriter<>(this);
         soundRewriter.registerSound(ClientboundPackets3D_Shareware.SOUND);

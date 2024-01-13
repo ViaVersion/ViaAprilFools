@@ -47,7 +47,7 @@ public class Protocol1_16to20w14infinite extends BackwardsProtocol<ClientboundPa
 
     private final BlockItemPackets20w14infinite blockItemPackets = new BlockItemPackets20w14infinite(this);
     private final MetadataRewriter1_16to20w14infinite metadataRewriter = new MetadataRewriter1_16to20w14infinite(this);
-    private TagRewriter<ClientboundPackets20w14infinite> tagRewriter;
+    private final TagRewriter<ClientboundPackets20w14infinite> tagRewriter = new TagRewriter<>(this);
 
     public Protocol1_16to20w14infinite() {
         super(ClientboundPackets20w14infinite.class, ClientboundPackets1_16.class, ServerboundPackets20w14infinite.class, ServerboundPackets1_16.class);
@@ -57,7 +57,6 @@ public class Protocol1_16to20w14infinite extends BackwardsProtocol<ClientboundPa
     protected void registerPackets() {
         super.registerPackets();
 
-        tagRewriter = new TagRewriter<>(this);
         tagRewriter.register(ClientboundPackets20w14infinite.TAGS, RegistryType.ENTITY);
         new StatisticsRewriter<>(this).register(ClientboundPackets20w14infinite.STATISTICS);
         EntityPackets20w14infinite.register(this);

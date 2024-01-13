@@ -42,12 +42,12 @@ import java.util.UUID;
 
 public class Protocol1_16to20w14infinite extends BackwardsProtocol<ClientboundPackets20w14infinite, ClientboundPackets1_16, ServerboundPackets20w14infinite, ServerboundPackets1_16> {
 
-    public static final BackwardsMappings MAPPINGS = new BackwardsMappings("20w14infinite", "1.16");
+    public static final BackwardsMappings MAPPINGS = new BackwardsMappings("20w14infinite", "1.16", Protocol1_16To1_15_2.class);
     private static final UUID ZERO_UUID = new UUID(0, 0);
 
-    private BlockItemPackets20w14infinite blockItemPackets;
+    private final BlockItemPackets20w14infinite blockItemPackets = new BlockItemPackets20w14infinite(this);
+    private final MetadataRewriter1_16to20w14infinite metadataRewriter = new MetadataRewriter1_16to20w14infinite(this);
     private TagRewriter<ClientboundPackets20w14infinite> tagRewriter;
-    private MetadataRewriter1_16to20w14infinite metadataRewriter;
 
     public Protocol1_16to20w14infinite() {
         super(ClientboundPackets20w14infinite.class, ClientboundPackets1_16.class, ServerboundPackets20w14infinite.class, ServerboundPackets1_16.class);
@@ -55,19 +55,11 @@ public class Protocol1_16to20w14infinite extends BackwardsProtocol<ClientboundPa
 
     @Override
     protected void registerPackets() {
-        this.metadataRewriter = new MetadataRewriter1_16to20w14infinite(this);
-        metadataRewriter.register();
+        super.registerPackets();
+
         tagRewriter = new TagRewriter<>(this);
-
-        this.executeAsyncAfterLoaded(Protocol1_16To1_15_2.class, () -> {
-            MAPPINGS.load();
-            this.onMappingDataLoaded();
-        });
-
         tagRewriter.register(ClientboundPackets20w14infinite.TAGS, RegistryType.ENTITY);
         new StatisticsRewriter<>(this).register(ClientboundPackets20w14infinite.STATISTICS);
-        this.blockItemPackets = new BlockItemPackets20w14infinite(this);
-        this.blockItemPackets.register();
         EntityPackets20w14infinite.register(this);
         final SoundRewriter<ClientboundPackets20w14infinite> soundRewriter = new SoundRewriter<>(this);
         soundRewriter.registerSound(ClientboundPackets20w14infinite.SOUND);

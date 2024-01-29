@@ -27,19 +27,19 @@ import net.raphimc.viaaprilfools.protocols.protocol1_14to3D_Shareware.Protocol1_
 public class BlockItemPackets3D_Shareware extends ItemRewriter<ClientboundPackets3D_Shareware, ServerboundPackets1_14, Protocol1_14to3D_Shareware> {
 
     public BlockItemPackets3D_Shareware(Protocol1_14to3D_Shareware protocol) {
-        super(protocol);
+        super(protocol, Type.ITEM1_13_2, Type.ITEM1_13_2_SHORT_ARRAY);
     }
 
     @Override
     protected void registerPackets() {
         this.registerSetCooldown(ClientboundPackets3D_Shareware.COOLDOWN);
-        this.registerWindowItems(ClientboundPackets3D_Shareware.WINDOW_ITEMS, Type.ITEM1_13_2_SHORT_ARRAY);
-        this.registerSetSlot(ClientboundPackets3D_Shareware.SET_SLOT, Type.ITEM1_13_2);
-        this.registerEntityEquipment(ClientboundPackets3D_Shareware.ENTITY_EQUIPMENT, Type.ITEM1_13_2);
-        this.registerAdvancements(ClientboundPackets3D_Shareware.ADVANCEMENTS, Type.ITEM1_13_2);
-        this.registerClickWindow(ServerboundPackets1_14.CLICK_WINDOW, Type.ITEM1_13_2);
-        this.registerCreativeInvAction(ServerboundPackets1_14.CREATIVE_INVENTORY_ACTION, Type.ITEM1_13_2);
-        this.registerSpawnParticle(ClientboundPackets3D_Shareware.SPAWN_PARTICLE, Type.ITEM1_13_2, Type.FLOAT);
+        this.registerWindowItems(ClientboundPackets3D_Shareware.WINDOW_ITEMS);
+        this.registerSetSlot(ClientboundPackets3D_Shareware.SET_SLOT);
+        this.registerEntityEquipment(ClientboundPackets3D_Shareware.ENTITY_EQUIPMENT);
+        this.registerAdvancements(ClientboundPackets3D_Shareware.ADVANCEMENTS);
+        this.registerClickWindow(ServerboundPackets1_14.CLICK_WINDOW);
+        this.registerCreativeInvAction(ServerboundPackets1_14.CREATIVE_INVENTORY_ACTION);
+        this.registerSpawnParticle(ClientboundPackets3D_Shareware.SPAWN_PARTICLE, Type.FLOAT);
 
         this.protocol.registerClientbound(ClientboundPackets3D_Shareware.TRADE_LIST, new PacketHandlers() {
             public void register() {

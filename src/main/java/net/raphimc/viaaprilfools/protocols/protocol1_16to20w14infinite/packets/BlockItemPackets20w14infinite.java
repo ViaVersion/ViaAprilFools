@@ -41,19 +41,19 @@ import java.util.Map;
 public class BlockItemPackets20w14infinite extends ItemRewriter<ClientboundPackets20w14infinite, ServerboundPackets1_16, Protocol1_16to20w14infinite> {
 
     public BlockItemPackets20w14infinite(Protocol1_16to20w14infinite protocol) {
-        super(protocol);
+        super(protocol, Type.ITEM1_13_2, Type.ITEM1_13_2_SHORT_ARRAY);
     }
 
     @Override
     protected void registerPackets() {
         this.registerSetCooldown(ClientboundPackets20w14infinite.COOLDOWN);
-        this.registerWindowItems(ClientboundPackets20w14infinite.WINDOW_ITEMS, Type.ITEM1_13_2_SHORT_ARRAY);
-        this.registerSetSlot(ClientboundPackets20w14infinite.SET_SLOT, Type.ITEM1_13_2);
+        this.registerWindowItems(ClientboundPackets20w14infinite.WINDOW_ITEMS);
+        this.registerSetSlot(ClientboundPackets20w14infinite.SET_SLOT);
         this.registerTradeList(ClientboundPackets20w14infinite.TRADE_LIST);
-        this.registerAdvancements(ClientboundPackets20w14infinite.ADVANCEMENTS, Type.ITEM1_13_2);
-        this.registerSpawnParticle(ClientboundPackets20w14infinite.SPAWN_PARTICLE, Type.ITEM1_13_2, Type.DOUBLE);
-        this.registerClickWindow(ServerboundPackets1_16.CLICK_WINDOW, Type.ITEM1_13_2);
-        this.registerCreativeInvAction(ServerboundPackets1_16.CREATIVE_INVENTORY_ACTION, Type.ITEM1_13_2);
+        this.registerAdvancements(ClientboundPackets20w14infinite.ADVANCEMENTS);
+        this.registerSpawnParticle(ClientboundPackets20w14infinite.SPAWN_PARTICLE, Type.DOUBLE);
+        this.registerClickWindow(ServerboundPackets1_16.CLICK_WINDOW);
+        this.registerCreativeInvAction(ServerboundPackets1_16.CREATIVE_INVENTORY_ACTION);
         final BlockRewriter<ClientboundPackets20w14infinite> blockRewriter = new BlockRewriter<>(this.protocol, Type.POSITION1_14);
         blockRewriter.registerBlockAction(ClientboundPackets20w14infinite.BLOCK_ACTION);
         blockRewriter.registerBlockChange(ClientboundPackets20w14infinite.BLOCK_CHANGE);

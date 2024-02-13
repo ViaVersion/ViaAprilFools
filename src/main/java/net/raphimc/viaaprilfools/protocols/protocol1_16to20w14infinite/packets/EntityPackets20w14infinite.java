@@ -24,7 +24,7 @@ import com.viaversion.viaversion.api.protocol.remapper.PacketHandlers;
 import com.viaversion.viaversion.api.type.Type;
 import com.viaversion.viaversion.api.type.types.version.Types1_14;
 import com.viaversion.viaversion.protocols.protocol1_16to1_15_2.ClientboundPackets1_16;
-import com.viaversion.viaversion.protocols.protocol1_16to1_15_2.Protocol1_16To1_15_2;
+import com.viaversion.viaversion.protocols.protocol1_16to1_15_2.data.AttributeMappings;
 import com.viaversion.viaversion.protocols.protocol1_16to1_15_2.packets.EntityPackets;
 import com.viaversion.viaversion.util.Key;
 import net.raphimc.viaaprilfools.ViaAprilFools;
@@ -137,7 +137,7 @@ public class EntityPackets20w14infinite {
             for (int i = 0; i < size; i++) {
                 // Attributes have been renamed and are now namespaced identifiers
                 String key = wrapper.read(Type.STRING);
-                String attributeIdentifier = Via.getManager().getProtocolManager().getProtocol(Protocol1_16To1_15_2.class).getMappingData().attributeIdentifierMappings().get(key);
+                String attributeIdentifier = AttributeMappings.attributeIdentifierMappings().get(key);
                 if (attributeIdentifier == null) {
                     attributeIdentifier = "minecraft:" + key;
                     if (!Key.isValid(attributeIdentifier)) {

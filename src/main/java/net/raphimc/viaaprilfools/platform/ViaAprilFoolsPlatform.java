@@ -50,8 +50,8 @@ public interface ViaAprilFoolsPlatform {
         protocolManager.registerProtocol(new Protocol1_16to20w14infinite(), ProtocolVersion.v1_16, AprilFoolsProtocolVersion.s20w14infinite);
         protocolManager.registerProtocol(new Protocol1_16_2toCombatTest8c(), ProtocolVersion.v1_16_2, AprilFoolsProtocolVersion.sCombatTest8c);
 
-        protocolManager.registerBaseProtocol(new BaseProtocol1_16(), Range.singleton(AprilFoolsProtocolVersion.s20w14infinite.getVersion()));
-        protocolManager.registerBaseProtocol(new BaseProtocol1_16(), Range.singleton(AprilFoolsProtocolVersion.sCombatTest8c.getVersion()));
+        protocolManager.registerBaseProtocol(new BaseProtocol1_16(), Range.singleton(AprilFoolsProtocolVersion.s20w14infinite));
+        protocolManager.registerBaseProtocol(new BaseProtocol1_16(), Range.singleton(AprilFoolsProtocolVersion.sCombatTest8c));
     }
 
     Logger getLogger();

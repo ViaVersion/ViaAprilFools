@@ -30,7 +30,7 @@ public class AprilFoolsProtocolVersion {
     public static final List<ProtocolVersion> APRIL_FOOLS_PROTOCOLS = new ArrayList<>();
 
     public static final ProtocolVersion s3d_shareware = registerAprilFools(1, "3D Shareware", ProtocolVersion.v1_13_2);
-    public static final ProtocolVersion s20w14infinite = registerAprilFools(709, "20w14infinite", ProtocolVersion.v1_16 /* Should be 1.15.2, but 1.16 is used to work around base protocol issues */);
+    public static final ProtocolVersion s20w14infinite = registerAprilFools(709, "20w14infinite", ProtocolVersion.v1_15_2);
     public static final ProtocolVersion sCombatTest8c = registerSnapshot(803, "Combat Test 8c", ProtocolVersion.v1_16_1);
 
     private static ProtocolVersion registerSnapshot(final int version, final String name, final ProtocolVersion origin) {

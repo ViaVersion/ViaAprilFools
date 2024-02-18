@@ -108,7 +108,7 @@ public class EntityPackets20w14infinite {
             @Override
             public void register() {
                 map(Type.INT); // Entity ID
-                map(Type.BYTE); //  Gamemode
+                map(Type.UNSIGNED_BYTE); //  Gamemode
                 handler(wrapper -> {
                     wrapper.write(Type.BYTE, (byte) -1); // Previous gamemode, set to none
                     wrapper.write(Type.STRING_ARRAY, WORLD_NAMES); // World list - only used for command completion

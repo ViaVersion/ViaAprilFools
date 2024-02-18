@@ -17,11 +17,9 @@
  */
 package net.raphimc.viaaprilfools.platform;
 
-import com.google.common.collect.Range;
 import com.viaversion.viaversion.api.Via;
 import com.viaversion.viaversion.api.protocol.ProtocolManager;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
-import com.viaversion.viaversion.protocols.base.BaseProtocol1_16;
 import net.raphimc.viaaprilfools.ViaAprilFools;
 import net.raphimc.viaaprilfools.ViaAprilFoolsConfig;
 import net.raphimc.viaaprilfools.api.AprilFoolsProtocolVersion;
@@ -42,16 +40,11 @@ public interface ViaAprilFoolsPlatform {
         Via.getManager().getConfigurationProvider().register(config);
         Via.getManager().getSubPlatforms().add(ViaAprilFools.IMPL_VERSION);
 
-
         final ProtocolManager protocolManager = Via.getManager().getProtocolManager();
-
         protocolManager.registerProtocol(new Protocol1_14to3D_Shareware(), ProtocolVersion.v1_14, AprilFoolsProtocolVersion.s3d_shareware);
         protocolManager.registerProtocol(new Protocol3D_Sharewareto1_14(), AprilFoolsProtocolVersion.s3d_shareware, ProtocolVersion.v1_14);
         protocolManager.registerProtocol(new Protocol1_16to20w14infinite(), ProtocolVersion.v1_16, AprilFoolsProtocolVersion.s20w14infinite);
         protocolManager.registerProtocol(new Protocol1_16_2toCombatTest8c(), ProtocolVersion.v1_16_2, AprilFoolsProtocolVersion.sCombatTest8c);
-
-        protocolManager.registerBaseProtocol(new BaseProtocol1_16(), Range.singleton(AprilFoolsProtocolVersion.s20w14infinite));
-        protocolManager.registerBaseProtocol(new BaseProtocol1_16(), Range.singleton(AprilFoolsProtocolVersion.sCombatTest8c));
     }
 
     Logger getLogger();

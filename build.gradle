@@ -27,7 +27,7 @@ dependencies {
     compileOnly "com.viaversion:viabackwards-common:4.10.0-24w07a-SNAPSHOT"
     compileOnly "org.yaml:snakeyaml:2.2"
     compileOnly "com.google.guava:guava:33.1.0-jre"
-    compileOnly "io.netty:netty-handler:4.1.107.Final"
+    compileOnly "io.netty:netty-handler:4.1.108.Final"
 }
 
 sourceSets {

@@ -36,7 +36,7 @@ public class AprilFoolsMappings extends BackwardsMappings {
 
     @Override
     protected @Nullable CompoundTag readMappingsFile(String name) {
-        return LOADER.loadNBT(name);
+        return LOADER.loadNBTFromDir(name);
     }
 
     @Override

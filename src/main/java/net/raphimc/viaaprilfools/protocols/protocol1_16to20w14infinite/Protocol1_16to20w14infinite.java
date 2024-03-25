@@ -35,7 +35,7 @@ import com.viaversion.viaversion.protocols.protocol1_16to1_15_2.provider.PlayerA
 import com.viaversion.viaversion.rewriter.RecipeRewriter;
 import com.viaversion.viaversion.rewriter.StatisticsRewriter;
 import com.viaversion.viaversion.rewriter.TagRewriter;
-import net.raphimc.viaaprilfools.api.AprilFoolsMappings;
+import net.raphimc.viaaprilfools.api.data.AprilFoolsMappings;
 import net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite.metadata.MetadataRewriter1_16to20w14infinite;
 import net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite.packets.BlockItemPackets20w14infinite;
 import net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite.packets.EntityPackets20w14infinite;

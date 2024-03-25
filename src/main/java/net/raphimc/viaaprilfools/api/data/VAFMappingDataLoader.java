@@ -15,37 +15,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package net.raphimc.viaaprilfools.api;
+package net.raphimc.viaaprilfools.api.data;
 
 import com.viaversion.viabackwards.api.data.BackwardsMappingDataLoader;
-import com.viaversion.viabackwards.api.data.BackwardsMappings;
-import com.viaversion.viaversion.api.protocol.Protocol;
-import com.viaversion.viaversion.libs.opennbt.tag.builtin.CompoundTag;
 import net.raphimc.viaaprilfools.ViaAprilFools;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
+import java.io.File;
 import java.util.logging.Logger;
 
-public class AprilFoolsMappings extends BackwardsMappings {
+public class VAFMappingDataLoader extends BackwardsMappingDataLoader {
 
-    private static final BackwardsMappingDataLoader LOADER = new BackwardsMappingDataLoader(AprilFoolsMappings.class, "assets/viaaprilfools/data/");
+    public static final VAFMappingDataLoader INSTANCE = new VAFMappingDataLoader();
 
-    public AprilFoolsMappings(String unmappedVersion, String mappedVersion, @Nullable Class<? extends Protocol<?, ?, ?, ?>> vvProtocolClass) {
-        super(unmappedVersion, mappedVersion, vvProtocolClass);
+    public VAFMappingDataLoader() {
+        super(AprilFoolsMappings.class, "assets/viaaprilfools/data/");
     }
 
     @Override
-    protected @Nullable CompoundTag readMappingsFile(String name) {
-        return LOADER.loadNBTFromDir(name);
+    public File getDataFolder() {
+        return ViaAprilFools.getPlatform().getDataFolder();
     }
 
     @Override
-    protected @Nullable CompoundTag readUnmappedIdentifiersFile(String name) {
-        return LOADER.loadNBT(name, true);
-    }
-
-    @Override
-    protected Logger getLogger() {
+    public Logger getLogger() {
         return ViaAprilFools.getPlatform().getLogger();
     }
+
 }

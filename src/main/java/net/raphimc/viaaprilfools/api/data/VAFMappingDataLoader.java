@@ -28,7 +28,7 @@ public class VAFMappingDataLoader extends BackwardsMappingDataLoader {
     public static final VAFMappingDataLoader INSTANCE = new VAFMappingDataLoader();
 
     public VAFMappingDataLoader() {
-        super(AprilFoolsMappings.class, "assets/viaaprilfools/data/");
+        super(VAFMappingDataLoader.class, "assets/viaaprilfools/data/");
     }
 
     @Override

@@ -141,7 +141,7 @@ public class EntityPackets20w14infinite {
                 if (attributeIdentifier == null) {
                     attributeIdentifier = "minecraft:" + key;
                     if (!Key.isValid(attributeIdentifier)) {
-                        if (!Via.getConfig().isSuppressConversionWarnings()) {
+                        if (!Via.getConfig().isSuppressConversionWarnings() || Via.getManager().isDebug()) {
                             ViaAprilFools.getPlatform().getLogger().warning("Invalid attribute: " + key);
                         }
                         actualSize--;

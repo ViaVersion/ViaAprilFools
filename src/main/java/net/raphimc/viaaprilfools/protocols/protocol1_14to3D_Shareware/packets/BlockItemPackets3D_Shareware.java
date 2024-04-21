@@ -48,10 +48,10 @@ public class BlockItemPackets3D_Shareware extends ItemRewriter<ClientboundPacket
                     int size = wrapper.passthrough(Type.UNSIGNED_BYTE);
 
                     for (int i = 0; i < size; ++i) {
-                        BlockItemPackets3D_Shareware.this.handleItemToClient(wrapper.passthrough(Type.ITEM1_13_2));
-                        BlockItemPackets3D_Shareware.this.handleItemToClient(wrapper.passthrough(Type.ITEM1_13_2));
+                        BlockItemPackets3D_Shareware.this.handleItemToClient(wrapper.user(), wrapper.passthrough(Type.ITEM1_13_2));
+                        BlockItemPackets3D_Shareware.this.handleItemToClient(wrapper.user(), wrapper.passthrough(Type.ITEM1_13_2));
                         if (wrapper.passthrough(Type.BOOLEAN)) {
-                            BlockItemPackets3D_Shareware.this.handleItemToClient(wrapper.passthrough(Type.ITEM1_13_2));
+                            BlockItemPackets3D_Shareware.this.handleItemToClient(wrapper.user(), wrapper.passthrough(Type.ITEM1_13_2));
                         }
 
                         wrapper.passthrough(Type.BOOLEAN);

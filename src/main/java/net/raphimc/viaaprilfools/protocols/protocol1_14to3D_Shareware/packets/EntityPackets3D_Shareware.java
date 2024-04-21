@@ -17,6 +17,7 @@
  */
 package net.raphimc.viaaprilfools.protocols.protocol1_14to3D_Shareware.packets;
 
+import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.minecraft.metadata.Metadata;
 import com.viaversion.viaversion.api.protocol.remapper.PacketHandlers;
 import com.viaversion.viaversion.api.type.Type;
@@ -51,7 +52,7 @@ public class EntityPackets3D_Shareware {
                 map(Type.SHORT); // 10 - Velocity Y
                 map(Type.SHORT); // 11 - Velocity Z
                 map(Types1_14.METADATA_LIST); // 12 - Metadata
-                handler(packetWrapper -> handleMetadata(packetWrapper.get(Types1_14.METADATA_LIST, 0)));
+                handler(packetWrapper -> handleMetadata(packetWrapper.user(), packetWrapper.get(Types1_14.METADATA_LIST, 0)));
             }
         });
         this.protocol.registerClientbound(ClientboundPackets3D_Shareware.SPAWN_PLAYER, new PacketHandlers() {
@@ -65,7 +66,7 @@ public class EntityPackets3D_Shareware {
                 map(Type.BYTE); // 5 - Yaw
                 map(Type.BYTE); // 6 - Pitch
                 map(Types1_14.METADATA_LIST); // 7 - Metadata
-                handler(packetWrapper -> handleMetadata(packetWrapper.get(Types1_14.METADATA_LIST, 0)));
+                handler(packetWrapper -> handleMetadata(packetWrapper.user(), packetWrapper.get(Types1_14.METADATA_LIST, 0)));
             }
         });
         this.protocol.registerClientbound(ClientboundPackets3D_Shareware.ENTITY_METADATA, new PacketHandlers() {
@@ -73,15 +74,15 @@ public class EntityPackets3D_Shareware {
             public void register() {
                 map(Type.VAR_INT); // 0 - Entity ID
                 map(Types1_14.METADATA_LIST);
-                handler(packetWrapper -> handleMetadata(packetWrapper.get(Types1_14.METADATA_LIST, 0)));
+                handler(packetWrapper -> handleMetadata(packetWrapper.user(), packetWrapper.get(Types1_14.METADATA_LIST, 0)));
             }
         });
     }
 
-    public void handleMetadata(final List<Metadata> metadataList) {
+    public void handleMetadata(final UserConnection user, final List<Metadata> metadataList) {
         for (Metadata metadata : metadataList) {
             if (metadata.metaType() == Types1_14.META_TYPES.itemType) {
-                metadata.setValue(this.protocol.getItemRewriter().handleItemToClient(metadata.value()));
+                metadata.setValue(this.protocol.getItemRewriter().handleItemToClient(user, metadata.value()));
             }
         }
     }

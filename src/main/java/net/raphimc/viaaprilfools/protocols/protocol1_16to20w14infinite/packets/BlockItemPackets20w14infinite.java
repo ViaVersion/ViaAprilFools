@@ -114,7 +114,7 @@ public class BlockItemPackets20w14infinite extends ItemRewriter<ClientboundPacke
                 handler(wrapper -> {
                     int slot = wrapper.read(Type.VAR_INT);
                     wrapper.write(Type.BYTE, (byte) slot);
-                    handleItemToClient(wrapper.passthrough(Type.ITEM1_13_2));
+                    handleItemToClient(wrapper.user(), wrapper.passthrough(Type.ITEM1_13_2));
                 });
             }
         });
@@ -122,7 +122,7 @@ public class BlockItemPackets20w14infinite extends ItemRewriter<ClientboundPacke
         protocol.registerServerbound(ServerboundPackets1_16.EDIT_BOOK, new PacketHandlers() {
             @Override
             public void register() {
-                handler(wrapper -> handleItemToServer(wrapper.passthrough(Type.ITEM1_13_2)));
+                handler(wrapper -> handleItemToServer(wrapper.user(), wrapper.passthrough(Type.ITEM1_13_2)));
             }
         });
     }

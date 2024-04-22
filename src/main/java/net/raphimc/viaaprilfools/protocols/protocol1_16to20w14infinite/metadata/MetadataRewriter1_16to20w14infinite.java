@@ -34,7 +34,7 @@ public class MetadataRewriter1_16to20w14infinite extends EntityRewriter<Clientbo
 
     @Override
     protected void registerRewrites() {
-        registerMetaTypeHandler(Types1_14.META_TYPES.itemType, Types1_14.META_TYPES.blockStateType, null, Types1_14.META_TYPES.particleType);
+        registerMetaTypeHandler(Types1_14.META_TYPES.itemType, Types1_14.META_TYPES.blockStateType, Types1_14.META_TYPES.particleType);
 
         filter().type(EntityTypes1_16.MINECART_ABSTRACT).index(10).handler((event, meta) -> {
             // Convert to new block id

@@ -17,10 +17,10 @@
  */
 package net.raphimc.viaaprilfools.protocols.protocol1_14to3D_Shareware.packets;
 
-import com.viaversion.viabackwards.api.rewriters.ItemRewriter;
 import com.viaversion.viaversion.api.protocol.remapper.PacketHandlers;
 import com.viaversion.viaversion.api.type.Type;
 import com.viaversion.viaversion.protocols.protocol1_14to1_13_2.ServerboundPackets1_14;
+import com.viaversion.viaversion.rewriter.ItemRewriter;
 import net.raphimc.viaaprilfools.protocols.protocol1_14to3D_Shareware.ClientboundPackets3D_Shareware;
 import net.raphimc.viaaprilfools.protocols.protocol1_14to3D_Shareware.Protocol1_14to3D_Shareware;
 

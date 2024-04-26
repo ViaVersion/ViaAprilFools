@@ -17,7 +17,6 @@
  */
 package net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite.packets;
 
-import com.viaversion.viabackwards.api.rewriters.ItemRewriter;
 import com.viaversion.viaversion.api.minecraft.chunks.Chunk;
 import com.viaversion.viaversion.api.minecraft.chunks.ChunkSection;
 import com.viaversion.viaversion.api.minecraft.chunks.DataPalette;
@@ -31,6 +30,7 @@ import com.viaversion.viaversion.libs.opennbt.tag.builtin.LongArrayTag;
 import com.viaversion.viaversion.libs.opennbt.tag.builtin.Tag;
 import com.viaversion.viaversion.protocols.protocol1_16to1_15_2.ServerboundPackets1_16;
 import com.viaversion.viaversion.rewriter.BlockRewriter;
+import com.viaversion.viaversion.rewriter.ItemRewriter;
 import com.viaversion.viaversion.util.CompactArrayUtil;
 import net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite.ClientboundPackets20w14infinite;
 import net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite.Protocol1_16to20w14infinite;

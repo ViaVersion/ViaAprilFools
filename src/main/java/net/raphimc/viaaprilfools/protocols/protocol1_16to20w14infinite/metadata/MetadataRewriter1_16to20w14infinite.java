@@ -28,8 +28,6 @@ public class MetadataRewriter1_16to20w14infinite extends EntityRewriter<Clientbo
 
     public MetadataRewriter1_16to20w14infinite(Protocol1_16to20w14infinite protocol) {
         super(protocol);
-        mapEntityType(Entity20w14infiniteTypes.ZOMBIE_PIGMAN, EntityTypes1_16.ZOMBIFIED_PIGLIN);
-        mapTypes(Entity20w14infiniteTypes.values(), EntityTypes1_16.class);
     }
 
     @Override
@@ -43,6 +41,12 @@ public class MetadataRewriter1_16to20w14infinite extends EntityRewriter<Clientbo
         });
 
         filter().type(EntityTypes1_16.ABSTRACT_ARROW).removeIndex(8);
+    }
+
+    @Override
+    public void onMappingDataLoaded() {
+        mapTypes();
+        mapEntityType(Entity20w14infiniteTypes.ZOMBIE_PIGMAN, EntityTypes1_16.ZOMBIFIED_PIGLIN);
     }
 
     @Override

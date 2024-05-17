@@ -15,10 +15,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite;
+package net.raphimc.viaaprilfools.protocol.s20w14infinitetov1_16;
 
 import com.viaversion.viabackwards.api.BackwardsProtocol;
-import com.viaversion.viabackwards.api.data.BackwardsMappings;
+import com.viaversion.viabackwards.api.data.BackwardsMappingData;
 import com.viaversion.viabackwards.api.rewriters.SoundRewriter;
 import com.viaversion.viaversion.api.Via;
 import com.viaversion.viaversion.api.connection.UserConnection;
@@ -26,32 +26,33 @@ import com.viaversion.viaversion.api.minecraft.RegistryType;
 import com.viaversion.viaversion.api.minecraft.entities.EntityTypes1_16;
 import com.viaversion.viaversion.api.protocol.remapper.PacketHandlers;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
-import com.viaversion.viaversion.api.type.Type;
+import com.viaversion.viaversion.api.type.Types;
 import com.viaversion.viaversion.data.entity.EntityTrackerBase;
-import com.viaversion.viaversion.protocols.protocol1_16to1_15_2.ClientboundPackets1_16;
-import com.viaversion.viaversion.protocols.protocol1_16to1_15_2.Protocol1_16To1_15_2;
-import com.viaversion.viaversion.protocols.protocol1_16to1_15_2.ServerboundPackets1_16;
-import com.viaversion.viaversion.protocols.protocol1_16to1_15_2.provider.PlayerAbilitiesProvider;
+import com.viaversion.viaversion.protocols.v1_15_2to1_16.Protocol1_15_2To1_16;
+import com.viaversion.viaversion.protocols.v1_15_2to1_16.packet.ClientboundPackets1_16;
+import com.viaversion.viaversion.protocols.v1_15_2to1_16.packet.ServerboundPackets1_16;
+import com.viaversion.viaversion.protocols.v1_15_2to1_16.provider.PlayerAbilitiesProvider;
 import com.viaversion.viaversion.rewriter.RecipeRewriter;
 import com.viaversion.viaversion.rewriter.StatisticsRewriter;
 import com.viaversion.viaversion.rewriter.TagRewriter;
-import net.raphimc.viaaprilfools.api.data.AprilFoolsMappings;
-import net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite.metadata.MetadataRewriter1_16to20w14infinite;
-import net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite.packets.BlockItemPackets20w14infinite;
-import net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite.packets.EntityPackets20w14infinite;
+import net.raphimc.viaaprilfools.api.data.AprilFoolsMappingData;
+import net.raphimc.viaaprilfools.protocol.s20w14infinitetov1_16.rewriter.EntityPacketRewriter20w14infinite;
+import net.raphimc.viaaprilfools.protocol.s20w14infinitetov1_16.packet.ClientboundPackets20w14infinite;
+import net.raphimc.viaaprilfools.protocol.s20w14infinitetov1_16.packet.ServerboundPackets20w14infinite;
+import net.raphimc.viaaprilfools.protocol.s20w14infinitetov1_16.rewriter.BlockItemPacketRewriter20w14infinite;
 
 import java.util.UUID;
 
-public class Protocol1_16to20w14infinite extends BackwardsProtocol<ClientboundPackets20w14infinite, ClientboundPackets1_16, ServerboundPackets20w14infinite, ServerboundPackets1_16> {
+public class Protocol20w14infiniteTo1_16 extends BackwardsProtocol<ClientboundPackets20w14infinite, ClientboundPackets1_16, ServerboundPackets20w14infinite, ServerboundPackets1_16> {
 
-    public static final BackwardsMappings MAPPINGS = new AprilFoolsMappings("20w14infinite", "1.16", Protocol1_16To1_15_2.class);
+    public static final BackwardsMappingData MAPPINGS = new AprilFoolsMappingData("20w14infinite", "1.16", Protocol1_15_2To1_16.class);
     private static final UUID ZERO_UUID = new UUID(0, 0);
 
-    private final BlockItemPackets20w14infinite blockItemPackets = new BlockItemPackets20w14infinite(this);
-    private final MetadataRewriter1_16to20w14infinite metadataRewriter = new MetadataRewriter1_16to20w14infinite(this);
+    private final BlockItemPacketRewriter20w14infinite itemRewriter = new BlockItemPacketRewriter20w14infinite(this);
+    private final EntityPacketRewriter20w14infinite entityRewriter = new EntityPacketRewriter20w14infinite(this);
     private final TagRewriter<ClientboundPackets20w14infinite> tagRewriter = new TagRewriter<>(this);
 
-    public Protocol1_16to20w14infinite() {
+    public Protocol20w14infiniteTo1_16() {
         super(ClientboundPackets20w14infinite.class, ClientboundPackets1_16.class, ServerboundPackets20w14infinite.class, ServerboundPackets1_16.class);
     }
 
@@ -59,58 +60,57 @@ public class Protocol1_16to20w14infinite extends BackwardsProtocol<ClientboundPa
     protected void registerPackets() {
         super.registerPackets();
 
-        tagRewriter.register(ClientboundPackets20w14infinite.TAGS, RegistryType.ENTITY);
-        new StatisticsRewriter<>(this).register(ClientboundPackets20w14infinite.STATISTICS);
-        EntityPackets20w14infinite.register(this);
+        tagRewriter.register(ClientboundPackets20w14infinite.UPDATE_TAGS, RegistryType.ENTITY);
+        new StatisticsRewriter<>(this).register(ClientboundPackets20w14infinite.AWARD_STATS);
         final SoundRewriter<ClientboundPackets20w14infinite> soundRewriter = new SoundRewriter<>(this);
         soundRewriter.registerSound(ClientboundPackets20w14infinite.SOUND);
-        soundRewriter.registerSound(ClientboundPackets20w14infinite.ENTITY_SOUND);
-        soundRewriter.registerNamedSound(ClientboundPackets20w14infinite.NAMED_SOUND);
+        soundRewriter.registerSound(ClientboundPackets20w14infinite.SOUND_ENTITY);
+        soundRewriter.registerNamedSound(ClientboundPackets20w14infinite.CUSTOM_SOUND);
         soundRewriter.registerStopSound(ClientboundPackets20w14infinite.STOP_SOUND);
-        new RecipeRewriter<>(this).register(ClientboundPackets20w14infinite.DECLARE_RECIPES);
+        new RecipeRewriter<>(this).register(ClientboundPackets20w14infinite.UPDATE_RECIPES);
 
-        this.registerClientbound(ClientboundPackets20w14infinite.CHAT_MESSAGE, new PacketHandlers() {
+        this.registerClientbound(ClientboundPackets20w14infinite.CHAT, new PacketHandlers() {
             @Override
             public void register() {
-                map(Type.COMPONENT);
-                map(Type.BYTE);
+                map(Types.COMPONENT);
+                map(Types.BYTE);
                 handler(wrapper -> {
-                    wrapper.write(Type.UUID, ZERO_UUID); // Sender uuid - always send as 'system'
+                    wrapper.write(Types.UUID, ZERO_UUID); // Sender uuid - always send as 'system'
                 });
             }
         });
 
-        this.cancelServerbound(ServerboundPackets1_16.GENERATE_JIGSAW);
-        this.registerServerbound(ServerboundPackets1_16.INTERACT_ENTITY, new PacketHandlers() {
+        this.cancelServerbound(ServerboundPackets1_16.JIGSAW_GENERATE);
+        this.registerServerbound(ServerboundPackets1_16.INTERACT, new PacketHandlers() {
             @Override
             public void register() {
                 handler(wrapper -> {
-                    wrapper.passthrough(Type.VAR_INT); // Entity Id
-                    int action = wrapper.passthrough(Type.VAR_INT);
+                    wrapper.passthrough(Types.VAR_INT); // Entity Id
+                    int action = wrapper.passthrough(Types.VAR_INT);
                     if (action == 0 || action == 2) {
                         if (action == 2) {
                             // Location
-                            wrapper.passthrough(Type.FLOAT);
-                            wrapper.passthrough(Type.FLOAT);
-                            wrapper.passthrough(Type.FLOAT);
+                            wrapper.passthrough(Types.FLOAT);
+                            wrapper.passthrough(Types.FLOAT);
+                            wrapper.passthrough(Types.FLOAT);
                         }
 
-                        wrapper.passthrough(Type.VAR_INT); // Hand
+                        wrapper.passthrough(Types.VAR_INT); // Hand
                     }
 
                     // New boolean: Whether the client is sneaking/pressing shift
-                    wrapper.read(Type.BOOLEAN);
+                    wrapper.read(Types.BOOLEAN);
                 });
             }
         });
         this.registerServerbound(ServerboundPackets1_16.PLAYER_ABILITIES, new PacketHandlers() {
             @Override
             public void register() {
-                map(Type.BYTE); // Flags
+                map(Types.BYTE); // Flags
                 handler(wrapper -> {
                     final PlayerAbilitiesProvider playerAbilities = Via.getManager().getProviders().get(PlayerAbilitiesProvider.class);
-                    wrapper.write(Type.FLOAT, playerAbilities.getFlyingSpeed(wrapper.user()));
-                    wrapper.write(Type.FLOAT, playerAbilities.getWalkingSpeed(wrapper.user()));
+                    wrapper.write(Types.FLOAT, playerAbilities.getFlyingSpeed(wrapper.user()));
+                    wrapper.write(Types.FLOAT, playerAbilities.getWalkingSpeed(wrapper.user()));
                 });
             }
         });
@@ -160,6 +160,7 @@ public class Protocol1_16to20w14infinite extends BackwardsProtocol<ClientboundPa
         tagRewriter.addEmptyTags(RegistryType.ENTITY, "minecraft:arrows", "minecraft:beehive_inhabitors", "minecraft:raiders", "minecraft:skeletons");
         tagRewriter.addEmptyTags(RegistryType.ITEM, "minecraft:beds", "minecraft:coals", "minecraft:fences", "minecraft:flowers",
                 "minecraft:lectern_books", "minecraft:music_discs", "minecraft:small_flowers", "minecraft:tall_flowers", "minecraft:trapdoors", "minecraft:walls", "minecraft:wooden_fences");
+        super.onMappingDataLoaded();
     }
 
     @Override
@@ -169,17 +170,17 @@ public class Protocol1_16to20w14infinite extends BackwardsProtocol<ClientboundPa
     }
 
     @Override
-    public BlockItemPackets20w14infinite getItemRewriter() {
-        return this.blockItemPackets;
+    public BlockItemPacketRewriter20w14infinite getItemRewriter() {
+        return this.itemRewriter;
     }
 
     @Override
-    public MetadataRewriter1_16to20w14infinite getEntityRewriter() {
-        return this.metadataRewriter;
+    public EntityPacketRewriter20w14infinite getEntityRewriter() {
+        return this.entityRewriter;
     }
 
     @Override
-    public BackwardsMappings getMappingData() {
+    public BackwardsMappingData getMappingData() {
         return MAPPINGS;
     }
 

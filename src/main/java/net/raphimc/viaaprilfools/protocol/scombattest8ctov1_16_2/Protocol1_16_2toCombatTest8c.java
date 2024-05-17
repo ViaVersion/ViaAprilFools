@@ -15,16 +15,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package net.raphimc.viaaprilfools.protocols.protocol1_16_2toCombatTest8c;
+package net.raphimc.viaaprilfools.protocol.scombattest8ctov1_16_2;
 
 import com.viaversion.viaversion.api.Via;
 import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.protocol.AbstractProtocol;
 import com.viaversion.viaversion.api.protocol.remapper.PacketHandlers;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
-import com.viaversion.viaversion.api.type.Type;
-import com.viaversion.viaversion.protocols.protocol1_16_2to1_16_1.ClientboundPackets1_16_2;
-import com.viaversion.viaversion.protocols.protocol1_16_2to1_16_1.ServerboundPackets1_16_2;
+import com.viaversion.viaversion.api.type.Types;
+import com.viaversion.viaversion.protocols.v1_16_1to1_16_2.packet.ClientboundPackets1_16_2;
+import com.viaversion.viaversion.protocols.v1_16_1to1_16_2.packet.ServerboundPackets1_16_2;
 
 public class Protocol1_16_2toCombatTest8c extends AbstractProtocol<ClientboundPackets1_16_2, ClientboundPackets1_16_2, ServerboundPackets1_16_2, ServerboundPackets1_16_2> {
 
@@ -34,16 +34,16 @@ public class Protocol1_16_2toCombatTest8c extends AbstractProtocol<ClientboundPa
 
     @Override
     protected void registerPackets() {
-        this.registerServerbound(ServerboundPackets1_16_2.CLIENT_SETTINGS, new PacketHandlers() {
+        this.registerServerbound(ServerboundPackets1_16_2.CLIENT_INFORMATION, new PacketHandlers() {
             @Override
             public void register() {
-                map(Type.STRING); //language
-                map(Type.BYTE); //viewDistance
-                map(Type.VAR_INT); //chatVisibility
-                map(Type.BOOLEAN); //chatColors
-                map(Type.UNSIGNED_BYTE); //playerModelBitMask
-                map(Type.VAR_INT); //mainArm
-                create(Type.BOOLEAN, false); //useShieldOnCrouch
+                map(Types.STRING); //language
+                map(Types.BYTE); //viewDistance
+                map(Types.VAR_INT); //chatVisibility
+                map(Types.BOOLEAN); //chatColors
+                map(Types.UNSIGNED_BYTE); //playerModelBitMask
+                map(Types.VAR_INT); //mainArm
+                create(Types.BOOLEAN, false); //useShieldOnCrouch
             }
         });
     }

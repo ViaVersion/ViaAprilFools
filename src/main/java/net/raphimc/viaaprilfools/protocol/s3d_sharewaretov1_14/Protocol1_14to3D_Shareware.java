@@ -15,30 +15,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package net.raphimc.viaaprilfools.protocols.protocol1_14to3D_Shareware;
+package net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14;
 
 import com.viaversion.viabackwards.api.BackwardsProtocol;
-import com.viaversion.viabackwards.api.data.BackwardsMappings;
+import com.viaversion.viabackwards.api.data.BackwardsMappingData;
 import com.viaversion.viabackwards.api.rewriters.SoundRewriter;
 import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.minecraft.chunks.Chunk;
 import com.viaversion.viaversion.api.protocol.packet.PacketWrapper;
-import com.viaversion.viaversion.api.type.Type;
+import com.viaversion.viaversion.api.type.Types;
 import com.viaversion.viaversion.api.type.types.chunk.ChunkType1_14;
-import com.viaversion.viaversion.protocols.protocol1_14to1_13_2.ClientboundPackets1_14;
-import com.viaversion.viaversion.protocols.protocol1_14to1_13_2.Protocol1_14To1_13_2;
-import com.viaversion.viaversion.protocols.protocol1_14to1_13_2.ServerboundPackets1_14;
-import net.raphimc.viaaprilfools.api.data.AprilFoolsMappings;
-import net.raphimc.viaaprilfools.protocols.protocol1_14to3D_Shareware.packets.BlockItemPackets3D_Shareware;
-import net.raphimc.viaaprilfools.protocols.protocol1_14to3D_Shareware.packets.EntityPackets3D_Shareware;
-import net.raphimc.viaaprilfools.protocols.protocol1_14to3D_Shareware.storage.ChunkCenterTracker3D_Shareware;
+import com.viaversion.viaversion.protocols.v1_13_2to1_14.Protocol1_13_2To1_14;
+import com.viaversion.viaversion.protocols.v1_13_2to1_14.packet.ClientboundPackets1_14;
+import com.viaversion.viaversion.protocols.v1_13_2to1_14.packet.ServerboundPackets1_14;
+import net.raphimc.viaaprilfools.api.data.AprilFoolsMappingData;
+import net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.packet.ClientboundPackets3D_Shareware;
+import net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.packet.ServerboundPackets3D_Shareware;
+import net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.rewriter.BlockItemPacketRewriter3D_Shareware;
+import net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.rewriter.EntityPacketRewriter3D_Shareware;
+import net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.storage.ChunkCenterTracker3D_Shareware;
 
 public class Protocol1_14to3D_Shareware extends BackwardsProtocol<ClientboundPackets3D_Shareware, ClientboundPackets1_14, ServerboundPackets3D_Shareware, ServerboundPackets1_14> {
 
-    public static final BackwardsMappings MAPPINGS = new AprilFoolsMappings("3D_Shareware", "1.14", Protocol1_14To1_13_2.class);
+    public static final BackwardsMappingData MAPPINGS = new AprilFoolsMappingData("3D_Shareware", "1.14", Protocol1_13_2To1_14.class);
     private static final int SERVERSIDE_VIEW_DISTANCE = 64;
 
-    private final BlockItemPackets3D_Shareware blockItemPackets = new BlockItemPackets3D_Shareware(this);
+    private final BlockItemPacketRewriter3D_Shareware blockItemPackets = new BlockItemPacketRewriter3D_Shareware(this);
 
     public Protocol1_14to3D_Shareware() {
         super(ClientboundPackets3D_Shareware.class, ClientboundPackets1_14.class, ServerboundPackets3D_Shareware.class, ServerboundPackets1_14.class);
@@ -48,14 +50,14 @@ public class Protocol1_14to3D_Shareware extends BackwardsProtocol<ClientboundPac
     protected void registerPackets() {
         super.registerPackets();
 
-        new EntityPackets3D_Shareware(this).registerPackets();
+        new EntityPacketRewriter3D_Shareware(this).registerPackets();
         final SoundRewriter<ClientboundPackets3D_Shareware> soundRewriter = new SoundRewriter<>(this);
         soundRewriter.registerSound(ClientboundPackets3D_Shareware.SOUND);
-        soundRewriter.registerSound(ClientboundPackets3D_Shareware.ENTITY_SOUND);
-        soundRewriter.registerNamedSound(ClientboundPackets3D_Shareware.NAMED_SOUND);
+        soundRewriter.registerSound(ClientboundPackets3D_Shareware.SOUND_ENTITY);
+        soundRewriter.registerNamedSound(ClientboundPackets3D_Shareware.CUSTOM_SOUND);
         soundRewriter.registerStopSound(ClientboundPackets3D_Shareware.STOP_SOUND);
 
-        this.registerClientbound(ClientboundPackets3D_Shareware.CHUNK_DATA, wrapper -> {
+        this.registerClientbound(ClientboundPackets3D_Shareware.LEVEL_CHUNK, wrapper -> {
             final ChunkCenterTracker3D_Shareware entityTracker = wrapper.user().get(ChunkCenterTracker3D_Shareware.class);
 
             final Chunk chunk = wrapper.passthrough(ChunkType1_14.TYPE);
@@ -63,9 +65,9 @@ public class Protocol1_14to3D_Shareware extends BackwardsProtocol<ClientboundPac
             final int diffZ = Math.abs(entityTracker.getChunkCenterZ() - chunk.getZ());
 
             if (entityTracker.isForceSendCenterChunk() || diffX >= SERVERSIDE_VIEW_DISTANCE || diffZ >= SERVERSIDE_VIEW_DISTANCE) {
-                final PacketWrapper fakePosLook = wrapper.create(ClientboundPackets1_14.UPDATE_VIEW_POSITION); // Set center chunk
-                fakePosLook.write(Type.VAR_INT, chunk.getX());
-                fakePosLook.write(Type.VAR_INT, chunk.getZ());
+                final PacketWrapper fakePosLook = wrapper.create(ClientboundPackets1_14.SET_CHUNK_CACHE_CENTER); // Set center chunk
+                fakePosLook.write(Types.VAR_INT, chunk.getX());
+                fakePosLook.write(Types.VAR_INT, chunk.getZ());
                 fakePosLook.send(Protocol1_14to3D_Shareware.class);
                 entityTracker.setChunkCenterX(chunk.getX());
                 entityTracker.setChunkCenterZ(chunk.getZ());
@@ -83,12 +85,12 @@ public class Protocol1_14to3D_Shareware extends BackwardsProtocol<ClientboundPac
     }
 
     @Override
-    public BackwardsMappings getMappingData() {
+    public BackwardsMappingData getMappingData() {
         return MAPPINGS;
     }
 
     @Override
-    public BlockItemPackets3D_Shareware getItemRewriter() {
+    public BlockItemPacketRewriter3D_Shareware getItemRewriter() {
         return this.blockItemPackets;
     }
 

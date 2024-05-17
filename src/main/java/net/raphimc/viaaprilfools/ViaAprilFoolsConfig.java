@@ -24,11 +24,12 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class ViaAprilFoolsConfig extends Config implements net.raphimc.viaaprilfools.platform.ViaAprilFoolsConfig {
 
-    public ViaAprilFoolsConfig(final File configFile) {
-        super(configFile);
+    public ViaAprilFoolsConfig(final File configFile, final Logger logger) {
+        super(configFile, logger);
     }
 
     @Override

@@ -23,12 +23,12 @@ import net.raphimc.viaaprilfools.ViaAprilFools;
 import java.io.File;
 import java.util.logging.Logger;
 
-public class VAFMappingDataLoader extends BackwardsMappingDataLoader {
+public class AprilFoolsMappingDataLoader extends BackwardsMappingDataLoader {
 
-    public static final VAFMappingDataLoader INSTANCE = new VAFMappingDataLoader();
+    public static final AprilFoolsMappingDataLoader INSTANCE = new AprilFoolsMappingDataLoader();
 
-    public VAFMappingDataLoader() {
-        super(VAFMappingDataLoader.class, "assets/viaaprilfools/data/");
+    public AprilFoolsMappingDataLoader() {
+        super(AprilFoolsMappingDataLoader.class, "assets/viaaprilfools/data/");
     }
 
     @Override

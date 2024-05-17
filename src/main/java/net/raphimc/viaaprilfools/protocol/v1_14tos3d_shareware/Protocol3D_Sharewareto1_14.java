@@ -15,13 +15,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package net.raphimc.viaaprilfools.protocols.protocol3D_Sharewareto1_14;
+package net.raphimc.viaaprilfools.protocol.v1_14tos3d_shareware;
 
 import com.viaversion.viabackwards.api.BackwardsProtocol;
-import com.viaversion.viaversion.protocols.protocol1_14to1_13_2.ClientboundPackets1_14;
-import com.viaversion.viaversion.protocols.protocol1_14to1_13_2.ServerboundPackets1_14;
-import net.raphimc.viaaprilfools.protocols.protocol1_14to3D_Shareware.ClientboundPackets3D_Shareware;
-import net.raphimc.viaaprilfools.protocols.protocol1_14to3D_Shareware.ServerboundPackets3D_Shareware;
+import com.viaversion.viaversion.protocols.v1_13_2to1_14.packet.ClientboundPackets1_14;
+import com.viaversion.viaversion.protocols.v1_13_2to1_14.packet.ServerboundPackets1_14;
+import net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.packet.ClientboundPackets3D_Shareware;
+import net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.packet.ServerboundPackets3D_Shareware;
 
 public class Protocol3D_Sharewareto1_14 extends BackwardsProtocol<ClientboundPackets1_14, ClientboundPackets3D_Shareware, ServerboundPackets1_14, ServerboundPackets3D_Shareware> {
 
@@ -31,7 +31,7 @@ public class Protocol3D_Sharewareto1_14 extends BackwardsProtocol<ClientboundPac
 
     @Override
     protected void registerPackets() {
-        this.cancelClientbound(ClientboundPackets1_14.UPDATE_VIEW_POSITION);
+        this.cancelClientbound(ClientboundPackets1_14.SET_CHUNK_CACHE_CENTER);
     }
 
 }

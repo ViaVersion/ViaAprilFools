@@ -15,61 +15,61 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite.packets;
+package net.raphimc.viaaprilfools.protocol.s20w14infinitetov1_16.rewriter;
 
 import com.viaversion.viaversion.api.minecraft.chunks.Chunk;
 import com.viaversion.viaversion.api.minecraft.chunks.ChunkSection;
 import com.viaversion.viaversion.api.minecraft.chunks.DataPalette;
 import com.viaversion.viaversion.api.minecraft.chunks.PaletteType;
 import com.viaversion.viaversion.api.protocol.remapper.PacketHandlers;
-import com.viaversion.viaversion.api.type.Type;
+import com.viaversion.viaversion.api.type.Types;
 import com.viaversion.viaversion.api.type.types.chunk.ChunkType1_15;
 import com.viaversion.viaversion.api.type.types.chunk.ChunkType1_16;
-import com.viaversion.viaversion.libs.opennbt.tag.builtin.CompoundTag;
-import com.viaversion.viaversion.libs.opennbt.tag.builtin.LongArrayTag;
-import com.viaversion.viaversion.libs.opennbt.tag.builtin.Tag;
-import com.viaversion.viaversion.protocols.protocol1_16to1_15_2.ServerboundPackets1_16;
+import com.viaversion.viaversion.protocols.v1_15_2to1_16.packet.ServerboundPackets1_16;
+import com.viaversion.nbt.tag.CompoundTag;
+import com.viaversion.nbt.tag.LongArrayTag;
+import com.viaversion.nbt.tag.Tag;
 import com.viaversion.viaversion.rewriter.BlockRewriter;
 import com.viaversion.viaversion.rewriter.ItemRewriter;
 import com.viaversion.viaversion.util.CompactArrayUtil;
-import net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite.ClientboundPackets20w14infinite;
-import net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite.Protocol1_16to20w14infinite;
-import net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite.data.BiomeData20w14infinite;
+import net.raphimc.viaaprilfools.protocol.s20w14infinitetov1_16.packet.ClientboundPackets20w14infinite;
+import net.raphimc.viaaprilfools.protocol.s20w14infinitetov1_16.Protocol20w14infiniteTo1_16;
+import net.raphimc.viaaprilfools.protocol.s20w14infinitetov1_16.data.BiomeData20w14infinite;
 
 import java.util.Map;
 
-public class BlockItemPackets20w14infinite extends ItemRewriter<ClientboundPackets20w14infinite, ServerboundPackets1_16, Protocol1_16to20w14infinite> {
+public class BlockItemPacketRewriter20w14infinite extends ItemRewriter<ClientboundPackets20w14infinite, ServerboundPackets1_16, Protocol20w14infiniteTo1_16> {
 
-    public BlockItemPackets20w14infinite(Protocol1_16to20w14infinite protocol) {
-        super(protocol, Type.ITEM1_13_2, Type.ITEM1_13_2_SHORT_ARRAY);
+    public BlockItemPacketRewriter20w14infinite(Protocol20w14infiniteTo1_16 protocol) {
+        super(protocol, Types.ITEM1_13_2, Types.ITEM1_13_2_SHORT_ARRAY);
     }
 
     @Override
     protected void registerPackets() {
-        this.registerSetCooldown(ClientboundPackets20w14infinite.COOLDOWN);
-        this.registerWindowItems(ClientboundPackets20w14infinite.WINDOW_ITEMS);
-        this.registerSetSlot(ClientboundPackets20w14infinite.SET_SLOT);
-        this.registerTradeList(ClientboundPackets20w14infinite.TRADE_LIST);
-        this.registerAdvancements(ClientboundPackets20w14infinite.ADVANCEMENTS);
-        this.registerSpawnParticle(ClientboundPackets20w14infinite.SPAWN_PARTICLE, Type.DOUBLE);
-        this.registerClickWindow(ServerboundPackets1_16.CLICK_WINDOW);
-        this.registerCreativeInvAction(ServerboundPackets1_16.CREATIVE_INVENTORY_ACTION);
-        final BlockRewriter<ClientboundPackets20w14infinite> blockRewriter = new BlockRewriter<>(this.protocol, Type.POSITION1_14);
-        blockRewriter.registerBlockAction(ClientboundPackets20w14infinite.BLOCK_ACTION);
-        blockRewriter.registerBlockChange(ClientboundPackets20w14infinite.BLOCK_CHANGE);
-        blockRewriter.registerMultiBlockChange(ClientboundPackets20w14infinite.MULTI_BLOCK_CHANGE);
-        blockRewriter.registerAcknowledgePlayerDigging(ClientboundPackets20w14infinite.ACKNOWLEDGE_PLAYER_DIGGING);
-        blockRewriter.registerEffect(ClientboundPackets20w14infinite.EFFECT, 1010, 2001);
+        this.registerCooldown(ClientboundPackets20w14infinite.COOLDOWN);
+        this.registerSetContent(ClientboundPackets20w14infinite.CONTAINER_SET_CONTENT);
+        this.registerSetSlot(ClientboundPackets20w14infinite.CONTAINER_SET_SLOT);
+        this.registerMerchantOffers(ClientboundPackets20w14infinite.MERCHANT_OFFERS);
+        this.registerAdvancements(ClientboundPackets20w14infinite.UPDATE_ADVANCEMENTS);
+        this.registerLevelParticles(ClientboundPackets20w14infinite.LEVEL_PARTICLES, Types.DOUBLE);
+        this.registerContainerClick(ServerboundPackets1_16.CONTAINER_CLICK);
+        this.registerSetCreativeModeSlot(ServerboundPackets1_16.SET_CREATIVE_MODE_SLOT);
+        final BlockRewriter<ClientboundPackets20w14infinite> blockRewriter = BlockRewriter.for1_14(this.protocol);
+        blockRewriter.registerBlockEvent(ClientboundPackets20w14infinite.BLOCK_EVENT);
+        blockRewriter.registerBlockUpdate(ClientboundPackets20w14infinite.BLOCK_UPDATE);
+        blockRewriter.registerChunkBlocksUpdate(ClientboundPackets20w14infinite.CHUNK_BLOCKS_UPDATE);
+        blockRewriter.registerBlockBreakAck(ClientboundPackets20w14infinite.BLOCK_BREAK_ACK);
+        blockRewriter.registerLevelEvent(ClientboundPackets20w14infinite.LEVEL_EVENT, 1010, 2001);
 
-        protocol.registerClientbound(ClientboundPackets20w14infinite.UPDATE_LIGHT, new PacketHandlers() {
+        protocol.registerClientbound(ClientboundPackets20w14infinite.LIGHT_UPDATE, new PacketHandlers() {
             @Override
             public void register() {
-                map(Type.VAR_INT); // x
-                map(Type.VAR_INT); // y
-                handler(wrapper -> wrapper.write(Type.BOOLEAN, true)); // Take neighbour's light into account as well
+                map(Types.VAR_INT); // x
+                map(Types.VAR_INT); // y
+                handler(wrapper -> wrapper.write(Types.BOOLEAN, true)); // Take neighbour's light into account as well
             }
         });
-        protocol.registerClientbound(ClientboundPackets20w14infinite.CHUNK_DATA, new PacketHandlers() {
+        protocol.registerClientbound(ClientboundPackets20w14infinite.LEVEL_CHUNK, new PacketHandlers() {
             @Override
             public void register() {
                 handler(wrapper -> {
@@ -106,15 +106,15 @@ public class BlockItemPackets20w14infinite extends ItemRewriter<ClientboundPacke
                 });
             }
         });
-        protocol.registerClientbound(ClientboundPackets20w14infinite.ENTITY_EQUIPMENT, new PacketHandlers() {
+        protocol.registerClientbound(ClientboundPackets20w14infinite.SET_EQUIPMENT, new PacketHandlers() {
             @Override
             public void register() {
-                map(Type.VAR_INT); // 0 - Entity ID
+                map(Types.VAR_INT); // 0 - Entity ID
 
                 handler(wrapper -> {
-                    int slot = wrapper.read(Type.VAR_INT);
-                    wrapper.write(Type.BYTE, (byte) slot);
-                    handleItemToClient(wrapper.user(), wrapper.passthrough(Type.ITEM1_13_2));
+                    int slot = wrapper.read(Types.VAR_INT);
+                    wrapper.write(Types.BYTE, (byte) slot);
+                    handleItemToClient(wrapper.user(), wrapper.passthrough(Types.ITEM1_13_2));
                 });
             }
         });
@@ -122,7 +122,7 @@ public class BlockItemPackets20w14infinite extends ItemRewriter<ClientboundPacke
         protocol.registerServerbound(ServerboundPackets1_16.EDIT_BOOK, new PacketHandlers() {
             @Override
             public void register() {
-                handler(wrapper -> handleItemToServer(wrapper.user(), wrapper.passthrough(Type.ITEM1_13_2)));
+                handler(wrapper -> handleItemToServer(wrapper.user(), wrapper.passthrough(Types.ITEM1_13_2)));
             }
         });
     }

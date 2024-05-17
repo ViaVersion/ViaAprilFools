@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package net.raphimc.viaaprilfools.protocols.protocol1_14to3D_Shareware.storage;
+package net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.storage;
 
 import com.viaversion.viaversion.api.connection.StorableObject;
 

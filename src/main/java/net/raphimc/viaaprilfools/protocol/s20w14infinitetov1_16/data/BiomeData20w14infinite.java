@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite.data;
+package net.raphimc.viaaprilfools.protocol.s20w14infinitetov1_16.data;
 
 import com.viaversion.viaversion.libs.fastutil.ints.IntArrayList;
 import com.viaversion.viaversion.libs.fastutil.ints.IntList;

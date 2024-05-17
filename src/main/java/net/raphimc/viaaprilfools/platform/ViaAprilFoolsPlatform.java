@@ -23,10 +23,10 @@ import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import net.raphimc.viaaprilfools.ViaAprilFools;
 import net.raphimc.viaaprilfools.ViaAprilFoolsConfig;
 import net.raphimc.viaaprilfools.api.AprilFoolsProtocolVersion;
-import net.raphimc.viaaprilfools.protocols.protocol1_14to3D_Shareware.Protocol1_14to3D_Shareware;
-import net.raphimc.viaaprilfools.protocols.protocol1_16_2toCombatTest8c.Protocol1_16_2toCombatTest8c;
-import net.raphimc.viaaprilfools.protocols.protocol1_16to20w14infinite.Protocol1_16to20w14infinite;
-import net.raphimc.viaaprilfools.protocols.protocol3D_Sharewareto1_14.Protocol3D_Sharewareto1_14;
+import net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.Protocol1_14to3D_Shareware;
+import net.raphimc.viaaprilfools.protocol.scombattest8ctov1_16_2.Protocol1_16_2toCombatTest8c;
+import net.raphimc.viaaprilfools.protocol.s20w14infinitetov1_16.Protocol20w14infiniteTo1_16;
+import net.raphimc.viaaprilfools.protocol.v1_14tos3d_shareware.Protocol3D_Sharewareto1_14;
 
 import java.io.File;
 import java.util.logging.Logger;
@@ -34,7 +34,7 @@ import java.util.logging.Logger;
 public interface ViaAprilFoolsPlatform {
 
     default void init(final File configFile) {
-        final ViaAprilFoolsConfig config = new ViaAprilFoolsConfig(configFile);
+        final ViaAprilFoolsConfig config = new ViaAprilFoolsConfig(configFile, getLogger());
         config.reload();
         ViaAprilFools.init(this, config);
         Via.getManager().getConfigurationProvider().register(config);
@@ -43,7 +43,7 @@ public interface ViaAprilFoolsPlatform {
         final ProtocolManager protocolManager = Via.getManager().getProtocolManager();
         protocolManager.registerProtocol(new Protocol1_14to3D_Shareware(), ProtocolVersion.v1_14, AprilFoolsProtocolVersion.s3d_shareware);
         protocolManager.registerProtocol(new Protocol3D_Sharewareto1_14(), AprilFoolsProtocolVersion.s3d_shareware, ProtocolVersion.v1_14);
-        protocolManager.registerProtocol(new Protocol1_16to20w14infinite(), ProtocolVersion.v1_16, AprilFoolsProtocolVersion.s20w14infinite);
+        protocolManager.registerProtocol(new Protocol20w14infiniteTo1_16(), ProtocolVersion.v1_16, AprilFoolsProtocolVersion.s20w14infinite);
         protocolManager.registerProtocol(new Protocol1_16_2toCombatTest8c(), ProtocolVersion.v1_16_2, AprilFoolsProtocolVersion.sCombatTest8c);
     }
 

@@ -35,14 +35,14 @@ import net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.rewriter.BlockIte
 import net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.rewriter.EntityPacketRewriter3D_Shareware;
 import net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.storage.ChunkCenterTracker3D_Shareware;
 
-public class Protocol1_14to3D_Shareware extends BackwardsProtocol<ClientboundPackets3D_Shareware, ClientboundPackets1_14, ServerboundPackets3D_Shareware, ServerboundPackets1_14> {
+public class Protocol3D_SharewareTo1_14 extends BackwardsProtocol<ClientboundPackets3D_Shareware, ClientboundPackets1_14, ServerboundPackets3D_Shareware, ServerboundPackets1_14> {
 
     public static final BackwardsMappingData MAPPINGS = new AprilFoolsMappingData("3D_Shareware", "1.14", Protocol1_13_2To1_14.class);
     private static final int SERVERSIDE_VIEW_DISTANCE = 64;
 
     private final BlockItemPacketRewriter3D_Shareware blockItemPackets = new BlockItemPacketRewriter3D_Shareware(this);
 
-    public Protocol1_14to3D_Shareware() {
+    public Protocol3D_SharewareTo1_14() {
         super(ClientboundPackets3D_Shareware.class, ClientboundPackets1_14.class, ServerboundPackets3D_Shareware.class, ServerboundPackets1_14.class);
     }
 
@@ -68,7 +68,7 @@ public class Protocol1_14to3D_Shareware extends BackwardsProtocol<ClientboundPac
                 final PacketWrapper fakePosLook = wrapper.create(ClientboundPackets1_14.SET_CHUNK_CACHE_CENTER); // Set center chunk
                 fakePosLook.write(Types.VAR_INT, chunk.getX());
                 fakePosLook.write(Types.VAR_INT, chunk.getZ());
-                fakePosLook.send(Protocol1_14to3D_Shareware.class);
+                fakePosLook.send(Protocol3D_SharewareTo1_14.class);
                 entityTracker.setChunkCenterX(chunk.getX());
                 entityTracker.setChunkCenterZ(chunk.getZ());
             }

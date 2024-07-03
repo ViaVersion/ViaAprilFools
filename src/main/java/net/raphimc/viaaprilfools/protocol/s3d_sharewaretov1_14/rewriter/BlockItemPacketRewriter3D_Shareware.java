@@ -22,11 +22,11 @@ import com.viaversion.viaversion.api.type.Types;
 import com.viaversion.viaversion.protocols.v1_13_2to1_14.packet.ServerboundPackets1_14;
 import com.viaversion.viaversion.rewriter.ItemRewriter;
 import net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.packet.ClientboundPackets3D_Shareware;
-import net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.Protocol1_14to3D_Shareware;
+import net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.Protocol3D_SharewareTo1_14;
 
-public class BlockItemPacketRewriter3D_Shareware extends ItemRewriter<ClientboundPackets3D_Shareware, ServerboundPackets1_14, Protocol1_14to3D_Shareware> {
+public class BlockItemPacketRewriter3D_Shareware extends ItemRewriter<ClientboundPackets3D_Shareware, ServerboundPackets1_14, Protocol3D_SharewareTo1_14> {
 
-    public BlockItemPacketRewriter3D_Shareware(Protocol1_14to3D_Shareware protocol) {
+    public BlockItemPacketRewriter3D_Shareware(Protocol3D_SharewareTo1_14 protocol) {
         super(protocol, Types.ITEM1_13_2, Types.ITEM1_13_2_SHORT_ARRAY);
     }
 

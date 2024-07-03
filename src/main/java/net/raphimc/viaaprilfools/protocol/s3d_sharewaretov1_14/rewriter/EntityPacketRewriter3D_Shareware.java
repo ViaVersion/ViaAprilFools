@@ -24,13 +24,13 @@ import com.viaversion.viaversion.api.rewriter.RewriterBase;
 import com.viaversion.viaversion.api.type.Types;
 import com.viaversion.viaversion.api.type.types.version.Types1_14;
 import net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.packet.ClientboundPackets3D_Shareware;
-import net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.Protocol1_14to3D_Shareware;
+import net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.Protocol3D_SharewareTo1_14;
 
 import java.util.List;
 
-public class EntityPacketRewriter3D_Shareware extends RewriterBase<Protocol1_14to3D_Shareware> {
+public class EntityPacketRewriter3D_Shareware extends RewriterBase<Protocol3D_SharewareTo1_14> {
 
-    public EntityPacketRewriter3D_Shareware(Protocol1_14to3D_Shareware protocol) {
+    public EntityPacketRewriter3D_Shareware(Protocol3D_SharewareTo1_14 protocol) {
         super(protocol);
     }
 

@@ -29,7 +29,6 @@ import com.viaversion.viaversion.protocols.v1_15_2to1_16.data.DimensionRegistrie
 import com.viaversion.viaversion.protocols.v1_15_2to1_16.packet.ClientboundPackets1_16;
 import com.viaversion.viaversion.rewriter.EntityRewriter;
 import com.viaversion.viaversion.util.Key;
-import net.raphimc.viaaprilfools.ViaAprilFools;
 import net.raphimc.viaaprilfools.protocol.s20w14infinitetov1_16.packet.ClientboundPackets20w14infinite;
 import net.raphimc.viaaprilfools.protocol.s20w14infinitetov1_16.Protocol20w14infiniteTo1_16;
 
@@ -138,8 +137,8 @@ public class EntityPacketRewriter20w14infinite extends EntityRewriter<Clientboun
                 if (attributeIdentifier == null) {
                     attributeIdentifier = "minecraft:" + key;
                     if (!Key.isValid(attributeIdentifier)) {
-                        if (!Via.getConfig().isSuppressConversionWarnings() || Via.getManager().isDebug()) {
-                            ViaAprilFools.getPlatform().getLogger().warning("Invalid attribute: " + key);
+                        if (!Via.getConfig().isSuppressConversionWarnings()) {
+                            protocol.getLogger().warning("Invalid attribute: " + key);
                         }
                         actualSize--;
                         wrapper.read(Types.DOUBLE);
@@ -172,12 +171,7 @@ public class EntityPacketRewriter20w14infinite extends EntityRewriter<Clientboun
     @Override
     protected void registerRewrites() {
         registerEntityDataTypeHandler(Types1_14.ENTITY_DATA_TYPES.itemType, Types1_14.ENTITY_DATA_TYPES.optionalBlockStateType, Types1_14.ENTITY_DATA_TYPES.particleType);
-
-        filter().type(EntityTypes1_16.ABSTRACT_MINECART).index(10).handler((event, meta) -> {
-            // Convert to new block id
-            int data = (int) meta.getValue();
-            meta.setValue(protocol.getMappingData().getNewBlockStateId(data));
-        });
+        registerBlockStateHandler(EntityTypes1_16.ABSTRACT_MINECART, 10);
 
         filter().type(EntityTypes1_16.ABSTRACT_ARROW).removeIndex(8);
     }

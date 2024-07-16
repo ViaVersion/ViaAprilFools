@@ -20,9 +20,11 @@ package net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14;
 import com.viaversion.viabackwards.api.BackwardsProtocol;
 import com.viaversion.viabackwards.api.data.BackwardsMappingData;
 import com.viaversion.viabackwards.api.rewriters.SoundRewriter;
+import com.viaversion.viaversion.api.Via;
 import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.minecraft.chunks.Chunk;
 import com.viaversion.viaversion.api.protocol.packet.PacketWrapper;
+import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import com.viaversion.viaversion.api.type.Types;
 import com.viaversion.viaversion.api.type.types.chunk.ChunkType1_14;
 import com.viaversion.viaversion.protocols.v1_13_2to1_14.Protocol1_13_2To1_14;
@@ -82,6 +84,7 @@ public class Protocol3D_SharewareTo1_14 extends BackwardsProtocol<ClientboundPac
     @Override
     public void init(UserConnection userConnection) {
         userConnection.put(new ChunkCenterTracker3D_Shareware());
+        userConnection.getProtocolInfo().getPipeline().add(Via.getManager().getProtocolManager().getBaseProtocol(ProtocolVersion.v1_14));
     }
 
     @Override

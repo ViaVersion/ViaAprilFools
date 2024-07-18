@@ -20,6 +20,7 @@ package net.raphimc.viaaprilfools;
 import com.viaversion.viaversion.util.Config;
 
 import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.Collections;
 import java.util.List;
@@ -44,6 +45,11 @@ public class ViaAprilFoolsConfig extends Config implements net.raphimc.viaaprilf
     @Override
     public URL getDefaultConfigURL() {
         return this.getClass().getClassLoader().getResource("assets/viaaprilfools/viaaprilfools.yml");
+    }
+
+    @Override
+    public InputStream getDefaultConfigInputStream() {
+        return getClass().getClassLoader().getResourceAsStream("assets/viaaprilfools/viaaprilfools.yml");
     }
 
     @Override

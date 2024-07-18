@@ -50,7 +50,7 @@ public class ProtocolCombatTest8cTo1_16_2 extends AbstractProtocol<ClientboundPa
 
     @Override
     public void init(UserConnection userConnection) {
-        userConnection.getProtocolInfo().getPipeline().add(Via.getManager().getProtocolManager().getBaseProtocol(ProtocolVersion.v1_16));
+        userConnection.getProtocolInfo().getPipeline().add(Via.getManager().getProtocolManager().getBaseProtocol(ProtocolVersion.v1_16_2));
     }
 
 }

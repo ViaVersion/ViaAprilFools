@@ -14,11 +14,11 @@ If you just want to use ViaAprilFools yourself you can check out some projects w
 
 ### Added Client protocols
 - 3D Shareware
+- Combat Test 8c
 
 ### Projects implementing ViaAprilFools
  - [ViaProxy](https://github.com/ViaVersion/ViaProxy): Standalone proxy which uses ViaVersion to translate between Minecraft versions. Allows Minecraft 1.7+ clients to join to any version server.
  - [ViaFabricPlus](https://github.com/ViaVersion/ViaFabricPlus): Fabric mod for the latest Minecraft version with QoL fixes and enhancements to the gameplay.
- - [ViaAprilFoolsPaper](https://github.com/malloryhayr/ViaAprilFoolsPaper): Paper platform implementation for ViaAprilFools. Allows the list of above client versions to join your server.
 
 ## Releases
 ### Gradle/Maven

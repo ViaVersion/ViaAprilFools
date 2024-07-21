@@ -9,4 +9,18 @@ plugins {
     id "org.gradle.toolchains.foojay-resolver-convention" version "0.8.0"
 }
 
-rootProject.name = "ViaAprilFools"
+rootProject.name = "viaaprilfools"
+
+includeBuild("build-logic")
+
+setupViaSubproject("common")
+setupViaSubproject("bukkit")
+setupViaSubproject("fabric")
+setupViaSubproject("velocity")
+
+void setupViaSubproject(String name) {
+    var pName = "viaaprilfools-" + name
+
+    include pName
+    project(":" + pName).projectDir = file(name)
+}

@@ -1,0 +1,14 @@
+plugins {
+    id "vaf.platform-conventions"
+}
+
+dependencies {
+    compileOnly(annotationProcessor("net.fabricmc:fabric-loader:0.11.3"))
+    compileOnly(annotationProcessor("org.apache.logging.log4j:log4j-api:2.17.1"))
+}
+
+processResources {
+    filesMatching("fabric.mod.json") {
+        expand("version": project.version, "description": project.description)
+    }
+}

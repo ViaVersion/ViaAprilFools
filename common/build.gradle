@@ -1,0 +1,29 @@
+plugins {
+    id "vaf.base-conventions"
+
+    id "net.raphimc.class-token-replacer" version "1.1.2"
+}
+
+dependencies {
+    compileOnly "org.yaml:snakeyaml:2.2"
+    compileOnly "com.google.guava:guava:33.2.1-jre"
+    compileOnly "io.netty:netty-handler:4.1.111.Final"
+}
+
+sourceSets {
+    main {
+        classTokenReplacer {
+            property("\${version}", project.version)
+            property("\${impl_version}", "git-${rootProject.name}-${project.version}:${project.latestCommitHash()}")
+        }
+    }
+}
+
+String latestCommitHash() {
+    def stdout = new ByteArrayOutputStream()
+    exec {
+        commandLine "git", "rev-parse", "--short", "HEAD"
+        standardOutput = stdout
+    }
+    return stdout.toString().trim()
+}

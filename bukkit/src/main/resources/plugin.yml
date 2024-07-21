@@ -1,0 +1,10 @@
+name: ViaAprilFools
+main: net.raphimc.viaaprilfools.BukkitPlugin
+authors: [RK_01, FlorianMichael/EnZaXD]
+version: ${version}
+description: ${description}
+website: https://viaversion.com/aprilfools
+api-version: 1.13
+folia-supported: true
+load: STARTUP
+depend: [ViaVersion, ViaBackwards]

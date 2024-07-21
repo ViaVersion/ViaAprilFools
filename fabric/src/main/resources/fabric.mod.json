@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "viaaprilfools",
+  "name": "ViaAprilFools",
+  "version": "${version}",
+  "description": "${description}",
+  "license": "GPL-3.0",
+  "contact": {
+    "homepage": "https://viaversion.com/aprilfools",
+    "issues": "https://github.com/ViaVersion/ViaAprilFools/issues",
+    "sources": "https://github.com/ViaVersion/ViaAprilFools"
+  },
+  "icon": "assets/viaaprilfools/textures/icon.png",
+  "environment": "*",
+  "authors": [
+    "RK_01",
+    "FlorianMichael/EnZaXD"
+  ],
+  "entrypoints": {
+    "viafabric:via_api_initialized": [
+      "net.raphimc.viaaprilfools.ViaFabricAddon"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.14.0",
+    "viafabric": ">=0.4.10",
+    "viabackwards": ">=5.0.0"
+  },
+  "custom": {
+    "modmenu:api": true,
+    "modmenu": {
+      "badges": [ "library" ],
+      "parent": "viafabric"
+    }
+  }
+}

@@ -1,96 +1,47 @@
 plugins {
-    id "java-library"
-    id "maven-publish"
-    id "idea"
-    id "net.raphimc.class-token-replacer" version "1.1.2"
+    id "vaf.base-conventions"
+
+    id "io.papermc.hangar-publish-plugin" version "0.1.2"
+    id "com.modrinth.minotaur" version "2.+"
 }
 
 base {
-    java.toolchain.languageVersion = JavaLanguageVersion.of(17)
-    compileJava.options.encoding = compileTestJava.options.encoding = javadoc.options.encoding = "UTF-8"
-
-    group = project.maven_group ?: rootProject.maven_group
-    archivesName = project.maven_name ?: rootProject.maven_name
-    version = project.maven_version ?: rootProject.maven_version
+    archivesName = "ViaAprilFools"
 }
 
-repositories {
-    mavenCentral()
-    maven {
-        name = "ViaVersion"
-        url "https://repo.viaversion.com"
-    }
+configurations {
+    publishInclude
 }
 
 dependencies {
-    compileOnly "com.viaversion:viaversion-common:5.0.0"
-    compileOnly "com.viaversion:viabackwards-common:5.0.0"
-    compileOnly "org.yaml:snakeyaml:2.2"
-    compileOnly "com.google.guava:guava:33.2.1-jre"
-    compileOnly "io.netty:netty-handler:4.1.111.Final"
-}
-
-sourceSets {
-    main {
-        classTokenReplacer {
-            property("\${version}", project.version)
-            property("\${impl_version}", "git-${project.name}-${project.version}:${project.latestCommitHash()}")
-        }
-    }
+    publishInclude project(":viaaprilfools-common")
+    publishInclude project(":viaaprilfools-bukkit")
+    publishInclude project(":viaaprilfools-fabric")
+    publishInclude project(":viaaprilfools-velocity")
 }
 
 java {
     withSourcesJar()
+    withJavadocJar()
 }
 
 jar {
+    dependsOn configurations.publishInclude
+    from {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        configurations.publishInclude.collect {
+            zipTree(it)
+        }
+    } {
+        exclude "META-INF/*.RSA", "META-INF/*.SF", "META-INF/*.DSA"
+    }
+    manifest {
+        attributes(
+                "paperweight-mappings-namespace": "mojang"
+        )
+    }
     from("LICENSE") {
         rename { "${it}_${project.name ?: rootProject.name}" }
-    }
-}
-
-publishing {
-    repositories {
-        maven {
-            name = "Via"
-            url = "https://repo.viaversion.com/"
-
-            credentials(PasswordCredentials)
-            authentication {
-                basic(BasicAuthentication)
-            }
-        }
-    }
-    publications {
-        maven(MavenPublication) {
-            groupId = project.maven_group
-            artifactId = project.maven_name
-            version = project.maven_version
-
-            from components.java
-
-            pom {
-                name = "ViaAprilFools"
-                description = "ViaVersion addon to add support for some notable Minecraft snapshots"
-                url = "https://github.com/ViaVersion/ViaAprilFools"
-                licenses {
-                    license {
-                        name = "GPL-3.0 License"
-                        url = "https://github.com/ViaVersion/ViaAprilFools/blob/main/LICENSE"
-                    }
-                }
-                developers {
-                    developer {
-                        id = "RK_01"
-                    }
-                }
-                scm {
-                    connection = "scm:git:git://github.com/ViaVersion/ViaAprilFools.git"
-                    developerConnection = "scm:git:ssh://github.com/ViaVersion/ViaAprilFools.git"
-                    url = "https://github.com/ViaVersion/ViaAprilFools.git"
-                }
-            }
-        }
     }
 }
 
@@ -102,11 +53,102 @@ idea {
     }
 }
 
-String latestCommitHash() {
-    def stdout = new ByteArrayOutputStream()
+// -----------------------------------------------------
+// Publishing
+
+def latestCommitHash() {
+    def byteOut = new ByteArrayOutputStream()
     exec {
-        commandLine "git", "rev-parse", "--short", "HEAD"
-        standardOutput = stdout
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+        standardOutput = byteOut
     }
-    return stdout.toString().trim()
+    return byteOut.toString('UTF-8').trim()
+}
+
+def latestCommitMessage() {
+    def byteOut = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'log', '-1', '--pretty=%B'
+        standardOutput = byteOut
+    }
+    return byteOut.toString('UTF-8').trim()
+}
+
+def branchName() {
+    def byteOut = new ByteArrayOutputStream()
+    exec {
+        commandLine 'git', 'rev-parse', '--abbrev-ref', 'HEAD'
+        standardOutput = byteOut
+    }
+    return byteOut.toString('UTF-8').trim()
+}
+
+def branch = branchName()
+def baseVersion = project.maven_version
+def isRelease = !baseVersion.contains('-')
+if (!isRelease) { // Only publish releases from the main branch
+    def suffixedVersion = isRelease ? baseVersion : baseVersion + "+" + System.getenv("GITHUB_RUN_NUMBER")
+    def commitHash = latestCommitHash()
+    def changelogContent = "[${commitHash}](https://github.com/ViaVersion/ViaAprilFools/commit/${commitHash}) ${latestCommitMessage()}"
+    modrinth {
+        def mcVersions = project.mcVersions
+                .split(',')
+                .collect { it.trim() }
+
+        token.set(System.getenv("MODRINTH_TOKEN"))
+        projectId.set("viaaprilfools")
+        versionType.set(isRelease ? "release" : "beta")
+        versionNumber.set(suffixedVersion)
+        versionName.set(suffixedVersion)
+        changelog.set(changelogContent)
+        uploadFile.set(jar.archiveFile)
+        gameVersions.set(mcVersions)
+        loaders.add("fabric")
+        loaders.add("paper")
+        loaders.add("folia")
+        loaders.add("velocity")
+        autoAddDependsOn.set(false)
+        detectLoaders.set(false)
+        dependencies {
+            required.project("viaversion")
+            required.project("viabackwards")
+            optional.project("viafabric")
+        }
+    }
+
+    hangarPublish {
+        publications.register("plugin") {
+            version = suffixedVersion
+            id = "ViaAprilFools"
+            channel = isRelease ? "Release" : "Snapshot"
+            changelog = changelogContent
+            apiKey = System.getenv("HANGAR_TOKEN")
+            platforms {
+                PAPER {
+                    jar = project.jar.archiveFile
+                    platformVersions = [property('mcVersionRange') as String]
+                    dependencies {
+                        hangar("ViaVersion") {
+                            required = true
+                        }
+                        hangar("ViaBackwards") {
+                            required = true
+                        }
+                    }
+                }
+                VELOCITY {
+                    jar = project.jar.archiveFile
+                    platformVersions = [property("velocityVersion") as String]
+                    dependencies {
+                        hangar("ViaVersion") {
+                            required = true
+                        }
+                        hangar("ViaBackwards") {
+                            required = true
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

@@ -1,0 +1,13 @@
+plugins {
+    id "vaf.platform-conventions"
+}
+
+dependencies {
+    compileOnly(annotationProcessor("org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT"))
+}
+
+processResources {
+    filesMatching("plugin.yml") {
+        expand("version": project.version, "description": project.description)
+    }
+}

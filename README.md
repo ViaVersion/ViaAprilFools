@@ -91,6 +91,20 @@ Via.getManager().addEnableListener(ViaAprilFoolsPlatformImpl::new);
 ```
 Make sure to add the enable listener before the Via manager is initialized (``((ViaManagerImpl) Via.getManager()).init();``).
 
+#### Note
+If you want your platform to support the client protocols, you need the override the ``getClientProtocol`` function in your version provider:
+```java
+@Override
+public ProtocolVersion getClientProtocol(UserConnection connection) {
+    final ProtocolVersion version = connection.getProtocolInfo().protocolVersion();
+    if (version.getVersionType() == VersionType.SPECIAL) {
+        return ProtocolVersion.getProtocol(VersionType.SPECIAL, version.getOriginalVersion());
+    } else {
+        return delegate.getClientProtocol(connection);
+    }
+}
+```
+
 ## Contact
 If you encounter any issues, please report them on the
 [issue tracker](https://github.com/ViaVersion/ViaAprilFools/issues).  

@@ -25,7 +25,11 @@ import com.velocitypowered.api.plugin.Dependency;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.viaversion.viaversion.api.Via;
+import com.viaversion.viaversion.api.ViaManager;
+import com.viaversion.viaversion.api.protocol.version.VersionProvider;
+import com.viaversion.viaversion.velocity.providers.VelocityVersionProvider;
 import com.viaversion.viaversion.velocity.util.LoggerWrapper;
+import net.raphimc.viaaprilfools.api.VAFServerVersionProvider;
 import net.raphimc.viaaprilfools.platform.ViaAprilFoolsPlatform;
 
 import java.io.File;
@@ -57,7 +61,13 @@ public class VelocityPlugin implements ViaAprilFoolsPlatform {
     @Subscribe(order = PostOrder.LATE)
     public void onProxyStart(ProxyInitializeEvent e) {
         this.logger = new LoggerWrapper(loggerSlf4j);
-        Via.getManager().addEnableListener(() -> this.init(new File(getDataFolder(), "config.yml")));
+        final ViaManager manager = Via.getManager();
+
+        manager.addEnableListener(() -> {
+            this.init(new File(getDataFolder(), "config.yml"));
+
+            manager.getProviders().use(VersionProvider.class, new VAFServerVersionProvider(new VelocityVersionProvider()));
+        });
     }
 
     @Override

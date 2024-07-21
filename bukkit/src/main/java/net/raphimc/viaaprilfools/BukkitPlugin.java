@@ -18,6 +18,9 @@
 package net.raphimc.viaaprilfools;
 
 import com.viaversion.viaversion.api.Via;
+import com.viaversion.viaversion.api.ViaManager;
+import com.viaversion.viaversion.api.protocol.version.VersionProvider;
+import net.raphimc.viaaprilfools.api.VAFServerVersionProvider;
 import net.raphimc.viaaprilfools.platform.ViaAprilFoolsPlatform;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -26,7 +29,14 @@ import java.io.File;
 public class BukkitPlugin extends JavaPlugin implements ViaAprilFoolsPlatform {
 
     public BukkitPlugin() {
-        Via.getManager().addEnableListener(() -> this.init(new File(getDataFolder(), "config.yml")));
+        final ViaManager manager = Via.getManager();
+
+        manager.addEnableListener(() -> {
+            final VersionProvider delegate = manager.getProviders().get(VersionProvider.class);
+            manager.getProviders().use(VersionProvider.class, new VAFServerVersionProvider(delegate));
+
+            this.init(new File(getDataFolder(), "config.yml"));
+        });
     }
 
 }

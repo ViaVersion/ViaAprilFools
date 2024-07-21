@@ -28,7 +28,7 @@ import java.util.logging.Logger;
 
 public class ViaFabricAddon implements ViaAprilFoolsPlatform, Runnable {
 
-    private final Logger logger = new LoggerWrapper(LogManager.getLogger("ViaRewind"));
+    private final Logger logger = new LoggerWrapper(LogManager.getLogger("ViaAprilFools"));
     private File configDir;
 
     @Override

@@ -1,6 +1,6 @@
 /*
- * This file is part of ViaRewind - https://github.com/ViaVersion/ViaRewind
- * Copyright (C) 2018-2024 ViaVersion and contributors
+ * This file is part of ViaAprilFools - https://github.com/RaphiMC/ViaAprilFools
+ * Copyright (C) 2021-2024 RK_01/RaphiMC and contributors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

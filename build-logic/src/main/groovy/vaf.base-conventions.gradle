@@ -10,29 +10,15 @@ repositories {
         name = "ViaVersion"
         url "https://repo.viaversion.com"
     }
-    maven {
-        name = "SpigotMC"
-        url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
-    }
-    maven {
-        name = "SpongePowered"
-        url "https://repo.spongepowered.org/repository/maven-public/"
-    }
-    maven {
-        name = "VelocityPowered"
-        url "https://nexus.velocitypowered.com/repository/maven-public/"
-    }
 }
 
 base {
     java.toolchain.languageVersion = JavaLanguageVersion.of(17)
     compileJava.options.encoding = compileTestJava.options.encoding = javadoc.options.encoding = "UTF-8"
 
-    archivesName = project.name
     group = rootProject.maven_group
     version = rootProject.maven_version
-
-    description = "ViaVersion addon to add support for some notable Minecraft snapshots"
+    description = rootProject.maven_description
 }
 
 dependencies {
@@ -75,7 +61,9 @@ publishing {
                         id = "RK_01"
                     }
                     developer {
-                        id = "FlorianMichael/EnZaXD"
+                        id = "FlorianMichael"
+                        name = "EnZaXD"
+                        email = "florian.michael07@gmail.com"
                     }
                 }
                 scm {

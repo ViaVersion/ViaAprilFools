@@ -14,16 +14,7 @@ sourceSets {
     main {
         classTokenReplacer {
             property("\${version}", project.version)
-            property("\${impl_version}", "git-${rootProject.name}-${project.version}:${project.latestCommitHash()}")
+            property("\${impl_version}", "git-${rootProject.name}-${project.version}:${rootProject.latestCommitHash()}")
         }
     }
-}
-
-String latestCommitHash() {
-    def stdout = new ByteArrayOutputStream()
-    exec {
-        commandLine "git", "rev-parse", "--short", "HEAD"
-        standardOutput = stdout
-    }
-    return stdout.toString().trim()
 }

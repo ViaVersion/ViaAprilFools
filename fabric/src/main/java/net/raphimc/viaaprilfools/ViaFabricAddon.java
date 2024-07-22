@@ -42,9 +42,10 @@ public class ViaFabricAddon implements ViaAprilFoolsPlatform, Runnable {
         this.init(new File(getDataFolder(), "config.yml"));
 
         final ViaManager manager = Via.getManager();
-
-        final VersionProvider delegate = manager.getProviders().get(VersionProvider.class);
-        manager.getProviders().use(VersionProvider.class, new VAFServerVersionProvider(delegate));
+        manager.addPostEnableListener(() -> {
+            final VersionProvider delegate = manager.getProviders().get(VersionProvider.class);
+            manager.getProviders().use(VersionProvider.class, new VAFServerVersionProvider(delegate));
+        });
     }
 
     @Override

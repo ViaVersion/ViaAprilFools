@@ -63,10 +63,10 @@ public class VelocityPlugin implements ViaAprilFoolsPlatform {
         this.logger = new LoggerWrapper(loggerSlf4j);
         final ViaManager manager = Via.getManager();
 
-        manager.addEnableListener(() -> {
-            this.init(new File(getDataFolder(), "config.yml"));
-
-            manager.getProviders().use(VersionProvider.class, new VAFServerVersionProvider(new VelocityVersionProvider()));
+        manager.addEnableListener(() -> this.init(new File(getDataFolder(), "config.yml")));
+        manager.addPostEnableListener(() -> {
+            final VersionProvider delegate = manager.getProviders().get(VersionProvider.class);
+            manager.getProviders().use(VersionProvider.class, new VAFServerVersionProvider(delegate));
         });
     }
 

@@ -32,10 +32,10 @@ public class BukkitPlugin extends JavaPlugin implements ViaAprilFoolsPlatform {
         final ViaManager manager = Via.getManager();
 
         manager.addEnableListener(() -> {
+            this.init(new File(getDataFolder(), "config.yml"));
+
             final VersionProvider delegate = manager.getProviders().get(VersionProvider.class);
             manager.getProviders().use(VersionProvider.class, new VAFServerVersionProvider(delegate));
-
-            this.init(new File(getDataFolder(), "config.yml"));
         });
     }
 

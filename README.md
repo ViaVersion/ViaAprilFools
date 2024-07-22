@@ -100,7 +100,7 @@ public ProtocolVersion getClientProtocol(UserConnection connection) {
     if (version.getVersionType() == VersionType.SPECIAL) {
         return ProtocolVersion.getProtocol(VersionType.SPECIAL, version.getOriginalVersion());
     } else {
-        return delegate.getClientProtocol(connection);
+        return super.getClientProtocol(connection);
     }
 }
 ```

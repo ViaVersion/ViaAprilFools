@@ -27,7 +27,6 @@ import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.viaversion.viaversion.api.Via;
 import com.viaversion.viaversion.api.ViaManager;
 import com.viaversion.viaversion.api.protocol.version.VersionProvider;
-import com.viaversion.viaversion.velocity.providers.VelocityVersionProvider;
 import com.viaversion.viaversion.velocity.util.LoggerWrapper;
 import net.raphimc.viaaprilfools.api.VAFServerVersionProvider;
 import net.raphimc.viaaprilfools.platform.ViaAprilFoolsPlatform;

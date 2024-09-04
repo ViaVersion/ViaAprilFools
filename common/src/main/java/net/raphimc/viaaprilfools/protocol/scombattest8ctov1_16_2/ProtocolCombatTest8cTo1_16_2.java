@@ -17,11 +17,8 @@
  */
 package net.raphimc.viaaprilfools.protocol.scombattest8ctov1_16_2;
 
-import com.viaversion.viaversion.api.Via;
-import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.protocol.AbstractProtocol;
 import com.viaversion.viaversion.api.protocol.remapper.PacketHandlers;
-import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import com.viaversion.viaversion.api.type.Types;
 import com.viaversion.viaversion.protocols.v1_16_1to1_16_2.packet.ClientboundPackets1_16_2;
 import com.viaversion.viaversion.protocols.v1_16_1to1_16_2.packet.ServerboundPackets1_16_2;
@@ -46,11 +43,6 @@ public class ProtocolCombatTest8cTo1_16_2 extends AbstractProtocol<ClientboundPa
                 create(Types.BOOLEAN, false); //useShieldOnCrouch
             }
         });
-    }
-
-    @Override
-    public void init(UserConnection userConnection) {
-        userConnection.getProtocolInfo().getPipeline().add(Via.getManager().getProtocolManager().getBaseProtocol(ProtocolVersion.v1_16_2));
     }
 
 }

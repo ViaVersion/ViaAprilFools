@@ -5,7 +5,7 @@ plugins {
 repositories {
     maven {
         name = "VelocityPowered"
-        url "https://nexus.velocitypowered.com/repository/maven-public/"
+        url = "https://nexus.velocitypowered.com/repository/maven-public/"
     }
 }
 

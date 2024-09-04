@@ -5,11 +5,11 @@ plugins {
 repositories {
     maven {
         name = "SpigotMC"
-        url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
+        url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
     }
     maven {
         name = "SpongePowered"
-        url "https://repo.spongepowered.org/repository/maven-public/"
+        url = "https://repo.spongepowered.org/repository/maven-public/"
     }
 }
 

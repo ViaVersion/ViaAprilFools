@@ -91,6 +91,8 @@ public class EntityPacketRewriter20w14infinite extends EntityRewriter<Clientboun
                 map(Types.LONG); // Seed
                 map(Types.UNSIGNED_BYTE); // Gamemode
                 handler(wrapper -> {
+                    tracker(wrapper.user()).clearEntities();
+
                     wrapper.write(Types.BYTE, (byte) -1); // Previous gamemode, set to none
 
                     final String levelType = wrapper.read(Types.STRING);
@@ -113,9 +115,8 @@ public class EntityPacketRewriter20w14infinite extends EntityRewriter<Clientboun
                 handler(DIMENSION_HANDLER); // Dimension
                 map(Types.LONG); // Seed
                 map(Types.UNSIGNED_BYTE); // Max players
+                handler(playerTrackerHandler());
                 handler(wrapper -> {
-                    wrapper.user().getEntityTracker(Protocol20w14infiniteTo1_16.class).addEntity(wrapper.get(Types.INT, 0), EntityTypes1_16.PLAYER);
-
                     final String type = wrapper.read(Types.STRING);// level type
                     wrapper.passthrough(Types.VAR_INT); // View distance
                     wrapper.passthrough(Types.BOOLEAN); // Reduced debug info

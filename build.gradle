@@ -17,6 +17,7 @@ dependencies {
     publishInclude project(":viaaprilfools-common")
     publishInclude project(":viaaprilfools-bukkit")
     publishInclude project(":viaaprilfools-fabric")
+    publishInclude project(":viaaprilfools-sponge")
     publishInclude project(":viaaprilfools-velocity")
 }
 

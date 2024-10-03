@@ -1,0 +1,51 @@
+{
+  "loader": {
+    "name": "java_plain",
+    "version": "1.0"
+  },
+  "license": "GNU GPLv3",
+  "global": {
+    "version": "${version}",
+    "links": {
+      "homepage": "https://viaversion.com/aprilfools",
+      "source": "https://github.com/ViaVersion/ViaAprilFools",
+      "issues": "https://github.com/ViaVersion/ViaprilFools/issues"
+    },
+    "contributors": [
+      {
+        "name": "RK_01",
+        "description": "Author"
+      },
+      {
+        "name": "FlorianMichael/EnZaXD",
+        "description": "Maintainer"
+      }
+    ],
+    "dependencies": [
+      {
+        "id": "spongeapi",
+        "version": "8.0.0"
+      },
+      {
+        "id": "viasponge",
+        "version": "1.1.0"
+      },
+      {
+        "id": "viaversion",
+        "version": "[5.0.4-SNAPSHOT,)"
+      },
+      {
+        "id": "viabackwards",
+        "version": "[5.0.4-SNAPSHOT,)"
+      }
+    ]
+  },
+  "plugins": [
+    {
+      "id": "viaaprilfools",
+      "name": "ViaAprilFools",
+      "entrypoint": "com.viaversion.sponge.util.DummyEntrypoint",
+      "description": "${description}"
+    }
+  ]
+}

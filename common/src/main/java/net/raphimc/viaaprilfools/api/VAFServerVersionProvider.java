@@ -33,7 +33,7 @@ public class VAFServerVersionProvider implements VersionProvider {
     @Override
     public ProtocolVersion getClientProtocol(UserConnection connection) {
         final ProtocolVersion version = connection.getProtocolInfo().protocolVersion();
-        if (version.getVersionType() == VersionType.SPECIAL) {
+        if (!version.isKnown()) {
             return ProtocolVersion.getProtocol(VersionType.SPECIAL, version.getOriginalVersion());
         } else {
             return delegate.getClientProtocol(connection);

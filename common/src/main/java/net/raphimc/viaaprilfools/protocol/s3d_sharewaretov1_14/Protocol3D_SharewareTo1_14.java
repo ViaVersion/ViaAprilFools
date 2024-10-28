@@ -35,14 +35,13 @@ import net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.packet.Serverboun
 import net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.rewriter.BlockItemPacketRewriter3D_Shareware;
 import net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.rewriter.EntityPacketRewriter3D_Shareware;
 import net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.storage.ChunkCenterTracker3D_Shareware;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class Protocol3D_SharewareTo1_14 extends BackwardsProtocol<ClientboundPackets3D_Shareware, ClientboundPackets1_14, ServerboundPackets3D_Shareware, ServerboundPackets1_14> {
 
     public static final BackwardsMappingData MAPPINGS = new AprilFoolsMappingData("3D_Shareware", "1.14", Protocol1_13_2To1_14.class);
     private static final int SERVERSIDE_VIEW_DISTANCE = 64;
 
-    private final BlockItemPacketRewriter3D_Shareware blockItemPackets = new BlockItemPacketRewriter3D_Shareware(this);
+    private final BlockItemPacketRewriter3D_Shareware itemRewriter = new BlockItemPacketRewriter3D_Shareware(this);
     private final ParticleRewriter<ClientboundPackets3D_Shareware> particleRewriter = new ParticleRewriter<>(this);
 
     public Protocol3D_SharewareTo1_14() {
@@ -96,7 +95,7 @@ public class Protocol3D_SharewareTo1_14 extends BackwardsProtocol<ClientboundPac
 
     @Override
     public BlockItemPacketRewriter3D_Shareware getItemRewriter() {
-        return this.blockItemPackets;
+        return this.itemRewriter;
     }
 
     @Override

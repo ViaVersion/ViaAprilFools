@@ -104,6 +104,7 @@ public ProtocolVersion getClientProtocol(UserConnection connection) {
     }
 }
 ```
+There is also a ``VAFServerVersionProvider`` which can act as wrapper class instead.
 
 ## Contact
 If you encounter any issues, please report them on the

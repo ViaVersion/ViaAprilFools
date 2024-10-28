@@ -51,7 +51,6 @@ public class BlockItemPacketRewriter20w14infinite extends ItemRewriter<Clientbou
         this.registerSetSlot(ClientboundPackets20w14infinite.CONTAINER_SET_SLOT);
         this.registerMerchantOffers(ClientboundPackets20w14infinite.MERCHANT_OFFERS);
         this.registerAdvancements(ClientboundPackets20w14infinite.UPDATE_ADVANCEMENTS);
-        this.registerLevelParticles(ClientboundPackets20w14infinite.LEVEL_PARTICLES, Types.DOUBLE);
         this.registerContainerClick(ServerboundPackets1_16.CONTAINER_CLICK);
         this.registerSetCreativeModeSlot(ServerboundPackets1_16.SET_CREATIVE_MODE_SLOT);
         final BlockRewriter<ClientboundPackets20w14infinite> blockRewriter = BlockRewriter.for1_14(this.protocol);

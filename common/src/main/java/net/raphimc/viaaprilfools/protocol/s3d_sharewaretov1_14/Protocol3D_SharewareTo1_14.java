@@ -28,12 +28,14 @@ import com.viaversion.viaversion.api.type.types.chunk.ChunkType1_14;
 import com.viaversion.viaversion.protocols.v1_13_2to1_14.Protocol1_13_2To1_14;
 import com.viaversion.viaversion.protocols.v1_13_2to1_14.packet.ClientboundPackets1_14;
 import com.viaversion.viaversion.protocols.v1_13_2to1_14.packet.ServerboundPackets1_14;
+import com.viaversion.viaversion.rewriter.ParticleRewriter;
 import net.raphimc.viaaprilfools.api.data.AprilFoolsMappingData;
 import net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.packet.ClientboundPackets3D_Shareware;
 import net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.packet.ServerboundPackets3D_Shareware;
 import net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.rewriter.BlockItemPacketRewriter3D_Shareware;
 import net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.rewriter.EntityPacketRewriter3D_Shareware;
 import net.raphimc.viaaprilfools.protocol.s3d_sharewaretov1_14.storage.ChunkCenterTracker3D_Shareware;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class Protocol3D_SharewareTo1_14 extends BackwardsProtocol<ClientboundPackets3D_Shareware, ClientboundPackets1_14, ServerboundPackets3D_Shareware, ServerboundPackets1_14> {
 
@@ -41,6 +43,7 @@ public class Protocol3D_SharewareTo1_14 extends BackwardsProtocol<ClientboundPac
     private static final int SERVERSIDE_VIEW_DISTANCE = 64;
 
     private final BlockItemPacketRewriter3D_Shareware blockItemPackets = new BlockItemPacketRewriter3D_Shareware(this);
+    private final ParticleRewriter<ClientboundPackets3D_Shareware> particleRewriter = new ParticleRewriter<>(this);
 
     public Protocol3D_SharewareTo1_14() {
         super(ClientboundPackets3D_Shareware.class, ClientboundPackets1_14.class, ServerboundPackets3D_Shareware.class, ServerboundPackets1_14.class);
@@ -49,6 +52,8 @@ public class Protocol3D_SharewareTo1_14 extends BackwardsProtocol<ClientboundPac
     @Override
     protected void registerPackets() {
         super.registerPackets();
+
+        particleRewriter.registerLevelParticles1_13(ClientboundPackets3D_Shareware.LEVEL_PARTICLES, Types.FLOAT);
 
         new EntityPacketRewriter3D_Shareware(this).registerPackets();
         final SoundRewriter<ClientboundPackets3D_Shareware> soundRewriter = new SoundRewriter<>(this);
@@ -92,6 +97,11 @@ public class Protocol3D_SharewareTo1_14 extends BackwardsProtocol<ClientboundPac
     @Override
     public BlockItemPacketRewriter3D_Shareware getItemRewriter() {
         return this.blockItemPackets;
+    }
+
+    @Override
+    public ParticleRewriter<ClientboundPackets3D_Shareware> getParticleRewriter() {
+        return particleRewriter;
     }
 
 }

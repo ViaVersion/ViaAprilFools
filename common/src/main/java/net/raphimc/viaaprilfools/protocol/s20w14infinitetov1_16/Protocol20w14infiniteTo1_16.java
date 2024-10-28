@@ -31,6 +31,7 @@ import com.viaversion.viaversion.protocols.v1_15_2to1_16.Protocol1_15_2To1_16;
 import com.viaversion.viaversion.protocols.v1_15_2to1_16.packet.ClientboundPackets1_16;
 import com.viaversion.viaversion.protocols.v1_15_2to1_16.packet.ServerboundPackets1_16;
 import com.viaversion.viaversion.protocols.v1_15_2to1_16.provider.PlayerAbilitiesProvider;
+import com.viaversion.viaversion.rewriter.ParticleRewriter;
 import com.viaversion.viaversion.rewriter.RecipeRewriter;
 import com.viaversion.viaversion.rewriter.StatisticsRewriter;
 import com.viaversion.viaversion.rewriter.TagRewriter;
@@ -39,6 +40,7 @@ import net.raphimc.viaaprilfools.protocol.s20w14infinitetov1_16.rewriter.EntityP
 import net.raphimc.viaaprilfools.protocol.s20w14infinitetov1_16.packet.ClientboundPackets20w14infinite;
 import net.raphimc.viaaprilfools.protocol.s20w14infinitetov1_16.packet.ServerboundPackets20w14infinite;
 import net.raphimc.viaaprilfools.protocol.s20w14infinitetov1_16.rewriter.BlockItemPacketRewriter20w14infinite;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.UUID;
 
@@ -48,6 +50,7 @@ public class Protocol20w14infiniteTo1_16 extends BackwardsProtocol<ClientboundPa
     private static final UUID ZERO_UUID = new UUID(0, 0);
 
     private final BlockItemPacketRewriter20w14infinite itemRewriter = new BlockItemPacketRewriter20w14infinite(this);
+    private final ParticleRewriter<ClientboundPackets20w14infinite> particleRewriter = new ParticleRewriter<>(this);
     private final EntityPacketRewriter20w14infinite entityRewriter = new EntityPacketRewriter20w14infinite(this);
     private final TagRewriter<ClientboundPackets20w14infinite> tagRewriter = new TagRewriter<>(this);
 
@@ -58,6 +61,8 @@ public class Protocol20w14infiniteTo1_16 extends BackwardsProtocol<ClientboundPa
     @Override
     protected void registerPackets() {
         super.registerPackets();
+
+        particleRewriter.registerLevelParticles1_13(ClientboundPackets20w14infinite.LEVEL_PARTICLES, Types.DOUBLE);
 
         tagRewriter.register(ClientboundPackets20w14infinite.UPDATE_TAGS, RegistryType.ENTITY);
         new StatisticsRewriter<>(this).register(ClientboundPackets20w14infinite.AWARD_STATS);
@@ -170,6 +175,11 @@ public class Protocol20w14infiniteTo1_16 extends BackwardsProtocol<ClientboundPa
     @Override
     public BlockItemPacketRewriter20w14infinite getItemRewriter() {
         return this.itemRewriter;
+    }
+
+    @Override
+    public ParticleRewriter<ClientboundPackets20w14infinite> getParticleRewriter() {
+        return particleRewriter;
     }
 
     @Override

@@ -39,7 +39,6 @@ public class BlockItemPacketRewriter3D_Shareware extends ItemRewriter<Clientboun
         this.registerAdvancements(ClientboundPackets3D_Shareware.UPDATE_ADVANCEMENTS);
         this.registerContainerClick(ServerboundPackets1_14.CONTAINER_CLICK);
         this.registerSetCreativeModeSlot(ServerboundPackets1_14.SET_CREATIVE_MODE_SLOT);
-        this.registerLevelParticles(ClientboundPackets3D_Shareware.LEVEL_PARTICLES, Types.FLOAT);
 
         this.protocol.registerClientbound(ClientboundPackets3D_Shareware.MERCHANT_OFFERS, new PacketHandlers() {
             public void register() {

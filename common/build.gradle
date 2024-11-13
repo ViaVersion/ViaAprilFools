@@ -13,7 +13,7 @@ sourceSets {
     main {
         classTokenReplacer {
             property("\${version}", project.version)
-            property("\${impl_version}", "git-ViaAprilFools-${project.version}:${rootProject.latestCommitHash()}")
+            property("\${impl_version}", "git-ViaAprilFools-${project.version}:${rootProject.latestCommitHash().get()}")
         }
     }
 }

@@ -1,5 +1,5 @@
 name: ViaAprilFools
-main: net.raphimc.viaaprilfools.BukkitPlugin
+main: com.viaversion.viaaprilfools.BukkitPlugin
 authors: [RK_01, FlorianMichael/EnZaXD]
 version: ${version}
 description: ${description}

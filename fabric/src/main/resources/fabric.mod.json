@@ -18,12 +18,12 @@
   ],
   "entrypoints": {
     "viafabric:via_api_initialized": [
-      "net.raphimc.viaaprilfools.ViaFabricAddon"
+      "com.viaversion.viaaprilfools.ViaFabricAddon"
     ]
   },
   "depends": {
     "viafabric": ">=0.4.14",
-    "viabackwards": ">=5.2.0"
+    "viabackwards": ">=5.2.1"
   },
   "custom": {
     "modmenu:api": true,

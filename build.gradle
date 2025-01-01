@@ -78,7 +78,8 @@ Provider<String> branchName() {
 def branch = branchName().get()
 def baseVersion = project.maven_version
 def isRelease = !baseVersion.contains('-')
-if (!isRelease) { // Only publish releases from the main branch
+def isMainBranch = branch == "main"
+if (!isRelease || isMainBranch) { // Only publish releases from the main branch
     def suffixedVersion = isRelease ? baseVersion : baseVersion + "+" + System.getenv("GITHUB_RUN_NUMBER")
     def commitHash = latestCommitHash().get()
     def changelogContent = "[${commitHash}](https://github.com/ViaVersion/ViaAprilFools/commit/${commitHash}) ${latestCommitMessage().get()}"

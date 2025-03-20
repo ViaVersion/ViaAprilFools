@@ -20,27 +20,26 @@
  */
 package com.viaversion.viaaprilfools.api.data;
 
-import com.viaversion.viabackwards.api.data.BackwardsMappingData;
-import com.viaversion.viaversion.api.protocol.Protocol;
 import com.viaversion.nbt.tag.CompoundTag;
 import com.viaversion.viaaprilfools.ViaAprilFools;
-import org.checkerframework.checker.nullness.qual.Nullable;
+import com.viaversion.viabackwards.api.data.BackwardsMappingData;
+import com.viaversion.viaversion.api.protocol.Protocol;
 
 import java.util.logging.Logger;
 
 public class AprilFoolsMappingData extends BackwardsMappingData {
 
-    public AprilFoolsMappingData(String unmappedVersion, String mappedVersion, @Nullable Class<? extends Protocol<?, ?, ?, ?>> vvProtocolClass) {
+    public AprilFoolsMappingData(String unmappedVersion, String mappedVersion, Class<? extends Protocol<?, ?, ?, ?>> vvProtocolClass) {
         super(unmappedVersion, mappedVersion, vvProtocolClass);
     }
 
     @Override
-    protected @Nullable CompoundTag readMappingsFile(String name) {
+    protected CompoundTag readMappingsFile(String name) {
         return AprilFoolsMappingDataLoader.INSTANCE.loadNBTFromDir(name);
     }
 
     @Override
-    protected @Nullable CompoundTag readUnmappedIdentifiersFile(String name) {
+    protected CompoundTag readUnmappedIdentifiersFile(String name) {
         return AprilFoolsMappingDataLoader.INSTANCE.loadNBT(name, true);
     }
 

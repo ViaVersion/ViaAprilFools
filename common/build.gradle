@@ -5,7 +5,7 @@ plugins {
 }
 
 dependencies {
-    compileOnly "com.google.guava:guava:33.4.0-jre"
+    compileOnly "com.google.guava:guava:33.4.5-jre"
     compileOnly "io.netty:netty-handler:4.1.119.Final"
 }
 

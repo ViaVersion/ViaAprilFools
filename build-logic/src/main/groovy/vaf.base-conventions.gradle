@@ -22,8 +22,8 @@ base {
 }
 
 dependencies {
-    compileOnly "com.viaversion:viaversion-common:5.2.1"
-    compileOnly "com.viaversion:viabackwards-common:5.2.1"
+    compileOnly "com.viaversion:viaversion-common:5.3.0"
+    compileOnly "com.viaversion:viabackwards-common:5.3.0"
 }
 
 publishing {

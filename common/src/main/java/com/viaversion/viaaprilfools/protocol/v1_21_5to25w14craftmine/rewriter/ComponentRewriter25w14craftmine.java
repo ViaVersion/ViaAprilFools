@@ -24,11 +24,8 @@ import com.viaversion.nbt.tag.CompoundTag;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.Protocol1_21_5To_25w14craftmine;
 import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ClientboundPacket1_21_5;
-import com.viaversion.viaversion.protocols.v1_21to1_21_2.packet.ClientboundPacket1_21_2;
 import com.viaversion.viaversion.rewriter.text.NBTComponentRewriter;
-import com.viaversion.viaversion.util.TagUtil;
 
-import static com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.rewriter.BlockItemPacketRewriter25w14craftmine.*;
 import static com.viaversion.viaversion.util.TagUtil.getNamespacedCompoundTag;
 
 public final class ComponentRewriter25w14craftmine extends NBTComponentRewriter<ClientboundPacket1_21_5> {
@@ -48,8 +45,6 @@ public final class ComponentRewriter25w14craftmine extends NBTComponentRewriter<
         if (lodestoneTracker != null) {
             lodestoneTracker.putBoolean("exits", false);
         }
-
-        removeDataComponents(componentsTag, NEW_DATA_TO_REMOVE);
     }
 
 }

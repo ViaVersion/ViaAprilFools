@@ -265,12 +265,16 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
     public static void updateItemData(final Item item) {
         final StructuredDataContainer dataContainer = item.dataContainer();
 
-        dataContainer.replace(StructuredDataKey.LODESTONE_TRACKER, VAFStructuredDataKey.LODESTONE_TRACKER, tracker -> new LodestoneTracker25w14craftmine(tracker.position(), tracker.tracked(), false));
+        dataContainer.replace(StructuredDataKey.LODESTONE_TRACKER, VAFStructuredDataKey.LODESTONE_TRACKER, tracker -> {
+            return new LodestoneTracker25w14craftmine(tracker.position(), tracker.tracked(), false);
+        });
     }
 
     public static void downgradeItemData(final Item item) {
         final StructuredDataContainer dataContainer = item.dataContainer();
-        dataContainer.replace(VAFStructuredDataKey.LODESTONE_TRACKER, StructuredDataKey.LODESTONE_TRACKER, tracker -> new LodestoneTracker(tracker.position(), tracker.tracked()));
+        dataContainer.replace(VAFStructuredDataKey.LODESTONE_TRACKER, StructuredDataKey.LODESTONE_TRACKER, tracker -> {
+            return new LodestoneTracker(tracker.position(), tracker.tracked());
+        });
 
         dataContainer.remove(NEW_DATA_TO_REMOVE);
     }

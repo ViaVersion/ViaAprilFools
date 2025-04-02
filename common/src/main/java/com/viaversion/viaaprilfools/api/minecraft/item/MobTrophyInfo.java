@@ -20,25 +20,24 @@
  */
 package com.viaversion.viaaprilfools.api.minecraft.item;
 
-import com.viaversion.viaaprilfools.api.minecraft.entities.EntityTypes25w14craftmine;
-import com.viaversion.viaaprilfools.api.type.version.Types25w14craftmine;
+import com.viaversion.viaaprilfools.api.type.version.VAFTypes;
 import com.viaversion.viaversion.api.minecraft.Holder;
 import com.viaversion.viaversion.api.type.Type;
 import io.netty.buffer.ByteBuf;
 
-public record MobTrophyInfo(Holder<EntityTypes25w14craftmine> type, boolean shiny) {
+public record MobTrophyInfo(Holder<String> type, boolean shiny) {
 
     public static final Type<MobTrophyInfo> TYPE = new Type<>(MobTrophyInfo.class) {
         @Override
         public MobTrophyInfo read(ByteBuf byteBuf) {
-            final Holder<EntityTypes25w14craftmine> type = Types25w14craftmine.ENTITY_TYPE.read(byteBuf);
+            final Holder<String> type = VAFTypes.HOLDER_STRING.read(byteBuf);
             final boolean shiny = byteBuf.readBoolean();
             return new MobTrophyInfo(type, shiny);
         }
 
         @Override
         public void write(ByteBuf byteBuf, MobTrophyInfo mobTrophyInfo) {
-            Types25w14craftmine.ENTITY_TYPE.write(byteBuf, mobTrophyInfo.type());
+            VAFTypes.HOLDER_STRING.write(byteBuf, mobTrophyInfo.type());
             byteBuf.writeBoolean(mobTrophyInfo.shiny());
         }
     };

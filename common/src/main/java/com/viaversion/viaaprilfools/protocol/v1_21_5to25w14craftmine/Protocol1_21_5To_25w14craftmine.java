@@ -28,11 +28,11 @@ import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.rewriter.En
 import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.data.MappingData;
 import com.viaversion.viaversion.api.minecraft.data.StructuredDataKey;
-import com.viaversion.viaversion.api.minecraft.entities.EntityTypes1_21_5;
 import com.viaversion.viaversion.api.protocol.AbstractProtocol;
 import com.viaversion.viaversion.api.protocol.packet.provider.PacketTypesProvider;
 import com.viaversion.viaversion.api.protocol.packet.provider.SimplePacketTypesProvider;
 import com.viaversion.viaversion.api.type.types.misc.ParticleType;
+import com.viaversion.viaversion.api.type.types.version.Types1_21_5;
 import com.viaversion.viaversion.data.entity.EntityTrackerBase;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ClientboundPacket1_21_5;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ClientboundPackets1_21_5;
@@ -48,7 +48,7 @@ public final class Protocol1_21_5To_25w14craftmine extends AbstractProtocol<Clie
     public static final MappingData MAPPINGS = new VAFMappingData("1.21.5", "25w14craftmine");
     private final EntityPacketRewriter25w14craftmine entityRewriter = new EntityPacketRewriter25w14craftmine(this);
     private final BlockItemPacketRewriter25w14craftmine itemRewriter = new BlockItemPacketRewriter25w14craftmine(this);
-    private final ParticleRewriter<ClientboundPacket1_21_5> particleRewriter = new ParticleRewriter<>(this, Types25w14craftmine.PARTICLE);
+    private final ParticleRewriter<ClientboundPacket1_21_5> particleRewriter = new ParticleRewriter<>(this, Types1_21_5.PARTICLE, Types25w14craftmine.PARTICLE);
     private final TagRewriter<ClientboundPacket1_21_5> tagRewriter = new TagRewriter<>(this);
     private final NBTComponentRewriter<ClientboundPacket1_21_5> componentRewriter = new ComponentRewriter25w14craftmine(this);
 
@@ -144,7 +144,7 @@ public final class Protocol1_21_5To_25w14craftmine extends AbstractProtocol<Clie
 
     @Override
     public void init(final UserConnection connection) {
-        addEntityTracker(connection, new EntityTrackerBase(connection, EntityTypes1_21_5.PLAYER));
+        addEntityTracker(connection, new EntityTrackerBase(connection, EntityTypes25w14craftmine.PLAYER));
     }
 
     @Override

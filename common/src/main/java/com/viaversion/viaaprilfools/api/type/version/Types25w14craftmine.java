@@ -20,7 +20,6 @@
  */
 package com.viaversion.viaaprilfools.api.type.version;
 
-import com.viaversion.viaaprilfools.api.minecraft.entities.EntityTypes25w14craftmine;
 import com.viaversion.viaversion.api.minecraft.Particle;
 import com.viaversion.viaversion.api.minecraft.data.StructuredData;
 import com.viaversion.viaversion.api.minecraft.item.Item;
@@ -30,7 +29,6 @@ import com.viaversion.viaversion.api.type.types.item.ItemCostType1_20_5;
 import com.viaversion.viaversion.api.type.types.item.ItemType1_20_5;
 import com.viaversion.viaversion.api.type.types.item.LengthPrefixedStructuredDataType;
 import com.viaversion.viaversion.api.type.types.item.StructuredDataType;
-import com.viaversion.viaversion.api.type.types.misc.HolderType;
 import com.viaversion.viaversion.api.type.types.misc.ParticleType;
 
 // Most of these are only safe to use after protocol loading
@@ -47,7 +45,5 @@ public final class Types25w14craftmine {
 
     public static final ParticleType PARTICLE = new ParticleType();
     public static final ArrayType<Particle> PARTICLES = new ArrayType<>(PARTICLE);
-
-    public static final HolderType<EntityTypes25w14craftmine> ENTITY_TYPE = new EntityTypesType();
 
 }

@@ -18,30 +18,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.viaversion.viaaprilfools.api.data;
+package com.viaversion.viaaprilfools.api.minecraft.item;
 
-import com.viaversion.viabackwards.api.data.BackwardsMappingDataLoader;
-import com.viaversion.viaaprilfools.ViaAprilFools;
+import com.viaversion.viaversion.api.type.Type;
+import com.viaversion.viaversion.api.type.Types;
+import io.netty.buffer.ByteBuf;
 
-import java.io.File;
-import java.util.logging.Logger;
+public record ItemExchangeValue(float value) {
 
-public class AprilFoolsMappingDataLoader extends BackwardsMappingDataLoader {
+    public static final Type<ItemExchangeValue> TYPE = new Type<>(ItemExchangeValue.class) {
+        @Override
+        public ItemExchangeValue read(ByteBuf byteBuf) {
+            final float value = Types.FLOAT.readPrimitive(byteBuf);
+            return new ItemExchangeValue(value);
+        }
 
-    public static final AprilFoolsMappingDataLoader INSTANCE = new AprilFoolsMappingDataLoader();
-
-    public AprilFoolsMappingDataLoader() {
-        super(AprilFoolsMappingDataLoader.class, "assets/viaaprilfools/data/");
-    }
-
-    @Override
-    public File getDataFolder() {
-        return ViaAprilFools.getPlatform().getDataFolder();
-    }
-
-    @Override
-    public Logger getLogger() {
-        return ViaAprilFools.getPlatform().getLogger();
-    }
+        @Override
+        public void write(ByteBuf byteBuf, ItemExchangeValue itemExchangeValue) {
+            Types.FLOAT.writePrimitive(byteBuf, itemExchangeValue.value);
+        }
+    };
 
 }

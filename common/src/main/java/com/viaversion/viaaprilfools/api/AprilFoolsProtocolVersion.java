@@ -35,6 +35,7 @@ public class AprilFoolsProtocolVersion {
     public static final ProtocolVersion s3d_shareware = registerAprilFools(1, "3D Shareware", ProtocolVersion.v1_13_2, ProtocolVersion.v1_13_2);
     public static final ProtocolVersion s20w14infinite = registerAprilFools(709, "20w14infinite", ProtocolVersion.v1_15_2, ProtocolVersion.v1_16);
     public static final ProtocolVersion sCombatTest8c = registerSnapshot(803, "Combat Test 8c", ProtocolVersion.v1_16_1);
+    public static final ProtocolVersion s25w14craftMine = registerAprilFools(770, 244, "25w14craftmine", ProtocolVersion.v1_21_5);
 
     private static ProtocolVersion registerSnapshot(final int version, final String name, final ProtocolVersion origin) {
         final ProtocolVersion protocolVersion = new RedirectProtocolVersion(version, name, origin);
@@ -45,7 +46,15 @@ public class AprilFoolsProtocolVersion {
     }
 
     private static ProtocolVersion registerAprilFools(final int version, final String name, final ProtocolVersion origin, final ProtocolVersion baseProtocolVersion) {
-        final ProtocolVersion protocolVersion = new RedirectProtocolVersion(version, name, origin) {
+        return registerAprilFools(version, -1, name, origin, baseProtocolVersion);
+    }
+
+    private static ProtocolVersion registerAprilFools(final int version, final int snapshotVersion, final String name, final ProtocolVersion origin) {
+        return registerAprilFools(version, snapshotVersion, name, origin, origin);
+    }
+
+    private static ProtocolVersion registerAprilFools(final int version, final int snapshotVersion, final String name, final ProtocolVersion origin, final ProtocolVersion baseProtocolVersion) {
+        final ProtocolVersion protocolVersion = new RedirectProtocolVersion(version, snapshotVersion, name, null, origin) {
 
             @Override
             public ProtocolVersion getBaseProtocolVersion() {

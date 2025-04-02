@@ -20,6 +20,8 @@
  */
 package com.viaversion.viaaprilfools.platform;
 
+import com.viaversion.viaaprilfools.api.data.VAFMappingDataLoader;
+import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.Protocol1_21_5To_25w14craftmine;
 import com.viaversion.viaversion.api.Via;
 import com.viaversion.viaversion.api.protocol.ProtocolManager;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
@@ -43,6 +45,7 @@ public interface ViaAprilFoolsPlatform {
         ViaAprilFools.init(this, config);
         Via.getManager().getConfigurationProvider().register(config);
         Via.getManager().getSubPlatforms().add(ViaAprilFools.IMPL_VERSION);
+        VAFMappingDataLoader.loadGlobalIdentifiers();
 
         final ProtocolManager protocolManager = Via.getManager().getProtocolManager();
         protocolManager.registerProtocol(new Protocol3D_SharewareTo1_14(), ProtocolVersion.v1_14, AprilFoolsProtocolVersion.s3d_shareware);
@@ -52,6 +55,8 @@ public interface ViaAprilFoolsPlatform {
 
         protocolManager.registerProtocol(new ProtocolCombatTest8cTo1_16_2(), ProtocolVersion.v1_16_2, AprilFoolsProtocolVersion.sCombatTest8c);
         protocolManager.registerProtocol(new Protocol1_16_2ToCombatTest8c(), AprilFoolsProtocolVersion.sCombatTest8c, ProtocolVersion.v1_16_2);
+
+        protocolManager.registerProtocol(new Protocol1_21_5To_25w14craftmine(), AprilFoolsProtocolVersion.s25w14craftMine, ProtocolVersion.v1_21_5);
     }
 
     Logger getLogger();

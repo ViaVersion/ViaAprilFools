@@ -32,7 +32,7 @@ import com.viaversion.viaversion.protocols.v1_13_2to1_14.Protocol1_13_2To1_14;
 import com.viaversion.viaversion.protocols.v1_13_2to1_14.packet.ClientboundPackets1_14;
 import com.viaversion.viaversion.protocols.v1_13_2to1_14.packet.ServerboundPackets1_14;
 import com.viaversion.viaversion.rewriter.ParticleRewriter;
-import com.viaversion.viaaprilfools.api.data.AprilFoolsMappingData;
+import com.viaversion.viaaprilfools.api.data.VAFBackwardsMappingData;
 import com.viaversion.viaaprilfools.protocol.s3d_sharewaretov1_14.packet.ClientboundPackets3D_Shareware;
 import com.viaversion.viaaprilfools.protocol.s3d_sharewaretov1_14.packet.ServerboundPackets3D_Shareware;
 import com.viaversion.viaaprilfools.protocol.s3d_sharewaretov1_14.rewriter.BlockItemPacketRewriter3D_Shareware;
@@ -41,7 +41,7 @@ import com.viaversion.viaaprilfools.protocol.s3d_sharewaretov1_14.storage.ChunkC
 
 public class Protocol3D_SharewareTo1_14 extends BackwardsProtocol<ClientboundPackets3D_Shareware, ClientboundPackets1_14, ServerboundPackets3D_Shareware, ServerboundPackets1_14> {
 
-    public static final BackwardsMappingData MAPPINGS = new AprilFoolsMappingData("3D_Shareware", "1.14", Protocol1_13_2To1_14.class);
+    public static final BackwardsMappingData MAPPINGS = new VAFBackwardsMappingData("3D_Shareware", "1.14", Protocol1_13_2To1_14.class);
     private static final int SERVERSIDE_VIEW_DISTANCE = 64;
 
     private final BlockItemPacketRewriter3D_Shareware itemRewriter = new BlockItemPacketRewriter3D_Shareware(this);

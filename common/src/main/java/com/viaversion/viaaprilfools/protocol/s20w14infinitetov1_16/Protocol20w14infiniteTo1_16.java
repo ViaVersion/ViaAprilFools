@@ -38,7 +38,7 @@ import com.viaversion.viaversion.rewriter.ParticleRewriter;
 import com.viaversion.viaversion.rewriter.RecipeRewriter;
 import com.viaversion.viaversion.rewriter.StatisticsRewriter;
 import com.viaversion.viaversion.rewriter.TagRewriter;
-import com.viaversion.viaaprilfools.api.data.AprilFoolsMappingData;
+import com.viaversion.viaaprilfools.api.data.VAFBackwardsMappingData;
 import com.viaversion.viaaprilfools.protocol.s20w14infinitetov1_16.rewriter.EntityPacketRewriter20w14infinite;
 import com.viaversion.viaaprilfools.protocol.s20w14infinitetov1_16.packet.ClientboundPackets20w14infinite;
 import com.viaversion.viaaprilfools.protocol.s20w14infinitetov1_16.packet.ServerboundPackets20w14infinite;
@@ -48,7 +48,7 @@ import java.util.UUID;
 
 public class Protocol20w14infiniteTo1_16 extends BackwardsProtocol<ClientboundPackets20w14infinite, ClientboundPackets1_16, ServerboundPackets20w14infinite, ServerboundPackets1_16> {
 
-    public static final BackwardsMappingData MAPPINGS = new AprilFoolsMappingData("20w14infinite", "1.16", Protocol1_15_2To1_16.class);
+    public static final BackwardsMappingData MAPPINGS = new VAFBackwardsMappingData("20w14infinite", "1.16", Protocol1_15_2To1_16.class);
     private static final UUID ZERO_UUID = new UUID(0, 0);
 
     private final BlockItemPacketRewriter20w14infinite itemRewriter = new BlockItemPacketRewriter20w14infinite(this);

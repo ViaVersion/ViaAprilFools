@@ -70,6 +70,8 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
 
     public static final int NEW_CRAFTING_SLOTS = 5;
 
+    public static final int PLAYER_INVENTORY_ID = 0;
+
     public BlockItemPacketRewriter25w14craftmine(final Protocol1_21_5To_25w14craftmine protocol) {
         super(protocol,
             Types1_21_5.ITEM, Types1_21_5.ITEM_ARRAY, Types25w14craftmine.ITEM, Types25w14craftmine.ITEM_ARRAY,
@@ -106,7 +108,7 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
         protocol.registerClientbound(ClientboundPackets1_21_5.CONTAINER_SET_CONTENT, wrapper -> {
             final int containerId = wrapper.passthrough(Types.VAR_INT);
             wrapper.passthrough(Types.VAR_INT); // State id
-            if (containerId == 0) {
+            if (containerId == PLAYER_INVENTORY_ID) {
                 final Item[] items = wrapper.read(itemArrayType());
                 for (int i = 0; i < items.length; i++) {
                     items[i] = handleItemToClient(wrapper.user(), items[i]);
@@ -134,7 +136,7 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
         protocol.registerClientbound(ClientboundPackets1_21_5.CONTAINER_SET_SLOT, wrapper -> {
             final int containerId = wrapper.passthrough(Types.VAR_INT);
             wrapper.passthrough(Types.VAR_INT); // State id
-            if (containerId == 0) {
+            if (containerId == PLAYER_INVENTORY_ID) {
                 addCraftingSlots(wrapper);
             } else {
                 wrapper.passthrough(Types.SHORT); // Slot
@@ -154,7 +156,7 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
         protocol.registerServerbound(ServerboundPackets25w14craftmine.CONTAINER_CLICK, wrapper -> {
             final int containerId = wrapper.passthrough(Types.VAR_INT);
             wrapper.passthrough(Types.VAR_INT); // State id
-            if (containerId == 0) {
+            if (containerId == PLAYER_INVENTORY_ID) {
                 removeCraftingSlots(wrapper);
             } else {
                 wrapper.passthrough(Types.SHORT); // Slot
@@ -163,7 +165,7 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
             wrapper.passthrough(Types.VAR_INT); // Mode
             final int affectedItems = Limit.max(wrapper.passthrough(Types.VAR_INT), 128);
             for (int i = 0; i < affectedItems; i++) {
-                if (containerId == 0) {
+                if (containerId == PLAYER_INVENTORY_ID) {
                     removeCraftingSlots(wrapper);
                 } else {
                     wrapper.passthrough(Types.SHORT); // Slot

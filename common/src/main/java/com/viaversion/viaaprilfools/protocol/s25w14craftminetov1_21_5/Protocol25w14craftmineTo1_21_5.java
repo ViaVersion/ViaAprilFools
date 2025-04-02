@@ -20,16 +20,15 @@
  */
 package com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5;
 
-import com.viaversion.viaaprilfools.api.data.VAFBackwardsMappingData;
 import com.viaversion.viaaprilfools.api.minecraft.entities.EntityTypes25w14craftmine;
 import com.viaversion.viaaprilfools.api.type.version.Types25w14craftmine;
+import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.data.MappingData25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.rewriter.BlockItemPacketRewriter25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.rewriter.ComponentRewriter25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.rewriter.EntityPacketRewriter25w14craftmine;
-import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.Protocol1_21_5To_25w14craftmine;
+import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.storage.CurrentContainer;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.*;
 import com.viaversion.viabackwards.api.BackwardsProtocol;
-import com.viaversion.viabackwards.api.data.BackwardsMappingData;
 import com.viaversion.viabackwards.api.rewriters.SoundRewriter;
 import com.viaversion.viabackwards.api.rewriters.text.NBTComponentRewriter;
 import com.viaversion.viaversion.api.connection.UserConnection;
@@ -50,7 +49,7 @@ import static com.viaversion.viaversion.util.ProtocolUtil.packetTypeMap;
 
 public final class Protocol25w14craftmineTo1_21_5 extends BackwardsProtocol<ClientboundPacket25w14craftmine, ClientboundPacket1_21_5, ServerboundPacket25w14craftmine, ServerboundPacket1_21_5> {
 
-    public static final BackwardsMappingData MAPPINGS = new VAFBackwardsMappingData("25w14craftmine", "1.21.5", Protocol1_21_5To_25w14craftmine.class);
+    public static final MappingData25w14craftmine MAPPINGS = new MappingData25w14craftmine();
     private final EntityPacketRewriter25w14craftmine entityRewriter = new EntityPacketRewriter25w14craftmine(this);
     private final BlockItemPacketRewriter25w14craftmine itemRewriter = new BlockItemPacketRewriter25w14craftmine(this);
     private final ParticleRewriter<ClientboundPacket25w14craftmine> particleRewriter = new ParticleRewriter<>(this, Types25w14craftmine.PARTICLE, Types1_21_5.PARTICLE);
@@ -101,10 +100,11 @@ public final class Protocol25w14craftmineTo1_21_5 extends BackwardsProtocol<Clie
     @Override
     public void init(final UserConnection user) {
         addEntityTracker(user, new EntityTrackerBase(user, EntityTypes25w14craftmine.PLAYER));
+        user.put(new CurrentContainer());
     }
 
     @Override
-    public BackwardsMappingData getMappingData() {
+    public MappingData25w14craftmine getMappingData() {
         return MAPPINGS;
     }
 

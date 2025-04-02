@@ -24,6 +24,7 @@ import com.viaversion.nbt.tag.*;
 import com.viaversion.viaaprilfools.api.minecraft.item.*;
 import com.viaversion.viaaprilfools.api.type.version.Types25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.Protocol25w14craftmineTo1_21_5;
+import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.storage.CurrentContainer;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.ClientboundPacket25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.ClientboundPackets25w14craftmine;
 import com.viaversion.viabackwards.api.rewriters.BackwardsStructuredItemRewriter;
@@ -32,6 +33,8 @@ import com.viaversion.viaversion.api.minecraft.Holder;
 import com.viaversion.viaversion.api.minecraft.data.StructuredDataContainer;
 import com.viaversion.viaversion.api.minecraft.data.StructuredDataKey;
 import com.viaversion.viaversion.api.minecraft.item.Item;
+import com.viaversion.viaversion.api.minecraft.item.StructuredItem;
+import com.viaversion.viaversion.api.protocol.packet.PacketWrapper;
 import com.viaversion.viaversion.api.type.Types;
 import com.viaversion.viaversion.api.type.types.chunk.ChunkType1_21_5;
 import com.viaversion.viaversion.api.type.types.version.Types1_21_5;
@@ -53,6 +56,17 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
             Types25w14craftmine.ITEM_COST, Types25w14craftmine.OPTIONAL_ITEM_COST, Types1_21_5.ITEM_COST, Types1_21_5.OPTIONAL_ITEM_COST
         );
     }
+
+    static final int GENERIC_9X3_ID = 2;
+    static final int GENERIC_9X6_ID = 5;
+    static final int INVENTORY_ROW_WIDTH = 9;
+    static final int SECOND_ROW_END = 18;
+    static final int GENERIC_9X6_SIZE = 54;
+
+    static final int DIMENSION_CONTROL_CONTAINER_ID = 16;
+    static final int MAP_MAKING_CONTAINER_ID = 20;
+    static final int TO_UNLOCK_EFFECTS_START = 51;
+    static final int TO_DISCOVER_EFFECTS_START = 159;
 
     @Override
     public void registerPackets() {
@@ -83,22 +97,31 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
         protocol.registerClientbound(ClientboundPackets25w14craftmine.CONTAINER_SET_CONTENT, wrapper -> {
             final int containerId = wrapper.passthrough(Types.VAR_INT);
             wrapper.passthrough(Types.VAR_INT); // State id
-            if (containerId == 0) {
-                final Item[] items = wrapper.read(itemArrayType());
-                for (int i = 0; i < items.length; i++) {
-                    items[i] = handleItemToClient(wrapper.user(), items[i]);
-                }
 
+            final Item[] items = wrapper.read(itemArrayType());
+            for (int i = 0; i < items.length; i++) {
+                items[i] = handleItemToClient(wrapper.user(), items[i]);
+            }
+            final CurrentContainer currentContainer = wrapper.user().get(CurrentContainer.class);
+            if (containerId == PLAYER_INVENTORY_ID) {
                 final Item[] mappedItems = new Item[items.length - NEW_CRAFTING_SLOTS];
                 for (int i = 0; i < items.length; i++) {
                     mappedItems[removeCraftingSlot(i)] = items[i];
                 }
                 wrapper.write(mappedItemArrayType(), mappedItems);
-            } else {
-                final Item[] items = wrapper.passthroughAndMap(itemArrayType(), mappedItemArrayType());
+            } else if (currentContainer.isMapMakingContainer(containerId)) {
+                final Item[] mappedItems = StructuredItem.emptyArray(54);
                 for (int i = 0; i < items.length; i++) {
-                    items[i] = handleItemToClient(wrapper.user(), items[i]);
+                    final int actualSlot = removeMapMakingContainerSlot(i);
+                    if (actualSlot == -1) {
+                        continue;
+                    }
+
+                    mappedItems[actualSlot] = items[i];
                 }
+                wrapper.write(mappedItemArrayType(), mappedItems);
+            } else {
+                wrapper.write(mappedItemArrayType(), items);
             }
 
             passthroughClientboundItem(wrapper);
@@ -106,8 +129,10 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
         protocol.registerClientbound(ClientboundPackets25w14craftmine.CONTAINER_SET_SLOT, wrapper -> {
             final int containerId = wrapper.passthrough(Types.VAR_INT);
             wrapper.passthrough(Types.VAR_INT); // State id
-            if (containerId == 0) {
+            if (containerId == PLAYER_INVENTORY_ID) {
                 removeCraftingSlots(wrapper);
+            } else if (containerId == MAP_MAKING_CONTAINER_ID) {
+                removeMapMakingContainerSlots(wrapper);
             } else {
                 wrapper.passthrough(Types.SHORT); // Slot
             }
@@ -126,8 +151,10 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
         protocol.registerServerbound(ServerboundPackets1_21_5.CONTAINER_CLICK, wrapper -> {
             final int containerId = wrapper.passthrough(Types.VAR_INT);
             wrapper.passthrough(Types.VAR_INT); // State id
-            if (containerId == 0) {
+            if (containerId == PLAYER_INVENTORY_ID) {
                 addCraftingSlots(wrapper);
+            } else if (containerId == MAP_MAKING_CONTAINER_ID) {
+                addMapMakingContainerSlots(wrapper);
             } else {
                 wrapper.passthrough(Types.SHORT); // Slot
             }
@@ -135,8 +162,10 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
             wrapper.passthrough(Types.VAR_INT); // Mode
             final int affectedItems = Limit.max(wrapper.passthrough(Types.VAR_INT), 128);
             for (int i = 0; i < affectedItems; i++) {
-                if (containerId == 0) {
+                if (containerId == PLAYER_INVENTORY_ID) {
                     addCraftingSlots(wrapper);
+                } else if (containerId == MAP_MAKING_CONTAINER_ID) {
+                    addMapMakingContainerSlots(wrapper);
                 } else {
                     wrapper.passthrough(Types.SHORT); // Slot
                 }
@@ -180,8 +209,21 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
         });
 
         protocol.registerClientbound(ClientboundPackets25w14craftmine.OPEN_WINDOW, ClientboundPackets1_21_5.OPEN_SCREEN, wrapper -> {
-            wrapper.passthrough(Types.VAR_INT); // Container id
-            wrapper.passthrough(Types.VAR_INT); // Container type id
+            final int containerId = wrapper.passthrough(Types.VAR_INT);
+            int containerTypeId = wrapper.read(Types.VAR_INT);
+
+            final CurrentContainer currentContainer = wrapper.user().get(CurrentContainer.class);
+            if (containerTypeId == DIMENSION_CONTROL_CONTAINER_ID) {
+                currentContainer.openDimensionControlContainer(containerId);
+                containerTypeId = GENERIC_9X3_ID;
+            } else if (containerTypeId == MAP_MAKING_CONTAINER_ID) {
+                currentContainer.openMapMakingContainer(containerId);
+                containerTypeId = GENERIC_9X6_ID;
+            } else {
+                currentContainer.close();
+            }
+            wrapper.write(Types.VAR_INT, containerTypeId);
+
             protocol.getComponentRewriter().passthroughAndProcess(wrapper); // Title
 
             // Additional data - Throw away
@@ -193,12 +235,56 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
         protocol.cancelClientbound(ClientboundPackets25w14craftmine.UPDATE_SCREEN);
     }
 
+    private void removeMapMakingContainerSlots(final PacketWrapper wrapper) {
+        short slot = wrapper.read(Types.SHORT);
+        slot = ((short) removeMapMakingContainerSlot(slot));
+        wrapper.write(Types.SHORT, slot);
+    }
+
+    private int removeMapMakingContainerSlot(final int slot) {
+        // Try to change the layout to work without custom screen,
+        // Items *will* be lost
+        if (slot == 0) {
+            return INVENTORY_ROW_WIDTH - 1;
+        } else if (slot < TO_UNLOCK_EFFECTS_START) {
+            return slot - 1;
+        } else if (slot < TO_DISCOVER_EFFECTS_START) {
+            final int slotIndex = SECOND_ROW_END + (slot - TO_UNLOCK_EFFECTS_START);
+            if (slotIndex >= GENERIC_9X6_SIZE) {
+                return -1;
+            }
+            return slotIndex;
+        } else {
+            return -1;
+        }
+    }
+
+    private void addMapMakingContainerSlots(final PacketWrapper wrapper) {
+        short slot = wrapper.read(Types.SHORT);
+        slot = ((short) addMapMakingContainerSlot(slot));
+        wrapper.write(Types.SHORT, slot);
+    }
+
+    private int addMapMakingContainerSlot(final int slot) {
+        if (slot == INVENTORY_ROW_WIDTH - 1) {
+            return 0;
+        } else if (slot < INVENTORY_ROW_WIDTH) {
+            return slot + 1;
+        } else if (slot >= SECOND_ROW_END && slot < GENERIC_9X6_SIZE) {
+            return TO_UNLOCK_EFFECTS_START + (slot - SECOND_ROW_END);
+        } else {
+            return -1;
+        }
+    }
+
+
     @Override
     public Item handleItemToClient(UserConnection connection, Item item) {
         super.handleItemToClient(connection, item);
 
         final StructuredDataContainer dataContainer = item.dataContainer();
         final CompoundTag backupTag = new CompoundTag();
+        rewriteWorldModifiers(connection, dataContainer);
 
         saveIntData(VAFStructuredDataKey.SPECIAL_MINE, dataContainer, backupTag);
         saveIntData(VAFStructuredDataKey.SKY, dataContainer, backupTag);
@@ -259,6 +345,33 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
 
         downgradeItemData(item);
         return item;
+    }
+
+    // Try to reconstruct the item data, this is everything else than 1:1 but should be enough
+    private void rewriteWorldModifiers(final UserConnection connection, final StructuredDataContainer dataContainer) {
+        final WorldModifiers worldModifiers = dataContainer.get(VAFStructuredDataKey.WORLD_MODIFIERS);
+        if (worldModifiers == null) {
+            return;
+        }
+
+        for (final int effect : worldModifiers.effects()) {
+            final CompoundTag effectData = this.protocol.getMappingData().getWorldEffect(effect);
+            if (effectData == null) {
+                continue;
+            }
+
+            final String itemModel = effectData.getString("item_model");
+            if (itemModel != null) {
+                final Tag name = effectData.get("name");
+                final Tag description = effectData.get("description");
+                protocol.getComponentRewriter().processTag(connection, name);
+                protocol.getComponentRewriter().processTag(connection, description);
+                dataContainer.set(StructuredDataKey.CUSTOM_NAME, name);
+                dataContainer.set(StructuredDataKey.LORE, new Tag[] { description });
+                dataContainer.set(StructuredDataKey.ITEM_MODEL, itemModel);
+                break;
+            }
+        }
     }
 
     @Override

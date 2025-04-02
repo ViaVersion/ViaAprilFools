@@ -21,9 +21,10 @@
 package com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.rewriter;
 
 import com.viaversion.nbt.tag.CompoundTag;
-import com.viaversion.nbt.tag.StringTag;
 import com.viaversion.viaaprilfools.api.minecraft.entities.EntityTypes25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.Protocol25w14craftmineTo1_21_5;
+import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.storage.CurrentContainer;
+import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.storage.UnlockedEffects;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.ClientboundConfigurationPackets1_21;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.ClientboundPacket25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.ClientboundPackets25w14craftmine;
@@ -36,10 +37,10 @@ import com.viaversion.viaversion.api.protocol.packet.PacketWrapper;
 import com.viaversion.viaversion.api.type.Types;
 import com.viaversion.viaversion.api.type.types.version.Types1_21_5;
 import com.viaversion.viaversion.rewriter.RegistryDataRewriter;
-import com.viaversion.viaversion.util.ArrayUtil;
 import com.viaversion.viaversion.util.Key;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class EntityPacketRewriter25w14craftmine extends EntityRewriter<ClientboundPacket25w14craftmine, Protocol25w14craftmineTo1_21_5> {
 
@@ -95,12 +96,17 @@ public final class EntityPacketRewriter25w14craftmine extends EntityRewriter<Cli
             updatePlayerSpawnInfo(wrapper);
             trackPlayer(wrapper.user(), entityId);
         });
-        protocol.registerClientbound(ClientboundPackets25w14craftmine.RESPAWN, this::updatePlayerSpawnInfo);
+        protocol.registerClientbound(ClientboundPackets25w14craftmine.RESPAWN, wrapper -> {
+            updatePlayerSpawnInfo(wrapper);
+            wrapper.user().get(CurrentContainer.class).close();
+        });
     }
 
     private void updatePlayerSpawnInfo(final PacketWrapper wrapper) {
         int dimensionHolderId = wrapper.read(Types.VAR_INT);
-        dimensionHolderId--; // Back to proper registry
+        if (dimensionHolderId != 0) {
+            dimensionHolderId--; // Back to proper registry if possible, otherwise /shrug
+        }
         wrapper.write(Types.VAR_INT, dimensionHolderId);
         final String world = wrapper.passthrough(Types.STRING);
         wrapper.passthrough(Types.LONG); // Seed
@@ -112,12 +118,14 @@ public final class EntityPacketRewriter25w14craftmine extends EntityRewriter<Cli
         wrapper.passthrough(Types.VAR_INT); // Portal cooldown
         wrapper.passthrough(Types.VAR_INT); // Sea level
         wrapper.read(Types.BOOLEAN); // Is map
-        final int unlockedEffects = wrapper.read(Types.VAR_INT);
-        for (int i = 0; i < unlockedEffects; i++) {
-            wrapper.read(Types.VAR_INT); // Id
+        final int unlockedEffectsSize = wrapper.read(Types.VAR_INT);
+        final List<Integer> unlockedEffects = new ArrayList<>();
+        for (int i = 0; i < unlockedEffectsSize; i++) {
+            unlockedEffects.add(wrapper.read(Types.VAR_INT)); // Id
         }
-        final int activeEffects = wrapper.read(Types.VAR_INT);
-        for (int i = 0; i < activeEffects; i++) {
+        wrapper.user().put(new UnlockedEffects(unlockedEffects));
+        final int activeEffectsSize = wrapper.read(Types.VAR_INT);
+        for (int i = 0; i < activeEffectsSize; i++) {
             wrapper.read(Types.VAR_INT); // Id
         }
 

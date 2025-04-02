@@ -21,8 +21,9 @@
 package com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.rewriter;
 
 import com.viaversion.nbt.tag.CompoundTag;
+import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.Protocol25w14craftmineTo1_21_5;
+import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.data.MappingData25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.ClientboundPacket25w14craftmine;
-import com.viaversion.viabackwards.api.BackwardsProtocol;
 import com.viaversion.viabackwards.api.rewriters.text.NBTComponentRewriter;
 import com.viaversion.viaversion.api.connection.UserConnection;
 
@@ -31,8 +32,11 @@ import static com.viaversion.viaversion.util.TagUtil.getNamespacedCompoundTag;
 
 public final class ComponentRewriter25w14craftmine extends NBTComponentRewriter<ClientboundPacket25w14craftmine> {
 
-    public ComponentRewriter25w14craftmine(final BackwardsProtocol<ClientboundPacket25w14craftmine, ?, ?, ?> protocol) {
+    private final MappingData25w14craftmine mappingData;
+
+    public ComponentRewriter25w14craftmine(final Protocol25w14craftmineTo1_21_5 protocol) {
         super(protocol);
+        this.mappingData = protocol.getMappingData();
     }
 
     @Override
@@ -48,6 +52,11 @@ public final class ComponentRewriter25w14craftmine extends NBTComponentRewriter<
         }
 
         removeDataComponents(componentsTag, NEW_DATA_TO_REMOVE);
+    }
+
+    @Override
+    public String mappedTranslationKey(String translationKey) {
+        return this.mappingData.getTranslation(translationKey);
     }
 
 }

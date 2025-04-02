@@ -10,10 +10,12 @@ If you just want to use ViaAprilFools yourself you can check out some projects w
 - 3D Shareware
 - 20w14infinite
 - Combat Test 8c
+- 25w14craftmine
 
 ### Added Client protocols
 - 3D Shareware
 - Combat Test 8c
+- 25w14craftmine
 
 ### Projects implementing ViaAprilFools
  - [ViaProxy](https://github.com/ViaVersion/ViaProxy): Standalone proxy which uses ViaVersion to translate between Minecraft versions. Allows Minecraft 1.7+ clients to join to any version server.

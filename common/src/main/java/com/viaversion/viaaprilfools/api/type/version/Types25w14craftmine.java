@@ -20,9 +20,9 @@
  */
 package com.viaversion.viaaprilfools.api.type.version;
 
+import com.viaversion.viaaprilfools.api.minecraft.entities.EntityTypes25w14craftmine;
 import com.viaversion.viaversion.api.minecraft.Particle;
 import com.viaversion.viaversion.api.minecraft.data.StructuredData;
-import com.viaversion.viaversion.api.minecraft.entities.EntityTypes1_21_5;
 import com.viaversion.viaversion.api.minecraft.item.Item;
 import com.viaversion.viaversion.api.type.Type;
 import com.viaversion.viaversion.api.type.types.ArrayType;
@@ -48,6 +48,6 @@ public final class Types25w14craftmine {
     public static final ParticleType PARTICLE = new ParticleType();
     public static final ArrayType<Particle> PARTICLES = new ArrayType<>(PARTICLE);
 
-    public static final HolderType<EntityTypes1_21_5> ENTITY_TYPE = new EntityTypesType();
+    public static final HolderType<EntityTypes25w14craftmine> ENTITY_TYPE = new EntityTypesType();
 
 }

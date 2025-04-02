@@ -20,18 +20,18 @@
  */
 package com.viaversion.viaaprilfools.api.minecraft.item;
 
+import com.viaversion.viaaprilfools.api.minecraft.entities.EntityTypes25w14craftmine;
 import com.viaversion.viaaprilfools.api.type.version.Types25w14craftmine;
 import com.viaversion.viaversion.api.minecraft.Holder;
-import com.viaversion.viaversion.api.minecraft.entities.EntityTypes1_21_5;
 import com.viaversion.viaversion.api.type.Type;
 import io.netty.buffer.ByteBuf;
 
-public record MobTrophyInfo(Holder<EntityTypes1_21_5> /*TODO REPLACE*/ type, boolean shiny) {
+public record MobTrophyInfo(Holder<EntityTypes25w14craftmine> type, boolean shiny) {
 
     public static final Type<MobTrophyInfo> TYPE = new Type<>(MobTrophyInfo.class) {
         @Override
         public MobTrophyInfo read(ByteBuf byteBuf) {
-            final Holder<EntityTypes1_21_5> type = Types25w14craftmine.ENTITY_TYPE.read(byteBuf);
+            final Holder<EntityTypes25w14craftmine> type = Types25w14craftmine.ENTITY_TYPE.read(byteBuf);
             final boolean shiny = byteBuf.readBoolean();
             return new MobTrophyInfo(type, shiny);
         }

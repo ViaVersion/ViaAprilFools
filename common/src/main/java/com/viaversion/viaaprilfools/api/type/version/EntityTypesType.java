@@ -20,27 +20,27 @@
  */
 package com.viaversion.viaaprilfools.api.type.version;
 
-import com.viaversion.viaversion.api.minecraft.entities.EntityTypes1_21_5;
+import com.viaversion.viaaprilfools.api.minecraft.entities.EntityTypes25w14craftmine;
 import com.viaversion.viaversion.api.type.Types;
 import com.viaversion.viaversion.api.type.types.misc.HolderType;
 import com.viaversion.viaversion.util.Key;
 import io.netty.buffer.ByteBuf;
 
-public final class EntityTypesType extends HolderType<EntityTypes1_21_5> {
+public final class EntityTypesType extends HolderType<EntityTypes25w14craftmine> {
 
     @Override
-    public EntityTypes1_21_5 readDirect(ByteBuf byteBuf) {
+    public EntityTypes25w14craftmine readDirect(ByteBuf byteBuf) {
         final String resourceLocation = Types.STRING.read(byteBuf);
-        for (EntityTypes1_21_5 value : EntityTypes1_21_5.values()) {
+        for (EntityTypes25w14craftmine value : EntityTypes25w14craftmine.values()) {
             if (value.identifier().equals(Key.namespaced(resourceLocation))) {
                 return value;
             }
         }
-        return EntityTypes1_21_5.PIG;
+        return EntityTypes25w14craftmine.PIG;
     }
 
     @Override
-    public void writeDirect(ByteBuf byteBuf, EntityTypes1_21_5 entityType) {
+    public void writeDirect(ByteBuf byteBuf, EntityTypes25w14craftmine entityType) {
         if (entityType == null) {
             Types.STRING.write(byteBuf, "minecraft:pig");
         } else {

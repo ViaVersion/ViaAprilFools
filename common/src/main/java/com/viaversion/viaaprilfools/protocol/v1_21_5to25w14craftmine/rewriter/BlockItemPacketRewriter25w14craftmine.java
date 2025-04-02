@@ -32,7 +32,9 @@ import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.minecraft.data.StructuredDataContainer;
 import com.viaversion.viaversion.api.minecraft.data.StructuredDataKey;
 import com.viaversion.viaversion.api.minecraft.item.Item;
+import com.viaversion.viaversion.api.minecraft.item.StructuredItem;
 import com.viaversion.viaversion.api.minecraft.item.data.LodestoneTracker;
+import com.viaversion.viaversion.api.protocol.packet.PacketWrapper;
 import com.viaversion.viaversion.api.type.Types;
 import com.viaversion.viaversion.api.type.types.chunk.ChunkType1_21_5;
 import com.viaversion.viaversion.api.type.types.version.Types1_21_5;
@@ -57,6 +59,17 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
             VAFStructuredDataKey.TROPHY_TYPE, VAFStructuredDataKey.MOB_TROPHY_TYPE
     );
 
+    static final int THIRD_CRAFTING_SLOT = 3;
+    static final int FOURTH_CRAFTING_SLOT = 4;
+    static final int FIFTH_CRAFTING_SLOT = 5;
+
+    static final int SIXTH_CRAFTING_SLOT = 6;
+    static final int SEVENTH_CRAFTING_SLOT = 7;
+    static final int EIGHTH_CRAFTING_SLOT = 8;
+    static final int NINTH_CRAFTING_SLOT = 9;
+
+    static final int NEW_CRAFTING_SLOTS = 5;
+
     public BlockItemPacketRewriter25w14craftmine(final Protocol1_21_5To_25w14craftmine protocol) {
         super(protocol,
             Types1_21_5.ITEM, Types1_21_5.ITEM_ARRAY, Types25w14craftmine.ITEM, Types25w14craftmine.ITEM_ARRAY,
@@ -75,29 +88,86 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
         blockRewriter.registerBlockEntityData(ClientboundPackets1_21_5.BLOCK_ENTITY_DATA);
 
         protocol.registerClientbound(ClientboundPackets1_21_5.SET_CURSOR_ITEM, this::passthroughClientboundItem);
-        registerSetPlayerInventory(ClientboundPackets1_21_5.SET_PLAYER_INVENTORY);
         registerCooldown1_21_2(ClientboundPackets1_21_5.COOLDOWN);
-        registerSetContent1_21_2(ClientboundPackets1_21_5.CONTAINER_SET_CONTENT);
-        registerSetSlot1_21_2(ClientboundPackets1_21_5.CONTAINER_SET_SLOT);
         registerSetEquipment(ClientboundPackets1_21_5.SET_EQUIPMENT);
         registerMerchantOffers1_20_5(ClientboundPackets1_21_5.MERCHANT_OFFERS);
-        registerSetCreativeModeSlot1_21_5(ServerboundPackets25w14craftmine.SET_CREATIVE_MODE_SLOT, Types1_21_5.LENGTH_PREFIXED_ITEM, Types25w14craftmine.LENGTH_PREFIXED_ITEM);
 
         final RecipeDisplayRewriter<ClientboundPacket1_21_5> recipeRewriter = new RecipeDisplayRewriter1_21_5<>(protocol);
         recipeRewriter.registerUpdateRecipes(ClientboundPackets1_21_5.UPDATE_RECIPES);
         recipeRewriter.registerRecipeBookAdd(ClientboundPackets1_21_5.RECIPE_BOOK_ADD);
         recipeRewriter.registerPlaceGhostRecipe(ClientboundPackets1_21_5.PLACE_GHOST_RECIPE);
 
-        // TODO Shift inventory slots since crafting grid is 3x3, all ids are shifted
-        protocol.registerServerbound(ServerboundPackets25w14craftmine.CONTAINER_CLICK, wrapper -> {
-            wrapper.passthrough(Types.VAR_INT); // Container id
+        protocol.registerClientbound(ClientboundPackets1_21_5.SET_PLAYER_INVENTORY, wrapper -> {
+            int slot = wrapper.read(Types.VAR_INT);
+            slot = addCraftingSlot(slot);
+            wrapper.write(Types.VAR_INT, slot);
+            passthroughClientboundItem(wrapper);
+        });
+        protocol.registerClientbound(ClientboundPackets1_21_5.CONTAINER_SET_CONTENT, wrapper -> {
+            final int containerId = wrapper.passthrough(Types.VAR_INT);
             wrapper.passthrough(Types.VAR_INT); // State id
-            wrapper.passthrough(Types.SHORT); // Slot
+            if (containerId == 0) {
+                final Item[] items = wrapper.read(itemArrayType());
+                for (int i = 0; i < items.length; i++) {
+                    items[i] = handleItemToClient(wrapper.user(), items[i]);
+                }
+
+                final Item[] mappedItems = new Item[items.length + NEW_CRAFTING_SLOTS];
+                mappedItems[THIRD_CRAFTING_SLOT] = StructuredItem.empty();
+                mappedItems[SIXTH_CRAFTING_SLOT] = StructuredItem.empty();
+                mappedItems[SEVENTH_CRAFTING_SLOT] = StructuredItem.empty();
+                mappedItems[EIGHTH_CRAFTING_SLOT] = StructuredItem.empty();
+                mappedItems[NINTH_CRAFTING_SLOT] = StructuredItem.empty();
+                for (int i = 0; i < items.length; i++) {
+                    mappedItems[addCraftingSlot(i)] = items[i];
+                }
+                wrapper.write(mappedItemArrayType(), mappedItems);
+            } else {
+                final Item[] items = wrapper.passthroughAndMap(itemArrayType(), mappedItemArrayType());
+                for (int i = 0; i < items.length; i++) {
+                    items[i] = handleItemToClient(wrapper.user(), items[i]);
+                }
+            }
+
+            passthroughClientboundItem(wrapper);
+        });
+        protocol.registerClientbound(ClientboundPackets1_21_5.CONTAINER_SET_SLOT, wrapper -> {
+            final int containerId = wrapper.passthrough(Types.VAR_INT);
+            wrapper.passthrough(Types.VAR_INT); // State id
+            if (containerId == 0) {
+                addCraftingSlots(wrapper);
+            } else {
+                wrapper.passthrough(Types.SHORT); // Slot
+            }
+            passthroughClientboundItem(wrapper);
+        });
+        protocol.registerServerbound(ServerboundPackets25w14craftmine.SET_CREATIVE_MODE_SLOT, wrapper -> {
+            if (!protocol.getEntityRewriter().tracker(wrapper.user()).canInstaBuild()) {
+                // Mimic server/client behavior
+                wrapper.cancel();
+                return;
+            }
+
+            removeCraftingSlots(wrapper);
+            passthroughLengthPrefixedItem(wrapper, Types1_21_5.LENGTH_PREFIXED_ITEM, Types25w14craftmine.LENGTH_PREFIXED_ITEM);
+        });
+        protocol.registerServerbound(ServerboundPackets25w14craftmine.CONTAINER_CLICK, wrapper -> {
+            final int containerId = wrapper.passthrough(Types.VAR_INT);
+            wrapper.passthrough(Types.VAR_INT); // State id
+            if (containerId == 0) {
+                removeCraftingSlots(wrapper);
+            } else {
+                wrapper.passthrough(Types.SHORT); // Slot
+            }
             wrapper.passthrough(Types.BYTE); // Button
             wrapper.passthrough(Types.VAR_INT); // Mode
             final int affectedItems = Limit.max(wrapper.passthrough(Types.VAR_INT), 128);
             for (int i = 0; i < affectedItems; i++) {
-                wrapper.passthrough(Types.SHORT); // Slot
+                if (containerId == 0) {
+                    removeCraftingSlots(wrapper);
+                } else {
+                    wrapper.passthrough(Types.SHORT); // Slot
+                }
                 passthroughHashedItem(wrapper);
             }
             passthroughHashedItem(wrapper); // Carried item
@@ -105,7 +175,7 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
 
         protocol.registerClientbound(ClientboundPackets1_21_5.UPDATE_ADVANCEMENTS, wrapper -> {
             wrapper.passthrough(Types.BOOLEAN); // Reset/clear
-            int size = wrapper.passthrough(Types.VAR_INT); // Mapping size
+            final int size = wrapper.passthrough(Types.VAR_INT); // Mapping size
             for (int i = 0; i < size; i++) {
                 wrapper.passthrough(Types.STRING); // Identifier
                 wrapper.passthrough(Types.OPTIONAL_STRING); // Parent
@@ -121,7 +191,7 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
 
                     passthroughClientboundItem(wrapper); // Icon
                     wrapper.passthrough(Types.VAR_INT); // Frame type
-                    int flags = wrapper.passthrough(Types.INT); // Flags
+                    final int flags = wrapper.passthrough(Types.INT); // Flags
                     if ((flags & 1) != 0) {
                         wrapper.passthrough(Types.STRING); // Background texture
                     }
@@ -129,7 +199,7 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
                     wrapper.passthrough(Types.FLOAT); // Y
                 }
 
-                int requirements = wrapper.passthrough(Types.VAR_INT);
+                final int requirements = wrapper.passthrough(Types.VAR_INT);
                 for (int array = 0; array < requirements; array++) {
                     wrapper.passthrough(Types.STRING_ARRAY);
                 }
@@ -144,6 +214,36 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
             protocol.getComponentRewriter().passthroughAndProcess(wrapper); // Title
             wrapper.write(Types.VAR_INT, 0); // Additional data - none
         });
+    }
+
+    public static void addCraftingSlots(final PacketWrapper wrapper) {
+        short slot = wrapper.read(Types.SHORT);
+        slot = ((short) addCraftingSlot(slot));
+        wrapper.write(Types.SHORT, slot);
+    }
+
+    private static int addCraftingSlot(final int slot) {
+        if (slot == THIRD_CRAFTING_SLOT) {
+            return FOURTH_CRAFTING_SLOT;
+        } else if (slot == FOURTH_CRAFTING_SLOT) {
+            return FIFTH_CRAFTING_SLOT;
+        } else if (slot >= FIFTH_CRAFTING_SLOT) {
+            return slot + NEW_CRAFTING_SLOTS;
+        } else {
+            return slot;
+        }
+    }
+
+    public static void removeCraftingSlots(final PacketWrapper wrapper) {
+        short slot = wrapper.read(Types.SHORT);
+        if (slot == FOURTH_CRAFTING_SLOT) {
+            slot = THIRD_CRAFTING_SLOT;
+        } else if (slot == FIFTH_CRAFTING_SLOT) {
+            slot = FOURTH_CRAFTING_SLOT;
+        } else if (slot >= FIFTH_CRAFTING_SLOT + NEW_CRAFTING_SLOTS) {
+            slot -= NEW_CRAFTING_SLOTS;
+        }
+        wrapper.write(Types.SHORT, slot);
     }
 
     @Override

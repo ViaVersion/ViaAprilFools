@@ -21,6 +21,7 @@
 package com.viaversion.viaaprilfools.platform;
 
 import com.viaversion.viaaprilfools.api.data.VAFMappingDataLoader;
+import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.Protocol25w14craftmineTo1_21_5;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.Protocol1_21_5To_25w14craftmine;
 import com.viaversion.viaversion.api.Via;
 import com.viaversion.viaversion.api.protocol.ProtocolManager;
@@ -48,15 +49,16 @@ public interface ViaAprilFoolsPlatform {
         VAFMappingDataLoader.loadGlobalIdentifiers();
 
         final ProtocolManager protocolManager = Via.getManager().getProtocolManager();
-        protocolManager.registerProtocol(new Protocol3D_SharewareTo1_14(), ProtocolVersion.v1_14, AprilFoolsProtocolVersion.s3d_shareware);
         protocolManager.registerProtocol(new Protocol1_14To3D_Shareware(), AprilFoolsProtocolVersion.s3d_shareware, ProtocolVersion.v1_14);
+        protocolManager.registerProtocol(new Protocol3D_SharewareTo1_14(), ProtocolVersion.v1_14, AprilFoolsProtocolVersion.s3d_shareware);
 
         protocolManager.registerProtocol(new Protocol20w14infiniteTo1_16(), ProtocolVersion.v1_16, AprilFoolsProtocolVersion.s20w14infinite);
 
-        protocolManager.registerProtocol(new ProtocolCombatTest8cTo1_16_2(), ProtocolVersion.v1_16_2, AprilFoolsProtocolVersion.sCombatTest8c);
         protocolManager.registerProtocol(new Protocol1_16_2ToCombatTest8c(), AprilFoolsProtocolVersion.sCombatTest8c, ProtocolVersion.v1_16_2);
+        protocolManager.registerProtocol(new ProtocolCombatTest8cTo1_16_2(), ProtocolVersion.v1_16_2, AprilFoolsProtocolVersion.sCombatTest8c);
 
         protocolManager.registerProtocol(new Protocol1_21_5To_25w14craftmine(), AprilFoolsProtocolVersion.s25w14craftMine, ProtocolVersion.v1_21_5);
+        protocolManager.registerProtocol(new Protocol25w14craftmineTo1_21_5(), ProtocolVersion.v1_21_5, AprilFoolsProtocolVersion.s25w14craftMine);
     }
 
     Logger getLogger();

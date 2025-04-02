@@ -68,7 +68,7 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
     static final int EIGHTH_CRAFTING_SLOT = 8;
     static final int NINTH_CRAFTING_SLOT = 9;
 
-    static final int NEW_CRAFTING_SLOTS = 5;
+    public static final int NEW_CRAFTING_SLOTS = 5;
 
     public BlockItemPacketRewriter25w14craftmine(final Protocol1_21_5To_25w14craftmine protocol) {
         super(protocol,
@@ -222,7 +222,7 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
         wrapper.write(Types.SHORT, slot);
     }
 
-    private static int addCraftingSlot(final int slot) {
+    public static int addCraftingSlot(final int slot) {
         if (slot == THIRD_CRAFTING_SLOT) {
             return FOURTH_CRAFTING_SLOT;
         } else if (slot == FOURTH_CRAFTING_SLOT) {
@@ -236,14 +236,20 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
 
     public static void removeCraftingSlots(final PacketWrapper wrapper) {
         short slot = wrapper.read(Types.SHORT);
-        if (slot == FOURTH_CRAFTING_SLOT) {
-            slot = THIRD_CRAFTING_SLOT;
-        } else if (slot == FIFTH_CRAFTING_SLOT) {
-            slot = FOURTH_CRAFTING_SLOT;
-        } else if (slot >= FIFTH_CRAFTING_SLOT + NEW_CRAFTING_SLOTS) {
-            slot -= NEW_CRAFTING_SLOTS;
-        }
+        slot = ((short) removeCraftingSlot(slot));
         wrapper.write(Types.SHORT, slot);
+    }
+
+    public static int removeCraftingSlot(final int slot) {
+        if (slot == FOURTH_CRAFTING_SLOT) {
+            return THIRD_CRAFTING_SLOT;
+        } else if (slot == FIFTH_CRAFTING_SLOT) {
+            return FOURTH_CRAFTING_SLOT;
+        } else if (slot >= FIFTH_CRAFTING_SLOT + NEW_CRAFTING_SLOTS) {
+            return slot - NEW_CRAFTING_SLOTS;
+        } else {
+            return slot;
+        }
     }
 
     @Override

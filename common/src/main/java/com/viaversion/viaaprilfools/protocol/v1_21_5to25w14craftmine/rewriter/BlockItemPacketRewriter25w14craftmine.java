@@ -212,7 +212,7 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
 
         protocol.registerClientbound(ClientboundPackets1_21_5.OPEN_SCREEN, ClientboundPackets25w14craftmine.OPEN_WINDOW, wrapper -> {
             wrapper.passthrough(Types.VAR_INT); // Container id
-            wrapper.passthrough(Types.VAR_INT); // Container type id
+            handleMenuType(wrapper);
             protocol.getComponentRewriter().passthroughAndProcess(wrapper); // Title
             wrapper.write(Types.VAR_INT, 0); // Additional data - none
         });

@@ -46,6 +46,7 @@ import com.viaversion.viaversion.rewriter.BlockRewriter;
 import com.viaversion.viaversion.rewriter.RecipeDisplayRewriter;
 import com.viaversion.viaversion.util.Limit;
 
+import static com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.storage.CurrentContainer.*;
 import static com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.rewriter.BlockItemPacketRewriter25w14craftmine.*;
 
 public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStructuredItemRewriter<ClientboundPacket25w14craftmine, ServerboundPacket1_21_5, Protocol25w14craftmineTo1_21_5> {
@@ -63,10 +64,10 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
     static final int SECOND_ROW_END = 18;
     static final int GENERIC_9X6_SIZE = 54;
 
-    static final int DIMENSION_CONTROL_CONTAINER_ID = 16;
-    static final int MAP_MAKING_CONTAINER_ID = 20;
     static final int TO_UNLOCK_EFFECTS_START = 51;
     static final int TO_DISCOVER_EFFECTS_START = 159;
+
+    static final int SUPER_CHARGE_LEVEL = 4;
 
     @Override
     public void registerPackets() {
@@ -109,7 +110,7 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
                     mappedItems[removeCraftingSlot(i)] = items[i];
                 }
                 wrapper.write(mappedItemArrayType(), mappedItems);
-            } else if (currentContainer.isMapMakingContainer(containerId)) {
+            } else if (currentContainer.isOpen(MAP_MAKING, containerId)) {
                 final Item[] mappedItems = StructuredItem.emptyArray(54);
                 for (int i = 0; i < items.length; i++) {
                     final int actualSlot = removeMapMakingContainerSlot(i);
@@ -127,11 +128,12 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
             passthroughClientboundItem(wrapper);
         });
         protocol.registerClientbound(ClientboundPackets25w14craftmine.CONTAINER_SET_SLOT, wrapper -> {
+            final CurrentContainer currentContainer = wrapper.user().get(CurrentContainer.class);
             final int containerId = wrapper.passthrough(Types.VAR_INT);
             wrapper.passthrough(Types.VAR_INT); // State id
             if (containerId == PLAYER_INVENTORY_ID) {
                 removeCraftingSlots(wrapper);
-            } else if (containerId == MAP_MAKING_CONTAINER_ID) {
+            } else if (currentContainer.isOpen(MAP_MAKING, containerId)) {
                 removeMapMakingContainerSlots(wrapper);
             } else {
                 wrapper.passthrough(Types.SHORT); // Slot
@@ -149,11 +151,12 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
             passthroughLengthPrefixedItem(wrapper, Types25w14craftmine.LENGTH_PREFIXED_ITEM, Types1_21_5.LENGTH_PREFIXED_ITEM);
         });
         protocol.registerServerbound(ServerboundPackets1_21_5.CONTAINER_CLICK, wrapper -> {
+            final CurrentContainer currentContainer = wrapper.user().get(CurrentContainer.class);
             final int containerId = wrapper.passthrough(Types.VAR_INT);
             wrapper.passthrough(Types.VAR_INT); // State id
             if (containerId == PLAYER_INVENTORY_ID) {
                 addCraftingSlots(wrapper);
-            } else if (containerId == MAP_MAKING_CONTAINER_ID) {
+            } else if (currentContainer.isOpen(MAP_MAKING, containerId)) {
                 addMapMakingContainerSlots(wrapper);
             } else {
                 wrapper.passthrough(Types.SHORT); // Slot
@@ -164,7 +167,7 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
             for (int i = 0; i < affectedItems; i++) {
                 if (containerId == PLAYER_INVENTORY_ID) {
                     addCraftingSlots(wrapper);
-                } else if (containerId == MAP_MAKING_CONTAINER_ID) {
+                } else if (currentContainer.isOpen(MAP_MAKING, containerId)) {
                     addMapMakingContainerSlots(wrapper);
                 } else {
                     wrapper.passthrough(Types.SHORT); // Slot
@@ -172,6 +175,17 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
                 passthroughHashedItem(wrapper);
             }
             passthroughHashedItem(wrapper); // Carried item
+        });
+        protocol.registerClientbound(ClientboundPackets25w14craftmine.CONTAINER_SET_DATA, wrapper -> {
+            final short containerId = wrapper.passthrough(Types.UNSIGNED_BYTE);
+            final short property = wrapper.passthrough(Types.SHORT);
+
+            final CurrentContainer currentContainer = wrapper.user().get(CurrentContainer.class);
+            if (currentContainer.isOpen(FURNACE, containerId) || currentContainer.isOpen(BLAST_FURNACE, containerId)) {
+                if (property == SUPER_CHARGE_LEVEL) {
+                    wrapper.cancel();
+                }
+            }
         });
 
         protocol.registerClientbound(ClientboundPackets25w14craftmine.UPDATE_ADVANCEMENTS, wrapper -> {
@@ -211,16 +225,13 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
         protocol.registerClientbound(ClientboundPackets25w14craftmine.OPEN_WINDOW, ClientboundPackets1_21_5.OPEN_SCREEN, wrapper -> {
             final int containerId = wrapper.passthrough(Types.VAR_INT);
             int containerTypeId = wrapper.read(Types.VAR_INT);
-
             final CurrentContainer currentContainer = wrapper.user().get(CurrentContainer.class);
-            if (containerTypeId == DIMENSION_CONTROL_CONTAINER_ID) {
-                currentContainer.openDimensionControlContainer(containerId);
+            currentContainer.openContainer(containerId, containerTypeId);
+
+            if (containerTypeId == DIMENSION_CONTROL) {
                 containerTypeId = GENERIC_9X3_ID;
-            } else if (containerTypeId == MAP_MAKING_CONTAINER_ID) {
-                currentContainer.openMapMakingContainer(containerId);
+            } else if (containerTypeId == MAP_MAKING) {
                 containerTypeId = GENERIC_9X6_ID;
-            } else {
-                currentContainer.close();
             }
             wrapper.write(Types.VAR_INT, containerTypeId);
 
@@ -276,7 +287,6 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
             return -1;
         }
     }
-
 
     @Override
     public Item handleItemToClient(UserConnection connection, Item item) {

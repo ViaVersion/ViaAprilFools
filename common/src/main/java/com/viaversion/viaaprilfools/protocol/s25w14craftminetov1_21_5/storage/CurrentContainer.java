@@ -24,28 +24,25 @@ import com.viaversion.viaversion.api.connection.StorableObject;
 
 public final class CurrentContainer implements StorableObject {
 
-    private Integer dimensionControlContainer;
-    private Integer mapMakingContainer;
+    public static final int BLAST_FURNACE = 10;
+    public static final int FURNACE = 14;
+    public static final int DIMENSION_CONTROL = 16;
+    public static final int MAP_MAKING = 20;
 
-    public boolean isDimensionControlContainer(final int containerId) {
-        return this.dimensionControlContainer != null && this.dimensionControlContainer == containerId;
+    private int containerId;
+    private Integer containerTypeId;
+
+    public void openContainer(final int containerId, final int containerTypeId) {
+        this.containerId = containerId;
+        this.containerTypeId = containerTypeId;
     }
 
-    public boolean isMapMakingContainer(final int containerId) {
-        return this.mapMakingContainer != null && this.mapMakingContainer == containerId;
-    }
-
-    public void openDimensionControlContainer(final int containerId) {
-        this.dimensionControlContainer = containerId;
-    }
-
-    public void openMapMakingContainer(final int containerId) {
-        this.mapMakingContainer = containerId;
+    public boolean isOpen(final int containerTypeId, final int containerId) {
+        return this.containerTypeId == containerTypeId && this.containerId == containerId;
     }
 
     public void close() {
-        this.dimensionControlContainer = null;
-        this.mapMakingContainer = null;
+        this.containerTypeId = null;
     }
 
 }

@@ -22,6 +22,7 @@ package com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.rewriter;
 
 import com.viaversion.nbt.tag.CompoundTag;
 import com.viaversion.viaaprilfools.api.minecraft.entities.EntityTypes25w14craftmine;
+import com.viaversion.viaaprilfools.api.type.version.Types25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.Protocol25w14craftmineTo1_21_5;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.storage.CurrentContainer;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.storage.UnlockedEffects;
@@ -58,7 +59,7 @@ public final class EntityPacketRewriter25w14craftmine extends EntityRewriter<Cli
     @Override
     public void registerPackets() {
         registerTrackerWithData1_19(ClientboundPackets25w14craftmine.ADD_ENTITY, EntityTypes25w14craftmine.FALLING_BLOCK);
-        registerSetEntityData(ClientboundPackets25w14craftmine.SET_ENTITY_DATA, Types1_21_5.ENTITY_DATA_LIST);
+        registerSetEntityData(ClientboundPackets25w14craftmine.SET_ENTITY_DATA, Types25w14craftmine.ENTITY_DATA_LIST, Types1_21_5.ENTITY_DATA_LIST);
         registerRemoveEntities(ClientboundPackets25w14craftmine.REMOVE_ENTITIES);
         registerPlayerAbilities(ClientboundPackets25w14craftmine.PLAYER_ABILITIES);
         registerGameEvent(ClientboundPackets25w14craftmine.GAME_EVENT);

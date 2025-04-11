@@ -44,6 +44,13 @@ import java.util.List;
 
 public final class EntityPacketRewriter25w14craftmine extends EntityRewriter<ClientboundPacket25w14craftmine, Protocol25w14craftmineTo1_21_5> {
 
+    public static final EntityTypes25w14craftmine[] PET_ENTITIES = new EntityTypes25w14craftmine[] {
+            EntityTypes25w14craftmine.PET_ARMADILLO, EntityTypes25w14craftmine.PET_AXOLOTL, EntityTypes25w14craftmine.PET_BEE,
+            EntityTypes25w14craftmine.CAT, EntityTypes25w14craftmine.PET_FOX, EntityTypes25w14craftmine.PET_TURTLE, EntityTypes25w14craftmine.PET_POLAR_BEAR,
+            EntityTypes25w14craftmine.PET_SLIME, EntityTypes25w14craftmine.PET_WOLF, EntityTypes25w14craftmine.PET_CREEPER, EntityTypes25w14craftmine.PET_CHICKEN,
+            EntityTypes25w14craftmine.PET_FROG, EntityTypes25w14craftmine.PET_COW, EntityTypes25w14craftmine.PET_MOOSHROOM
+    };
+
     public EntityPacketRewriter25w14craftmine(final Protocol25w14craftmineTo1_21_5 protocol) {
         super(protocol, Types1_21_5.ENTITY_DATA_TYPES.optionalComponentType, Types1_21_5.ENTITY_DATA_TYPES.booleanType);
     }
@@ -144,6 +151,12 @@ public final class EntityPacketRewriter25w14craftmine extends EntityRewriter<Cli
             Types1_21_5.ENTITY_DATA_TYPES.componentType,
             Types1_21_5.ENTITY_DATA_TYPES.optionalComponentType
         );
+
+        // Pets are tamable animals and the normal entities are just animals
+        for (final EntityTypes25w14craftmine entity : PET_ENTITIES) {
+            filter().type(entity).removeIndex(17); // Flags
+            filter().type(entity).removeIndex(18); // Owner
+        }
     }
 
     @Override
@@ -155,7 +168,6 @@ public final class EntityPacketRewriter25w14craftmine extends EntityRewriter<Cli
         mapEntityTypeWithData(EntityTypes25w14craftmine.PET_BEE, EntityTypes25w14craftmine.BEE).tagName();
         mapEntityTypeWithData(EntityTypes25w14craftmine.CAT, EntityTypes25w14craftmine.PET_CAT).tagName();
         mapEntityTypeWithData(EntityTypes25w14craftmine.PET_FOX, EntityTypes25w14craftmine.FOX).tagName();
-        mapEntityTypeWithData(EntityTypes25w14craftmine.ANGRY_GHAST, EntityTypes25w14craftmine.GHAST).tagName();
         mapEntityTypeWithData(EntityTypes25w14craftmine.PET_TURTLE, EntityTypes25w14craftmine.TURTLE).tagName();
         mapEntityTypeWithData(EntityTypes25w14craftmine.PET_POLAR_BEAR, EntityTypes25w14craftmine.POLAR_BEAR).tagName();
         mapEntityTypeWithData(EntityTypes25w14craftmine.PET_SLIME, EntityTypes25w14craftmine.SLIME).tagName();
@@ -165,6 +177,8 @@ public final class EntityPacketRewriter25w14craftmine extends EntityRewriter<Cli
         mapEntityTypeWithData(EntityTypes25w14craftmine.PET_FROG, EntityTypes25w14craftmine.FROG).tagName();
         mapEntityTypeWithData(EntityTypes25w14craftmine.PET_COW, EntityTypes25w14craftmine.COW).tagName();
         mapEntityTypeWithData(EntityTypes25w14craftmine.PET_MOOSHROOM, EntityTypes25w14craftmine.MOOSHROOM).tagName();
+
+        mapEntityTypeWithData(EntityTypes25w14craftmine.ANGRY_GHAST, EntityTypes25w14craftmine.GHAST).tagName();
     }
 
     @Override

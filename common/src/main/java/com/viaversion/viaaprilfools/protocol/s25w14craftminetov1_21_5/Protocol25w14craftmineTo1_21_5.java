@@ -30,7 +30,6 @@ import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.storage.Cu
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.*;
 import com.viaversion.viabackwards.api.BackwardsProtocol;
 import com.viaversion.viabackwards.api.rewriters.SoundRewriter;
-import com.viaversion.viabackwards.api.rewriters.text.NBTComponentRewriter;
 import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.protocol.packet.provider.PacketTypesProvider;
 import com.viaversion.viaversion.api.protocol.packet.provider.SimplePacketTypesProvider;
@@ -52,8 +51,8 @@ public final class Protocol25w14craftmineTo1_21_5 extends BackwardsProtocol<Clie
     public static final MappingData25w14craftmine MAPPINGS = new MappingData25w14craftmine();
     private final EntityPacketRewriter25w14craftmine entityRewriter = new EntityPacketRewriter25w14craftmine(this);
     private final BlockItemPacketRewriter25w14craftmine itemRewriter = new BlockItemPacketRewriter25w14craftmine(this);
+    private final ComponentRewriter25w14craftmine translatableRewriter = new ComponentRewriter25w14craftmine(this);
     private final ParticleRewriter<ClientboundPacket25w14craftmine> particleRewriter = new ParticleRewriter<>(this, Types25w14craftmine.PARTICLE, Types1_21_5.PARTICLE);
-    private final NBTComponentRewriter<ClientboundPacket25w14craftmine> translatableRewriter = new ComponentRewriter25w14craftmine(this);
     private final TagRewriter<ClientboundPacket25w14craftmine> tagRewriter = new TagRewriter<>(this);
 
     public Protocol25w14craftmineTo1_21_5() {
@@ -119,13 +118,13 @@ public final class Protocol25w14craftmineTo1_21_5 extends BackwardsProtocol<Clie
     }
 
     @Override
-    public ParticleRewriter<ClientboundPacket25w14craftmine> getParticleRewriter() {
-        return particleRewriter;
+    public ComponentRewriter25w14craftmine getComponentRewriter() {
+        return translatableRewriter;
     }
 
     @Override
-    public NBTComponentRewriter<ClientboundPacket25w14craftmine> getComponentRewriter() {
-        return translatableRewriter;
+    public ParticleRewriter<ClientboundPacket25w14craftmine> getParticleRewriter() {
+        return particleRewriter;
     }
 
     @Override

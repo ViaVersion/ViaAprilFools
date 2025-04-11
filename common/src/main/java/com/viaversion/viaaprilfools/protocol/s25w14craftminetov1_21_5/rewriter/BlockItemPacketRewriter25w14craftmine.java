@@ -58,8 +58,6 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
         );
     }
 
-    static final int GENERIC_9X3_ID = 2;
-    static final int GENERIC_9X6_ID = 5;
     static final int INVENTORY_ROW_WIDTH = 9;
     static final int SECOND_ROW_END = 18;
     static final int GENERIC_9X6_SIZE = 54;
@@ -224,16 +222,12 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
 
         protocol.registerClientbound(ClientboundPackets25w14craftmine.OPEN_WINDOW, ClientboundPackets1_21_5.OPEN_SCREEN, wrapper -> {
             final int containerId = wrapper.passthrough(Types.VAR_INT);
-            int containerTypeId = wrapper.read(Types.VAR_INT);
+            final int containerTypeId = wrapper.read(Types.VAR_INT);
+            final int mappedId = protocol.getMappingData().getMenuMappings().getNewId(containerTypeId);
+            wrapper.write(Types.VAR_INT, mappedId);
+
             final CurrentContainer currentContainer = wrapper.user().get(CurrentContainer.class);
             currentContainer.openContainer(containerId, containerTypeId);
-
-            if (containerTypeId == DIMENSION_CONTROL) {
-                containerTypeId = GENERIC_9X3_ID;
-            } else if (containerTypeId == MAP_MAKING) {
-                containerTypeId = GENERIC_9X6_ID;
-            }
-            wrapper.write(Types.VAR_INT, containerTypeId);
 
             protocol.getComponentRewriter().passthroughAndProcess(wrapper); // Title
 

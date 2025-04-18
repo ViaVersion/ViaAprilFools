@@ -52,7 +52,7 @@ public record WorldModifiers(int[] effects, boolean includeDescription) implemen
 
     @Override
     public WorldModifiers copy() {
-        return new WorldModifiers(copy(effects), includeDescription);
+        return new WorldModifiers(Copyable.copy(effects), includeDescription);
     }
 
 }

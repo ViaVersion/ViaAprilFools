@@ -22,6 +22,7 @@ package com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.rewriter;
 
 import com.viaversion.nbt.tag.CompoundTag;
 import com.viaversion.viaaprilfools.api.minecraft.entities.EntityTypes25w14craftmine;
+import com.viaversion.viaaprilfools.api.minecraft.item.VAFStructuredDataKey;
 import com.viaversion.viaaprilfools.api.type.version.Types25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.Protocol25w14craftmineTo1_21_5;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.storage.CurrentContainer;
@@ -33,9 +34,12 @@ import com.viaversion.viabackwards.api.rewriters.EntityRewriter;
 import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.minecraft.GameMode;
 import com.viaversion.viaversion.api.minecraft.RegistryEntry;
+import com.viaversion.viaversion.api.minecraft.data.StructuredDataKey;
 import com.viaversion.viaversion.api.minecraft.entities.EntityType;
+import com.viaversion.viaversion.api.minecraft.entitydata.EntityData;
 import com.viaversion.viaversion.api.protocol.packet.PacketWrapper;
 import com.viaversion.viaversion.api.type.Types;
+import com.viaversion.viaversion.api.type.types.version.Types1_20_5;
 import com.viaversion.viaversion.api.type.types.version.Types1_21_5;
 import com.viaversion.viaversion.rewriter.RegistryDataRewriter;
 import com.viaversion.viaversion.util.Key;
@@ -187,4 +191,13 @@ public final class EntityPacketRewriter25w14craftmine extends EntityRewriter<Cli
         return EntityTypes25w14craftmine.getTypeFromId(type);
     }
 
+
+    @Override
+    public void handleEntityData(int entityId, List<EntityData> entityDataList, UserConnection connection) {
+        for (EntityData entityData : entityDataList) {
+            if (entityData.dataType().typeId() == Types1_20_5.ENTITY_DATA_TYPES.itemType.typeId()) {
+                entityData.setValue(this.protocol.getItemRewriter().handleItemToClient(connection, entityData.value()));
+            }
+        }
+    }
 }

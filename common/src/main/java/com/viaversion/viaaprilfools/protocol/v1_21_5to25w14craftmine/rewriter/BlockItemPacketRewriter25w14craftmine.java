@@ -54,7 +54,7 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
 
     public static final List<StructuredDataKey<?>> NEW_DATA_TO_REMOVE = List.of(
             VAFStructuredDataKey.ITEM_EXCHANGE_VALUE, VAFStructuredDataKey.WORLD_EFFECT_UNLOCK, VAFStructuredDataKey.WORLD_EFFECT_HINT,
-            VAFStructuredDataKey.MINE_ACTIVE, VAFStructuredDataKey.SPECIAL_MINE, VAFStructuredDataKey.WORLD_MODIFIERS,
+            VAFStructuredDataKey.MINE_ACTIVE, VAFStructuredDataKey.MINE_COMPLETED,VAFStructuredDataKey.SPECIAL_MINE, VAFStructuredDataKey.WORLD_MODIFIERS,
             VAFStructuredDataKey.DIMENSION_ID, VAFStructuredDataKey.ROOM, VAFStructuredDataKey.SKY,
             VAFStructuredDataKey.TROPHY_TYPE, VAFStructuredDataKey.MOB_TROPHY_TYPE
     );

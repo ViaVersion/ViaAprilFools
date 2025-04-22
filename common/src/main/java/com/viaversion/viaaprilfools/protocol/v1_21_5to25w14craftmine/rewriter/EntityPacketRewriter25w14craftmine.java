@@ -152,6 +152,7 @@ public final class EntityPacketRewriter25w14craftmine extends EntityRewriter<Cli
 
     @Override
     protected void registerRewrites() {
+        filter().mapDataType(Types25w14craftmine.ENTITY_DATA_TYPES::byId);
         registerEntityDataTypeHandler(
             Types25w14craftmine.ENTITY_DATA_TYPES.itemType,
             Types25w14craftmine.ENTITY_DATA_TYPES.blockStateType,

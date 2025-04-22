@@ -53,10 +53,11 @@ import java.util.List;
 public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemRewriter<ClientboundPacket1_21_5, ServerboundPacket25w14craftmine, Protocol1_21_5To_25w14craftmine> {
 
     public static final List<StructuredDataKey<?>> NEW_DATA_TO_REMOVE = List.of(
-            VAFStructuredDataKey.ITEM_EXCHANGE_VALUE, VAFStructuredDataKey.WORLD_EFFECT_UNLOCK, VAFStructuredDataKey.WORLD_EFFECT_HINT,
-            VAFStructuredDataKey.MINE_ACTIVE, VAFStructuredDataKey.MINE_COMPLETED,VAFStructuredDataKey.SPECIAL_MINE, VAFStructuredDataKey.WORLD_MODIFIERS,
-            VAFStructuredDataKey.DIMENSION_ID, VAFStructuredDataKey.ROOM, VAFStructuredDataKey.SKY,
-            VAFStructuredDataKey.TROPHY_TYPE, VAFStructuredDataKey.MOB_TROPHY_TYPE
+            VAFStructuredDataKey.ITEM_EXCHANGE_VALUE, VAFStructuredDataKey.WORLD_EFFECT_UNLOCK,
+            VAFStructuredDataKey.WORLD_EFFECT_HINT, VAFStructuredDataKey.MINE_ACTIVE, VAFStructuredDataKey.MINE_COMPLETED,
+            VAFStructuredDataKey.SPECIAL_MINE, VAFStructuredDataKey.WORLD_MODIFIERS, VAFStructuredDataKey.DIMENSION_ID,
+            VAFStructuredDataKey.ROOM, VAFStructuredDataKey.SKY, VAFStructuredDataKey.TROPHY_TYPE,
+            VAFStructuredDataKey.MOB_TROPHY_TYPE
     );
 
     static final int THIRD_CRAFTING_SLOT = 3;

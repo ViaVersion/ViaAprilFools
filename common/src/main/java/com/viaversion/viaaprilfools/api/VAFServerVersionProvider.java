@@ -24,6 +24,7 @@ import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import com.viaversion.viaversion.api.protocol.version.VersionProvider;
 import com.viaversion.viaversion.api.protocol.version.VersionType;
+import com.viaversion.viaversion.protocol.RedirectProtocolVersion;
 
 public class VAFServerVersionProvider implements VersionProvider {
 
@@ -45,6 +46,12 @@ public class VAFServerVersionProvider implements VersionProvider {
 
     @Override
     public ProtocolVersion getClosestServerProtocol(UserConnection connection) throws Exception {
+        if (!connection.isClientSide()) {
+            final ProtocolVersion version = connection.getProtocolInfo().protocolVersion();
+            if (version instanceof RedirectProtocolVersion redirectProtocolVersion) {
+                return redirectProtocolVersion.getOrigin();
+            }
+        }
         return delegate.getClosestServerProtocol(connection);
     }
 

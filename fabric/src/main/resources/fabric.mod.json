@@ -23,7 +23,7 @@
   },
   "depends": {
     "viafabric": ">=0.4.14",
-    "viabackwards": ">=5.3.3-SNAPSHOT"
+    "viabackwards": ">=5.3.2"
   },
   "custom": {
     "modmenu:api": true,

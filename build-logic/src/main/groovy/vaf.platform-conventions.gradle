@@ -1,7 +1,0 @@
-plugins {
-    id "vaf.base-conventions"
-}
-
-dependencies {
-    compileOnly project(":viaaprilfools-common")
-}

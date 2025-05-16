@@ -46,13 +46,16 @@ public class VAFServerVersionProvider implements VersionProvider {
 
     @Override
     public ProtocolVersion getClosestServerProtocol(UserConnection connection) throws Exception {
-        if (!connection.isClientSide()) {
-            final ProtocolVersion version = connection.getProtocolInfo().protocolVersion();
-            if (version instanceof RedirectProtocolVersion redirectProtocolVersion) {
-                return redirectProtocolVersion.getOrigin();
-            }
+        final ProtocolVersion version = delegate.getClosestServerProtocol(connection);
+        if (connection.isClientSide() && !version.isKnown()) {
+            return ProtocolVersion.getProtocol(VersionType.SPECIAL, version.getOriginalVersion());
         }
-        return delegate.getClosestServerProtocol(connection);
+
+        if (version instanceof final RedirectProtocolVersion redirectProtocolVersion) {
+            return redirectProtocolVersion.getOrigin();
+        } else {
+            return version;
+        }
     }
 
 }

@@ -22,8 +22,7 @@ package com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.rewriter;
 
 import com.viaversion.nbt.tag.Tag;
 import com.viaversion.viaaprilfools.api.minecraft.item.LodestoneTracker25w14craftmine;
-import com.viaversion.viaaprilfools.api.minecraft.item.VAFStructuredDataKey;
-import com.viaversion.viaaprilfools.api.type.version.Types25w14craftmine;
+import com.viaversion.viaaprilfools.api.minecraft.item.StructuredDataKeys25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.Protocol1_21_5To_25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.ClientboundPackets25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.ServerboundPacket25w14craftmine;
@@ -37,7 +36,6 @@ import com.viaversion.viaversion.api.minecraft.item.data.LodestoneTracker;
 import com.viaversion.viaversion.api.protocol.packet.PacketWrapper;
 import com.viaversion.viaversion.api.type.Types;
 import com.viaversion.viaversion.api.type.types.chunk.ChunkType1_21_5;
-import com.viaversion.viaversion.api.type.types.version.Types1_21_5;
 import com.viaversion.viaversion.libs.mcstructs.text.components.StringComponent;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ClientboundPacket1_21_5;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ClientboundPackets1_21_5;
@@ -53,10 +51,10 @@ import java.util.List;
 public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemRewriter<ClientboundPacket1_21_5, ServerboundPacket25w14craftmine, Protocol1_21_5To_25w14craftmine> {
 
     public static final List<StructuredDataKey<?>> NEW_DATA_TO_REMOVE = List.of(
-            VAFStructuredDataKey.ITEM_EXCHANGE_VALUE, VAFStructuredDataKey.WORLD_EFFECT_UNLOCK, VAFStructuredDataKey.WORLD_EFFECT_HINT,
-            VAFStructuredDataKey.MINE_ACTIVE, VAFStructuredDataKey.SPECIAL_MINE, VAFStructuredDataKey.MINE_COMPLETED,
-            VAFStructuredDataKey.WORLD_MODIFIERS, VAFStructuredDataKey.DIMENSION_ID, VAFStructuredDataKey.ROOM, VAFStructuredDataKey.SKY,
-            VAFStructuredDataKey.TROPHY_TYPE, VAFStructuredDataKey.MOB_TROPHY_TYPE
+            StructuredDataKeys25w14craftmine.ITEM_EXCHANGE_VALUE, StructuredDataKeys25w14craftmine.WORLD_EFFECT_UNLOCK, StructuredDataKeys25w14craftmine.WORLD_EFFECT_HINT,
+            StructuredDataKeys25w14craftmine.MINE_ACTIVE, StructuredDataKeys25w14craftmine.SPECIAL_MINE, StructuredDataKeys25w14craftmine.MINE_COMPLETED,
+            StructuredDataKeys25w14craftmine.WORLD_MODIFIERS, StructuredDataKeys25w14craftmine.DIMENSION_ID, StructuredDataKeys25w14craftmine.ROOM, StructuredDataKeys25w14craftmine.SKY,
+            StructuredDataKeys25w14craftmine.TROPHY_TYPE, StructuredDataKeys25w14craftmine.MOB_TROPHY_TYPE
     );
 
     static final int THIRD_CRAFTING_SLOT = 3;
@@ -73,10 +71,7 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
     public static final int PLAYER_INVENTORY_ID = 0;
 
     public BlockItemPacketRewriter25w14craftmine(final Protocol1_21_5To_25w14craftmine protocol) {
-        super(protocol,
-            Types1_21_5.ITEM, Types1_21_5.ITEM_ARRAY, Types25w14craftmine.ITEM, Types25w14craftmine.ITEM_ARRAY,
-            Types1_21_5.ITEM_COST, Types1_21_5.OPTIONAL_ITEM_COST, Types25w14craftmine.ITEM_COST, Types25w14craftmine.OPTIONAL_ITEM_COST
-        );
+        super(protocol);
     }
 
     @Override
@@ -151,7 +146,7 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
             }
 
             removeCraftingSlots(wrapper);
-            passthroughLengthPrefixedItem(wrapper, Types1_21_5.LENGTH_PREFIXED_ITEM, Types25w14craftmine.LENGTH_PREFIXED_ITEM);
+            passthroughLengthPrefixedItem(wrapper);
         });
         protocol.registerServerbound(ServerboundPackets25w14craftmine.CONTAINER_CLICK, wrapper -> {
             final int containerId = wrapper.passthrough(Types.VAR_INT);
@@ -255,36 +250,29 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
     }
 
     @Override
-    public Item handleItemToClient(UserConnection connection, Item item) {
-        super.handleItemToClient(connection, item);
-        updateItemData(item);
+    protected void handleItemDataComponentsToClient(UserConnection connection, Item item, StructuredDataContainer container) {
+        super.handleItemDataComponentsToClient(connection, item, container);
 
-        return item;
+        upgradeItemData(item, container);
+    }
+
+    public static void upgradeItemData(final Item item, final StructuredDataContainer container) {
+        container.replace(StructuredDataKey.LODESTONE_TRACKER, StructuredDataKeys25w14craftmine.LODESTONE_TRACKER,
+                tracker -> new LodestoneTracker25w14craftmine(tracker.position(), tracker.tracked(), false));
     }
 
     @Override
-    public Item handleItemToServer(UserConnection connection, Item item) {
-        super.handleItemToServer(connection, item);
-        downgradeItemData(item);
+    protected void handleItemDataComponentsToServer(UserConnection connection, Item item, StructuredDataContainer container) {
+        super.handleItemDataComponentsToServer(connection, item, container);
 
-        return item;
+        downgradeItemData(item, container);
     }
 
-    public static void updateItemData(final Item item) {
-        final StructuredDataContainer dataContainer = item.dataContainer();
+    public static void downgradeItemData(final Item item, final StructuredDataContainer container) {
+        container.replace(StructuredDataKeys25w14craftmine.LODESTONE_TRACKER, StructuredDataKey.LODESTONE_TRACKER,
+                tracker -> new LodestoneTracker(tracker.position(), tracker.tracked()));
 
-        dataContainer.replace(StructuredDataKey.LODESTONE_TRACKER, VAFStructuredDataKey.LODESTONE_TRACKER, tracker -> {
-            return new LodestoneTracker25w14craftmine(tracker.position(), tracker.tracked(), false);
-        });
-    }
-
-    public static void downgradeItemData(final Item item) {
-        final StructuredDataContainer dataContainer = item.dataContainer();
-        dataContainer.replace(VAFStructuredDataKey.LODESTONE_TRACKER, StructuredDataKey.LODESTONE_TRACKER, tracker -> {
-            return new LodestoneTracker(tracker.position(), tracker.tracked());
-        });
-
-        dataContainer.remove(NEW_DATA_TO_REMOVE);
+        container.remove(NEW_DATA_TO_REMOVE);
     }
 
 }

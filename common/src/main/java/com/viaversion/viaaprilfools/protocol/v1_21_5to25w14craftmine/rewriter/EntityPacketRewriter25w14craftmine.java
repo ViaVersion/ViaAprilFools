@@ -22,16 +22,16 @@ package com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.rewriter;
 
 import com.viaversion.nbt.tag.CompoundTag;
 import com.viaversion.viaaprilfools.api.minecraft.entities.EntityTypes25w14craftmine;
-import com.viaversion.viaaprilfools.api.type.version.Types25w14craftmine;
+import com.viaversion.viaaprilfools.api.types.VAFTypes;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.Protocol1_21_5To_25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.ClientboundPackets25w14craftmine;
 import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.minecraft.GameMode;
 import com.viaversion.viaversion.api.minecraft.RegistryEntry;
 import com.viaversion.viaversion.api.minecraft.entities.EntityType;
+import com.viaversion.viaversion.api.minecraft.entitydata.types.EntityDataTypes1_21_5;
 import com.viaversion.viaversion.api.protocol.packet.PacketWrapper;
 import com.viaversion.viaversion.api.type.Types;
-import com.viaversion.viaversion.api.type.types.version.Types1_21_5;
 import com.viaversion.viaversion.protocols.v1_20_5to1_21.packet.ClientboundConfigurationPackets1_21;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ClientboundPacket1_21_5;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ClientboundPackets1_21_5;
@@ -61,7 +61,7 @@ public final class EntityPacketRewriter25w14craftmine extends EntityRewriter<Cli
     public void registerPackets() {
         // Tracks entities, applies entity data rewrites registered below, untracks entities
         registerTrackerWithData1_19(ClientboundPackets1_21_5.ADD_ENTITY, EntityTypes25w14craftmine.FALLING_BLOCK);
-        registerSetEntityData(ClientboundPackets1_21_5.SET_ENTITY_DATA, Types1_21_5.ENTITY_DATA_LIST, Types25w14craftmine.ENTITY_DATA_LIST);
+        registerSetEntityData(ClientboundPackets1_21_5.SET_ENTITY_DATA);
         registerRemoveEntities(ClientboundPackets1_21_5.REMOVE_ENTITIES);
         registerPlayerAbilities(ClientboundPackets1_21_5.PLAYER_ABILITIES);
         registerGameEvent(ClientboundPackets1_21_5.GAME_EVENT);
@@ -152,15 +152,16 @@ public final class EntityPacketRewriter25w14craftmine extends EntityRewriter<Cli
 
     @Override
     protected void registerRewrites() {
-        filter().mapDataType(Types25w14craftmine.ENTITY_DATA_TYPES::byId);
+        final EntityDataTypes1_21_5 mappedEntityDataTypes = VAFTypes.V25W14CRAFTMINE.entityDataTypes;
+        filter().mapDataType(mappedEntityDataTypes::byId);
         registerEntityDataTypeHandler(
-            Types25w14craftmine.ENTITY_DATA_TYPES.itemType,
-            Types25w14craftmine.ENTITY_DATA_TYPES.blockStateType,
-            Types25w14craftmine.ENTITY_DATA_TYPES.optionalBlockStateType,
-            Types25w14craftmine.ENTITY_DATA_TYPES.particleType,
-            Types25w14craftmine.ENTITY_DATA_TYPES.particlesType,
-            Types25w14craftmine.ENTITY_DATA_TYPES.componentType,
-            Types25w14craftmine.ENTITY_DATA_TYPES.optionalComponentType
+            mappedEntityDataTypes.itemType,
+            mappedEntityDataTypes.blockStateType,
+            mappedEntityDataTypes.optionalBlockStateType,
+            mappedEntityDataTypes.particleType,
+            mappedEntityDataTypes.particlesType,
+            mappedEntityDataTypes.componentType,
+            mappedEntityDataTypes.optionalComponentType
         );
     }
 

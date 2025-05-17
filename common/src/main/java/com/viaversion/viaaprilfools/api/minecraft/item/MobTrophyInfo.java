@@ -20,7 +20,7 @@
  */
 package com.viaversion.viaaprilfools.api.minecraft.item;
 
-import com.viaversion.viaaprilfools.api.type.version.VAFTypes;
+import com.viaversion.viaaprilfools.api.types.VAFTypes;
 import com.viaversion.viaversion.api.minecraft.Holder;
 import com.viaversion.viaversion.api.type.Type;
 import io.netty.buffer.ByteBuf;

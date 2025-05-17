@@ -18,10 +18,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.viaversion.viaaprilfools.api.type.version;
+package com.viaversion.viaaprilfools.api.types;
 
+import com.viaversion.viaaprilfools.api.minecraft.item.StructuredDataKeys25w14craftmine;
+import com.viaversion.viaversion.api.minecraft.entitydata.types.EntityDataTypes1_21_5;
 import com.viaversion.viaversion.api.type.Types;
 import com.viaversion.viaversion.api.type.types.misc.HolderType;
+import com.viaversion.viaversion.api.type.types.version.Types1_20_5;
 import io.netty.buffer.ByteBuf;
 
 public final class VAFTypes {
@@ -37,5 +40,7 @@ public final class VAFTypes {
             Types.STRING.write(byteBuf, s);
         }
     };
+
+    public static final Types1_20_5<StructuredDataKeys25w14craftmine, EntityDataTypes1_21_5> V25W14CRAFTMINE = new Types1_20_5<>(StructuredDataKeys25w14craftmine::new, EntityDataTypes1_21_5::new);
 
 }

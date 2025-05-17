@@ -22,7 +22,6 @@ package com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.rewriter;
 
 import com.viaversion.nbt.tag.CompoundTag;
 import com.viaversion.viaaprilfools.api.minecraft.entities.EntityTypes25w14craftmine;
-import com.viaversion.viaaprilfools.api.type.version.Types25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.Protocol25w14craftmineTo1_21_5;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.storage.CurrentContainer;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.storage.UnlockedEffects;
@@ -34,9 +33,10 @@ import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.minecraft.GameMode;
 import com.viaversion.viaversion.api.minecraft.RegistryEntry;
 import com.viaversion.viaversion.api.minecraft.entities.EntityType;
+import com.viaversion.viaversion.api.minecraft.entitydata.types.EntityDataTypes1_21_5;
 import com.viaversion.viaversion.api.protocol.packet.PacketWrapper;
 import com.viaversion.viaversion.api.type.Types;
-import com.viaversion.viaversion.api.type.types.version.Types1_21_5;
+import com.viaversion.viaversion.api.type.types.version.VersionedTypes;
 import com.viaversion.viaversion.rewriter.RegistryDataRewriter;
 import com.viaversion.viaversion.util.Key;
 
@@ -53,13 +53,13 @@ public final class EntityPacketRewriter25w14craftmine extends EntityRewriter<Cli
     };
 
     public EntityPacketRewriter25w14craftmine(final Protocol25w14craftmineTo1_21_5 protocol) {
-        super(protocol, Types1_21_5.ENTITY_DATA_TYPES.optionalComponentType, Types1_21_5.ENTITY_DATA_TYPES.booleanType);
+        super(protocol, protocol.mappedTypes().entityDataTypes().optionalComponentType, protocol.mappedTypes().entityDataTypes().booleanType);
     }
 
     @Override
     public void registerPackets() {
         registerTrackerWithData1_19(ClientboundPackets25w14craftmine.ADD_ENTITY, EntityTypes25w14craftmine.FALLING_BLOCK);
-        registerSetEntityData(ClientboundPackets25w14craftmine.SET_ENTITY_DATA, Types25w14craftmine.ENTITY_DATA_LIST, Types1_21_5.ENTITY_DATA_LIST);
+        registerSetEntityData(ClientboundPackets25w14craftmine.SET_ENTITY_DATA);
         registerRemoveEntities(ClientboundPackets25w14craftmine.REMOVE_ENTITIES);
         registerPlayerAbilities(ClientboundPackets25w14craftmine.PLAYER_ABILITIES);
         registerGameEvent(ClientboundPackets25w14craftmine.GAME_EVENT);
@@ -143,15 +143,16 @@ public final class EntityPacketRewriter25w14craftmine extends EntityRewriter<Cli
 
     @Override
     protected void registerRewrites() {
-        filter().mapDataType(Types1_21_5.ENTITY_DATA_TYPES::byId);
+        final EntityDataTypes1_21_5 mappedEntityDataTypes = VersionedTypes.V1_21_5.entityDataTypes;
+        filter().mapDataType(mappedEntityDataTypes::byId);
         registerEntityDataTypeHandler1_20_3(
-            Types1_21_5.ENTITY_DATA_TYPES.itemType,
-            Types1_21_5.ENTITY_DATA_TYPES.blockStateType,
-            Types1_21_5.ENTITY_DATA_TYPES.optionalBlockStateType,
-            Types1_21_5.ENTITY_DATA_TYPES.particleType,
-            Types1_21_5.ENTITY_DATA_TYPES.particlesType,
-            Types1_21_5.ENTITY_DATA_TYPES.componentType,
-            Types1_21_5.ENTITY_DATA_TYPES.optionalComponentType
+            mappedEntityDataTypes.itemType,
+            mappedEntityDataTypes.blockStateType,
+            mappedEntityDataTypes.optionalBlockStateType,
+            mappedEntityDataTypes.particleType,
+            mappedEntityDataTypes.particlesType,
+            mappedEntityDataTypes.componentType,
+            mappedEntityDataTypes.optionalComponentType
         );
 
         // Pets are tamable animals and the normal entities are just animals

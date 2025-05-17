@@ -21,10 +21,12 @@
 package com.viaversion.viaaprilfools.api.minecraft.item;
 
 import com.viaversion.viaversion.api.minecraft.data.StructuredDataKey;
+import com.viaversion.viaversion.api.minecraft.data.version.StructuredDataKeys1_21_5;
 import com.viaversion.viaversion.api.type.Types;
+import com.viaversion.viaversion.api.type.types.version.VersionedTypesHolder;
 import com.viaversion.viaversion.util.Unit;
 
-public final class VAFStructuredDataKey {
+public class StructuredDataKeys25w14craftmine extends StructuredDataKeys1_21_5 {
 
     public static final StructuredDataKey<ItemExchangeValue> ITEM_EXCHANGE_VALUE = new StructuredDataKey<>("exchange_value", ItemExchangeValue.TYPE);
     public static final StructuredDataKey<Unit> WORLD_EFFECT_UNLOCK = new StructuredDataKey<>("world_effect_unlock", Types.EMPTY);
@@ -39,5 +41,9 @@ public final class VAFStructuredDataKey {
     public static final StructuredDataKey<Integer> SKY = new StructuredDataKey<>("sky", Types.INT);
     public static final StructuredDataKey<String> TROPHY_TYPE = new StructuredDataKey<>("trophy/type", Types.STRING);
     public static final StructuredDataKey<MobTrophyInfo> MOB_TROPHY_TYPE = new StructuredDataKey<>("mob_trophy/type", MobTrophyInfo.TYPE);
+
+    public StructuredDataKeys25w14craftmine(VersionedTypesHolder types) {
+        super(types);
+    }
 
 }

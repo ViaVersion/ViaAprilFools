@@ -19,8 +19,8 @@ package com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine;
 
 import com.viaversion.viaaprilfools.api.data.VAFMappingData;
 import com.viaversion.viaaprilfools.api.minecraft.entities.EntityTypes25w14craftmine;
-import com.viaversion.viaaprilfools.api.minecraft.item.VAFStructuredDataKey;
-import com.viaversion.viaaprilfools.api.type.version.Types25w14craftmine;
+import com.viaversion.viaaprilfools.api.minecraft.item.StructuredDataKeys25w14craftmine;
+import com.viaversion.viaaprilfools.api.types.VAFTypes;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.*;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.rewriter.BlockItemPacketRewriter25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.rewriter.ComponentRewriter25w14craftmine;
@@ -32,14 +32,17 @@ import com.viaversion.viaversion.api.protocol.AbstractProtocol;
 import com.viaversion.viaversion.api.protocol.packet.provider.PacketTypesProvider;
 import com.viaversion.viaversion.api.protocol.packet.provider.SimplePacketTypesProvider;
 import com.viaversion.viaversion.api.type.types.misc.ParticleType;
-import com.viaversion.viaversion.api.type.types.version.Types1_21_5;
+import com.viaversion.viaversion.api.type.types.version.VersionedTypes;
+import com.viaversion.viaversion.api.type.types.version.VersionedTypesHolder;
 import com.viaversion.viaversion.data.entity.EntityTrackerBase;
+import com.viaversion.viaversion.data.item.ItemHasherBase;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ClientboundPacket1_21_5;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ClientboundPackets1_21_5;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ServerboundPacket1_21_5;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ServerboundPackets1_21_5;
 import com.viaversion.viaversion.rewriter.*;
 import com.viaversion.viaversion.rewriter.text.NBTComponentRewriter;
+import com.viaversion.viaversion.util.SerializerVersion;
 
 import static com.viaversion.viaversion.util.ProtocolUtil.packetTypeMap;
 
@@ -48,7 +51,7 @@ public final class Protocol1_21_5To_25w14craftmine extends AbstractProtocol<Clie
     public static final MappingData MAPPINGS = new VAFMappingData("1.21.5", "25w14craftmine");
     private final EntityPacketRewriter25w14craftmine entityRewriter = new EntityPacketRewriter25w14craftmine(this);
     private final BlockItemPacketRewriter25w14craftmine itemRewriter = new BlockItemPacketRewriter25w14craftmine(this);
-    private final ParticleRewriter<ClientboundPacket1_21_5> particleRewriter = new ParticleRewriter<>(this, Types1_21_5.PARTICLE, Types25w14craftmine.PARTICLE);
+    private final ParticleRewriter<ClientboundPacket1_21_5> particleRewriter = new ParticleRewriter<>(this);
     private final TagRewriter<ClientboundPacket1_21_5> tagRewriter = new TagRewriter<>(this);
     private final NBTComponentRewriter<ClientboundPacket1_21_5> componentRewriter = new ComponentRewriter25w14craftmine(this);
 
@@ -94,7 +97,7 @@ public final class Protocol1_21_5To_25w14craftmine extends AbstractProtocol<Clie
     @Override
     protected void onMappingDataLoaded() {
         EntityTypes25w14craftmine.initialize(this);
-        Types25w14craftmine.PARTICLE.filler(this)
+        VAFTypes.V25W14CRAFTMINE.particle.filler(this)
             .reader("block", ParticleType.Readers.BLOCK)
             .reader("block_marker", ParticleType.Readers.BLOCK)
             .reader("dust_pillar", ParticleType.Readers.BLOCK)
@@ -107,12 +110,12 @@ public final class Protocol1_21_5To_25w14craftmine extends AbstractProtocol<Clie
             .reader("shriek", ParticleType.Readers.SHRIEK)
             .reader("entity_effect", ParticleType.Readers.COLOR)
             .reader("trail", ParticleType.Readers.TRAIL1_21_4)
-            .reader("item", ParticleType.Readers.item(itemRewriter.mappedItemType()));
-        Types25w14craftmine.STRUCTURED_DATA.filler(this).add(StructuredDataKey.CUSTOM_DATA, StructuredDataKey.MAX_STACK_SIZE,
-                VAFStructuredDataKey.ITEM_EXCHANGE_VALUE, StructuredDataKey.MAX_DAMAGE, StructuredDataKey.UNBREAKABLE1_21_5, VAFStructuredDataKey.WORLD_EFFECT_UNLOCK,
-                VAFStructuredDataKey.WORLD_EFFECT_HINT, VAFStructuredDataKey.MINE_ACTIVE, VAFStructuredDataKey.SPECIAL_MINE,
-                VAFStructuredDataKey.MINE_COMPLETED, StructuredDataKey.RARITY, StructuredDataKey.TOOLTIP_DISPLAY, StructuredDataKey.DAMAGE_RESISTANT,
-                StructuredDataKey.CUSTOM_NAME, StructuredDataKey.LORE, StructuredDataKey.ENCHANTMENTS1_21_5, VAFStructuredDataKey.MOB_TROPHY_TYPE,
+            .reader("item", ParticleType.Readers.item(VAFTypes.V25W14CRAFTMINE.item));
+        VAFTypes.V25W14CRAFTMINE.structuredData.filler(this).add(StructuredDataKey.CUSTOM_DATA, StructuredDataKey.MAX_STACK_SIZE,
+                StructuredDataKeys25w14craftmine.ITEM_EXCHANGE_VALUE, StructuredDataKey.MAX_DAMAGE, StructuredDataKey.UNBREAKABLE1_21_5, StructuredDataKeys25w14craftmine.WORLD_EFFECT_UNLOCK,
+                StructuredDataKeys25w14craftmine.WORLD_EFFECT_HINT, StructuredDataKeys25w14craftmine.MINE_ACTIVE, StructuredDataKeys25w14craftmine.SPECIAL_MINE,
+                StructuredDataKeys25w14craftmine.MINE_COMPLETED, StructuredDataKey.RARITY, StructuredDataKey.TOOLTIP_DISPLAY, StructuredDataKey.DAMAGE_RESISTANT,
+                StructuredDataKey.CUSTOM_NAME, StructuredDataKey.LORE, StructuredDataKey.ENCHANTMENTS1_21_5, StructuredDataKeys25w14craftmine.MOB_TROPHY_TYPE,
                 StructuredDataKey.CUSTOM_MODEL_DATA1_21_4, StructuredDataKey.BLOCKS_ATTACKS, StructuredDataKey.PROVIDES_BANNER_PATTERNS,
                 StructuredDataKey.REPAIR_COST, StructuredDataKey.CREATIVE_SLOT_LOCK, StructuredDataKey.ENCHANTMENT_GLINT_OVERRIDE,
                 StructuredDataKey.INTANGIBLE_PROJECTILE, StructuredDataKey.STORED_ENCHANTMENTS1_21_5, StructuredDataKey.DYED_COLOR1_21_5,
@@ -120,8 +123,8 @@ public final class Protocol1_21_5To_25w14craftmine extends AbstractProtocol<Clie
                 StructuredDataKey.POTION_CONTENTS1_21_2, StructuredDataKey.SUSPICIOUS_STEW_EFFECTS, StructuredDataKey.WRITABLE_BOOK_CONTENT,
                 StructuredDataKey.WRITTEN_BOOK_CONTENT, StructuredDataKey.TRIM1_21_5, StructuredDataKey.DEBUG_STICK_STATE, StructuredDataKey.ENTITY_DATA,
                 StructuredDataKey.BUCKET_ENTITY_DATA, StructuredDataKey.BLOCK_ENTITY_DATA, StructuredDataKey.INSTRUMENT1_21_5,
-                VAFStructuredDataKey.WORLD_MODIFIERS, VAFStructuredDataKey.DIMENSION_ID, VAFStructuredDataKey.SKY, VAFStructuredDataKey.TROPHY_TYPE,
-                StructuredDataKey.RECIPES, VAFStructuredDataKey.LODESTONE_TRACKER, StructuredDataKey.FIREWORK_EXPLOSION, StructuredDataKey.FIREWORKS,
+                StructuredDataKeys25w14craftmine.WORLD_MODIFIERS, StructuredDataKeys25w14craftmine.DIMENSION_ID, StructuredDataKeys25w14craftmine.SKY, StructuredDataKeys25w14craftmine.TROPHY_TYPE,
+                StructuredDataKey.RECIPES, StructuredDataKeys25w14craftmine.LODESTONE_TRACKER, StructuredDataKey.FIREWORK_EXPLOSION, StructuredDataKey.FIREWORKS,
                 StructuredDataKey.PROFILE, StructuredDataKey.NOTE_BLOCK_SOUND, StructuredDataKey.BANNER_PATTERNS, StructuredDataKey.BASE_COLOR,
                 StructuredDataKey.POT_DECORATIONS, StructuredDataKey.BLOCK_STATE, StructuredDataKey.BEES, StructuredDataKey.LOCK,
                 StructuredDataKey.CONTAINER_LOOT, StructuredDataKey.TOOL1_21_5, StructuredDataKey.ITEM_NAME, StructuredDataKey.OMINOUS_BOTTLE_AMPLIFIER,
@@ -135,16 +138,14 @@ public final class Protocol1_21_5To_25w14craftmine extends AbstractProtocol<Clie
                 StructuredDataKey.RABBIT_VARIANT, StructuredDataKey.PIG_VARIANT, StructuredDataKey.FROG_VARIANT, StructuredDataKey.HORSE_VARIANT,
                 StructuredDataKey.PAINTING_VARIANT, StructuredDataKey.LLAMA_VARIANT, StructuredDataKey.AXOLOTL_VARIANT, StructuredDataKey.CAT_VARIANT,
                 StructuredDataKey.CAT_COLLAR, StructuredDataKey.SHEEP_COLOR, StructuredDataKey.SHULKER_COLOR, StructuredDataKey.PROVIDES_TRIM_MATERIAL,
-                StructuredDataKey.BREAK_SOUND, VAFStructuredDataKey.ROOM, StructuredDataKey.COW_VARIANT, StructuredDataKey.CHICKEN_VARIANT, StructuredDataKey.WOLF_SOUND_VARIANT,
-                // Volatile thanks to containing items/full data predicates
-                StructuredDataKey.CHARGED_PROJECTILES1_21_5, StructuredDataKey.BUNDLE_CONTENTS1_21_5, StructuredDataKey.CONTAINER1_21_5, StructuredDataKey.USE_REMAINDER1_21_5,
-                StructuredDataKey.CAN_PLACE_ON1_21_5, StructuredDataKey.CAN_BREAK1_21_5);
+                StructuredDataKey.BREAK_SOUND, StructuredDataKeys25w14craftmine.ROOM, StructuredDataKey.COW_VARIANT, StructuredDataKey.CHICKEN_VARIANT, StructuredDataKey.WOLF_SOUND_VARIANT);
         super.onMappingDataLoaded();
     }
 
     @Override
     public void init(final UserConnection connection) {
         addEntityTracker(connection, new EntityTrackerBase(connection, EntityTypes25w14craftmine.PLAYER));
+        addItemHasher(connection, new ItemHasherBase(connection, SerializerVersion.V1_21_5, SerializerVersion.V1_21_5, MAPPINGS));
     }
 
     @Override
@@ -175,6 +176,16 @@ public final class Protocol1_21_5To_25w14craftmine extends AbstractProtocol<Clie
     @Override
     public NBTComponentRewriter<ClientboundPacket1_21_5> getComponentRewriter() {
         return componentRewriter;
+    }
+
+    @Override
+    public VersionedTypesHolder types() {
+        return VersionedTypes.V1_21_5;
+    }
+
+    @Override
+    public VersionedTypesHolder mappedTypes() {
+        return VAFTypes.V25W14CRAFTMINE;
     }
 
     @Override

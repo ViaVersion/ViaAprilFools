@@ -21,7 +21,8 @@
 package com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5;
 
 import com.viaversion.viaaprilfools.api.minecraft.entities.EntityTypes25w14craftmine;
-import com.viaversion.viaaprilfools.api.type.version.Types25w14craftmine;
+import com.viaversion.viaaprilfools.api.minecraft.item.StructuredDataKeys25w14craftmine;
+import com.viaversion.viaaprilfools.api.types.VAFTypes;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.data.MappingData25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.rewriter.BlockItemPacketRewriter25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.rewriter.ComponentRewriter25w14craftmine;
@@ -31,10 +32,14 @@ import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.*;
 import com.viaversion.viabackwards.api.BackwardsProtocol;
 import com.viaversion.viabackwards.api.rewriters.SoundRewriter;
 import com.viaversion.viaversion.api.connection.UserConnection;
+import com.viaversion.viaversion.api.minecraft.data.version.StructuredDataKeys1_21_5;
+import com.viaversion.viaversion.api.minecraft.entitydata.types.EntityDataTypes1_21_5;
 import com.viaversion.viaversion.api.protocol.packet.provider.PacketTypesProvider;
 import com.viaversion.viaversion.api.protocol.packet.provider.SimplePacketTypesProvider;
-import com.viaversion.viaversion.api.type.types.version.Types1_21_5;
+import com.viaversion.viaversion.api.type.types.version.Types1_20_5;
+import com.viaversion.viaversion.api.type.types.version.VersionedTypes;
 import com.viaversion.viaversion.data.entity.EntityTrackerBase;
+import com.viaversion.viaversion.data.item.ItemHasherBase;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ClientboundPacket1_21_5;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ClientboundPackets1_21_5;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ServerboundPacket1_21_5;
@@ -43,6 +48,7 @@ import com.viaversion.viaversion.rewriter.AttributeRewriter;
 import com.viaversion.viaversion.rewriter.ParticleRewriter;
 import com.viaversion.viaversion.rewriter.StatisticsRewriter;
 import com.viaversion.viaversion.rewriter.TagRewriter;
+import com.viaversion.viaversion.util.SerializerVersion;
 
 import static com.viaversion.viaversion.util.ProtocolUtil.packetTypeMap;
 
@@ -52,7 +58,7 @@ public final class Protocol25w14craftmineTo1_21_5 extends BackwardsProtocol<Clie
     private final EntityPacketRewriter25w14craftmine entityRewriter = new EntityPacketRewriter25w14craftmine(this);
     private final BlockItemPacketRewriter25w14craftmine itemRewriter = new BlockItemPacketRewriter25w14craftmine(this);
     private final ComponentRewriter25w14craftmine translatableRewriter = new ComponentRewriter25w14craftmine(this);
-    private final ParticleRewriter<ClientboundPacket25w14craftmine> particleRewriter = new ParticleRewriter<>(this, Types25w14craftmine.PARTICLE, Types1_21_5.PARTICLE);
+    private final ParticleRewriter<ClientboundPacket25w14craftmine> particleRewriter = new ParticleRewriter<>(this);
     private final TagRewriter<ClientboundPacket25w14craftmine> tagRewriter = new TagRewriter<>(this);
 
     public Protocol25w14craftmineTo1_21_5() {
@@ -97,9 +103,10 @@ public final class Protocol25w14craftmineTo1_21_5 extends BackwardsProtocol<Clie
     }
 
     @Override
-    public void init(final UserConnection user) {
-        addEntityTracker(user, new EntityTrackerBase(user, EntityTypes25w14craftmine.PLAYER));
-        user.put(new CurrentContainer());
+    public void init(final UserConnection connection) {
+        addEntityTracker(connection, new EntityTrackerBase(connection, EntityTypes25w14craftmine.PLAYER));
+        addItemHasher(connection, new ItemHasherBase(connection, SerializerVersion.V1_21_5, SerializerVersion.V1_21_5, MAPPINGS));
+        connection.put(new CurrentContainer());
     }
 
     @Override
@@ -130,6 +137,16 @@ public final class Protocol25w14craftmineTo1_21_5 extends BackwardsProtocol<Clie
     @Override
     public TagRewriter<ClientboundPacket25w14craftmine> getTagRewriter() {
         return tagRewriter;
+    }
+
+    @Override
+    public Types1_20_5<StructuredDataKeys25w14craftmine, EntityDataTypes1_21_5> types() {
+        return VAFTypes.V25W14CRAFTMINE;
+    }
+
+    @Override
+    public Types1_20_5<StructuredDataKeys1_21_5, EntityDataTypes1_21_5> mappedTypes() {
+        return VersionedTypes.V1_21_5;
     }
 
     @Override

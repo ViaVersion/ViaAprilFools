@@ -439,4 +439,5 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
 
         removeCustomTag(container, customData);
     }
+
 }

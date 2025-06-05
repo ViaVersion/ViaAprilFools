@@ -7,7 +7,7 @@ plugins {
 val viaProxy: Configuration by configurations.creating
 
 dependencies {
-    compileOnly("io.netty:netty-all:4.2.1.Final")
+    compileOnly("io.netty:netty-all:4.2.2.Final")
     compileOnly("com.google.guava:guava:23.0")
 
     viaProxy("net.raphimc:ViaProxy:3.4.2-SNAPSHOT") {

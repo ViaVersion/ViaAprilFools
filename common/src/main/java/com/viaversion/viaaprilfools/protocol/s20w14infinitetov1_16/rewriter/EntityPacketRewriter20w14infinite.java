@@ -54,6 +54,7 @@ public class EntityPacketRewriter20w14infinite extends EntityRewriter<Clientboun
 
         wrapper.write(Types.STRING, dimensionType); // dimension type
         wrapper.write(Types.STRING, dimensionName); // dimension
+        trackWorld(wrapper.user(), dimensionName);
     };
 
     public EntityPacketRewriter20w14infinite(Protocol20w14infiniteTo1_16 protocol) {
@@ -94,8 +95,6 @@ public class EntityPacketRewriter20w14infinite extends EntityRewriter<Clientboun
                 map(Types.LONG); // Seed
                 map(Types.UNSIGNED_BYTE); // Gamemode
                 handler(wrapper -> {
-                    tracker(wrapper.user()).clearEntities();
-
                     wrapper.write(Types.BYTE, (byte) -1); // Previous gamemode, set to none
 
                     final String levelType = wrapper.read(Types.STRING);

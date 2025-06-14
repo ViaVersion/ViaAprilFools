@@ -42,6 +42,7 @@ import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ServerboundPac
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.rewriter.RecipeDisplayRewriter1_21_5;
 import com.viaversion.viaversion.rewriter.BlockRewriter;
 import com.viaversion.viaversion.rewriter.RecipeDisplayRewriter;
+import com.viaversion.viaversion.util.Key;
 import com.viaversion.viaversion.util.Limit;
 
 import static com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.storage.CurrentContainer.*;
@@ -361,7 +362,7 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
                 protocol.getComponentRewriter().processTag(connection, description);
                 dataContainer.set(StructuredDataKey.CUSTOM_NAME, name);
                 dataContainer.set(StructuredDataKey.LORE, new Tag[] { description });
-                dataContainer.set(StructuredDataKey.ITEM_MODEL, itemModel);
+                dataContainer.set(StructuredDataKey.ITEM_MODEL, Key.of(itemModel));
                 break;
             }
         }

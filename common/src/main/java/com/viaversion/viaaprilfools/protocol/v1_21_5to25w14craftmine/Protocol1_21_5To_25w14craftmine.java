@@ -145,7 +145,7 @@ public final class Protocol1_21_5To_25w14craftmine extends AbstractProtocol<Clie
     @Override
     public void init(final UserConnection connection) {
         addEntityTracker(connection, new EntityTrackerBase(connection, EntityTypes25w14craftmine.PLAYER));
-        addItemHasher(connection, new ItemHasherBase(connection, SerializerVersion.V1_21_5, SerializerVersion.V1_21_5, MAPPINGS));
+        addItemHasher(connection, new ItemHasherBase(this, connection, SerializerVersion.V1_21_5, SerializerVersion.V1_21_5));
     }
 
     @Override

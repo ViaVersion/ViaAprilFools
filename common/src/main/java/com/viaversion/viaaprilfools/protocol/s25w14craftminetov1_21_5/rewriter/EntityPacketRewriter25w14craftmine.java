@@ -73,21 +73,21 @@ public final class EntityPacketRewriter25w14craftmine extends EntityRewriter<Cli
                     }
 
                     if (entry.tag() instanceof CompoundTag compoundTag) {
-                        if (Key.stripMinecraftNamespace(key).equals("dimension_type")) {
-                            // Now back to inlined strings - reuse the dimension key
-                            compoundTag.putString("effects", Key.namespaced(entry.key()));
-                        } else {
-                            final String soundEvent = compoundTag.getString("sound_event");
-                            if (soundEvent != null && soundEvent.startsWith("nothingtoseehere")) {
-                                // Cancelled in normal packets and easier than removing registry entries
-                                compoundTag.putString("sound_event", "minecraft:intentionally_empty");
-                            }
+                        final String soundEvent = compoundTag.getString("sound_event");
+                        if (soundEvent != null && soundEvent.startsWith("nothingtoseehere")) {
+                            // Cancelled in normal packets and easier than removing registry entries
+                            compoundTag.putString("sound_event", "minecraft:intentionally_empty");
                         }
                     }
                 }
                 return super.handle(connection, key, entries);
             }
         };
+
+        // Now back to inlined strings - reuse the dimension key
+        registryDataRewriter.addHandler("dimension_type", (key, compoundTag) -> {
+            compoundTag.putString("effects", Key.namespaced(key));
+        });
         protocol.registerClientbound(ClientboundConfigurationPackets1_21.REGISTRY_DATA, registryDataRewriter::handle);
 
         protocol.registerClientbound(ClientboundPackets25w14craftmine.LOGIN, wrapper -> {

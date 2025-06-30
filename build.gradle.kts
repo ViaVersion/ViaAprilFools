@@ -114,10 +114,10 @@ if (!isRelease || isMainBranch) { // Only publish releases from the main branch
                     platformVersions.set(listOf(property("minecraft_version_range") as String))
                     dependencies {
                         hangar("ViaVersion") {
-                            required = true
+                            required.set(true)
                         }
                         hangar("ViaBackwards") {
-                            required = true
+                            required.set(true)
                         }
                     }
                 }
@@ -126,10 +126,10 @@ if (!isRelease || isMainBranch) { // Only publish releases from the main branch
                     platformVersions.set(listOf(property("velocity_version") as String))
                     dependencies {
                         hangar("ViaVersion") {
-                            required = true
+                            required.set(true)
                         }
                         hangar("ViaBackwards") {
-                            required = true
+                            required.set(true)
                         }
                     }
                 }

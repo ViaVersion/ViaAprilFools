@@ -21,7 +21,7 @@
 package com.viaversion.viaaprilfools.api;
 
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
-import com.viaversion.viaversion.protocol.RedirectProtocolVersion;
+import com.viaversion.viaversion.protocol.SpecialProtocolVersion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +38,7 @@ public class AprilFoolsProtocolVersion {
     public static final ProtocolVersion s25w14craftMine = registerAprilFools(770, 244, "25w14craftmine", ProtocolVersion.v1_21_5);
 
     private static ProtocolVersion registerSnapshot(final int version, final String name, final ProtocolVersion origin) {
-        final ProtocolVersion protocolVersion = new RedirectProtocolVersion(version, name, origin);
+        final ProtocolVersion protocolVersion = new SpecialProtocolVersion(version, name, origin);
         ProtocolVersion.register(protocolVersion);
         PROTOCOLS.add(protocolVersion);
         SNAPSHOTS_PROTOCOLS.add(protocolVersion);
@@ -54,7 +54,7 @@ public class AprilFoolsProtocolVersion {
     }
 
     private static ProtocolVersion registerAprilFools(final int version, final int snapshotVersion, final String name, final ProtocolVersion origin, final ProtocolVersion baseProtocolVersion) {
-        final ProtocolVersion protocolVersion = new RedirectProtocolVersion(version, snapshotVersion, name, null, origin) {
+        final ProtocolVersion protocolVersion = new SpecialProtocolVersion(version, snapshotVersion, name, null, origin) {
 
             @Override
             public ProtocolVersion getBaseProtocolVersion() {

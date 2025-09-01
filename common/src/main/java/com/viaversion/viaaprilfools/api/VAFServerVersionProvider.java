@@ -24,7 +24,7 @@ import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import com.viaversion.viaversion.api.protocol.version.VersionProvider;
 import com.viaversion.viaversion.api.protocol.version.VersionType;
-import com.viaversion.viaversion.protocol.RedirectProtocolVersion;
+import com.viaversion.viaversion.protocol.SpecialProtocolVersion;
 
 public class VAFServerVersionProvider implements VersionProvider {
 
@@ -51,8 +51,8 @@ public class VAFServerVersionProvider implements VersionProvider {
             return ProtocolVersion.getProtocol(VersionType.SPECIAL, version.getOriginalVersion());
         }
 
-        if (version instanceof final RedirectProtocolVersion redirectProtocolVersion) {
-            return redirectProtocolVersion.getOrigin();
+        if (version instanceof final SpecialProtocolVersion redirectProtocolVersion) {
+            return redirectProtocolVersion.getDelegate();
         } else {
             return version;
         }

@@ -20,6 +20,7 @@
  */
 package com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.rewriter;
 
+import com.viaversion.nbt.tag.CompoundTag;
 import com.viaversion.nbt.tag.Tag;
 import com.viaversion.viaaprilfools.api.minecraft.item.LodestoneTracker25w14craftmine;
 import com.viaversion.viaaprilfools.api.minecraft.item.StructuredDataKeys25w14craftmine;
@@ -183,7 +184,8 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
                     final Tag description = wrapper.passthrough(Types.TAG);
                     protocol.getComponentRewriter().processTag(wrapper.user(), title);
                     protocol.getComponentRewriter().processTag(wrapper.user(), description);
-                    final Tag hint = SerializerVersion.V1_21_5.toTag(new StringComponent(""));
+                    final CompoundTag hint = new CompoundTag();
+                    hint.putString("text", "");
                     wrapper.write(Types.TAG, hint);
 
                     passthroughClientboundItem(wrapper); // Icon

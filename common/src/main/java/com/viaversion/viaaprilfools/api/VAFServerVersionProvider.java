@@ -51,8 +51,8 @@ public class VAFServerVersionProvider implements VersionProvider {
             return ProtocolVersion.getProtocol(VersionType.SPECIAL, version.getOriginalVersion());
         }
 
-        if (version instanceof final SpecialProtocolVersion redirectProtocolVersion) {
-            return redirectProtocolVersion.getDelegate();
+        if (version instanceof final SpecialProtocolVersion specialProtocolVersion) {
+            return specialProtocolVersion.getDelegate();
         } else {
             return version;
         }

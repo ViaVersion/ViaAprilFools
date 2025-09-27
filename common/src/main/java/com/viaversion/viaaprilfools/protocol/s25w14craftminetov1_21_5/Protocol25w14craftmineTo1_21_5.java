@@ -105,7 +105,7 @@ public final class Protocol25w14craftmineTo1_21_5 extends BackwardsProtocol<Clie
     @Override
     public void init(final UserConnection connection) {
         addEntityTracker(connection, new EntityTrackerBase(connection, EntityTypes25w14craftmine.PLAYER));
-        addItemHasher(connection, new ItemHasherBase(this, connection, SerializerVersion.V1_21_5, SerializerVersion.V1_21_5));
+        addItemHasher(connection, new ItemHasherBase(this, connection));
         connection.put(new CurrentContainer());
     }
 

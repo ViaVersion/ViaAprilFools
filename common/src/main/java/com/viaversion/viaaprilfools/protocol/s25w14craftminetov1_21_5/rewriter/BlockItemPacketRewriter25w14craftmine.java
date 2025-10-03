@@ -33,6 +33,7 @@ import com.viaversion.viaversion.api.minecraft.data.StructuredDataContainer;
 import com.viaversion.viaversion.api.minecraft.data.StructuredDataKey;
 import com.viaversion.viaversion.api.minecraft.item.Item;
 import com.viaversion.viaversion.api.minecraft.item.StructuredItem;
+import com.viaversion.viaversion.api.minecraft.item.data.ItemModel;
 import com.viaversion.viaversion.api.protocol.packet.PacketWrapper;
 import com.viaversion.viaversion.api.type.Types;
 import com.viaversion.viaversion.api.type.types.chunk.ChunkType1_21_5;
@@ -362,7 +363,7 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
                 protocol.getComponentRewriter().processTag(connection, description);
                 dataContainer.set(StructuredDataKey.CUSTOM_NAME, name);
                 dataContainer.set(StructuredDataKey.LORE, new Tag[] { description });
-                dataContainer.set(StructuredDataKey.ITEM_MODEL, Key.of(itemModel));
+                dataContainer.set(StructuredDataKey.ITEM_MODEL, new ItemModel(Key.of(itemModel)));
                 break;
             }
         }

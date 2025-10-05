@@ -26,18 +26,12 @@ import com.viaversion.viabackwards.api.data.BackwardsMappingData;
 import com.viaversion.viaversion.api.data.Mappings;
 import com.viaversion.viaversion.api.protocol.Protocol;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 public class VAFBackwardsMappingData extends BackwardsMappingData {
 
     public VAFBackwardsMappingData(String unmappedVersion, String mappedVersion, Class<? extends Protocol<?, ?, ?, ?>> vvProtocolClass) {
         super(unmappedVersion, mappedVersion, vvProtocolClass);
-    }
-
-    @Override
-    protected List<String> identifiersFromGlobalIds(CompoundTag mappingsTag, String key) {
-        return VAFBackwardsMappingDataLoader.INSTANCE.identifiersFromGlobalIds(mappingsTag, key);
     }
 
     @Override

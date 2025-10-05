@@ -22,24 +22,15 @@ package com.viaversion.viaaprilfools.api.data;
 
 import com.viaversion.nbt.tag.CompoundTag;
 import com.viaversion.viaaprilfools.ViaAprilFools;
-import com.viaversion.viabackwards.api.data.BackwardsMappingData;
 import com.viaversion.viaversion.api.data.MappingDataBase;
-import com.viaversion.viaversion.api.data.MappingDataLoader;
 import com.viaversion.viaversion.api.data.Mappings;
-import com.viaversion.viaversion.api.protocol.Protocol;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 public class VAFMappingData extends MappingDataBase {
 
     public VAFMappingData(String unmappedVersion, String mappedVersion) {
         super(unmappedVersion, mappedVersion);
-    }
-
-    @Override
-    protected List<String> identifiersFromGlobalIds(CompoundTag mappingsTag, String key) {
-        return VAFMappingDataLoader.INSTANCE.identifiersFromGlobalIds(mappingsTag, key);
     }
 
     @Override

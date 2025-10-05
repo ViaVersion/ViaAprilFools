@@ -35,18 +35,6 @@ public class VAFBackwardsMappingDataLoader extends BackwardsMappingDataLoader {
     }
 
     @Override
-    public String identifierFromGlobalId(final String registry, final int globalId) {
-        final String[] array = VAFMappingDataLoader.GLOBAL_IDENTIFIER_INDEXES.get(registry);
-        if (array == null) {
-            throw new IllegalArgumentException("Unknown global identifier key: " + registry);
-        }
-        if (globalId < 0 || globalId >= array.length) {
-            throw new IllegalArgumentException("Unknown global identifier index: " + globalId);
-        }
-        return array[globalId];
-    }
-
-    @Override
     public File getDataFolder() {
         return ViaAprilFools.getPlatform().getDataFolder();
     }

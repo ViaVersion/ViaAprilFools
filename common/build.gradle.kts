@@ -10,7 +10,7 @@ dependencies {
     compileOnly("io.netty:netty-all:4.2.3.Final")
     compileOnly("com.google.guava:guava:23.0")
 
-    viaProxy("net.raphimc:ViaProxy:3.4.5-SNAPSHOT") {
+    viaProxy("net.raphimc:ViaProxy:3.4.6-SNAPSHOT") {
         isTransitive = false
     }
 }

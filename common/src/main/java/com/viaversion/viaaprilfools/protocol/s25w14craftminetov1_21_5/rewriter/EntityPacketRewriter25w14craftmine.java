@@ -64,32 +64,6 @@ public final class EntityPacketRewriter25w14craftmine extends EntityRewriter<Cli
         registerPlayerAbilities(ClientboundPackets25w14craftmine.PLAYER_ABILITIES);
         registerGameEvent(ClientboundPackets25w14craftmine.GAME_EVENT);
 
-        final RegistryDataRewriter registryDataRewriter = new RegistryDataRewriter(protocol) {
-            @Override
-            public RegistryEntry[] handle(UserConnection connection, String key, RegistryEntry[] entries) {
-                for (final RegistryEntry entry : entries) {
-                    if (entry.tag() == null) {
-                        continue;
-                    }
-
-                    if (entry.tag() instanceof CompoundTag compoundTag) {
-                        final String soundEvent = compoundTag.getString("sound_event");
-                        if (soundEvent != null && soundEvent.startsWith("nothingtoseehere")) {
-                            // Cancelled in normal packets and easier than removing registry entries
-                            compoundTag.putString("sound_event", "minecraft:intentionally_empty");
-                        }
-                    }
-                }
-                return super.handle(connection, key, entries);
-            }
-        };
-
-        // Now back to inlined strings - reuse the dimension key
-        registryDataRewriter.addHandler("dimension_type", (key, compoundTag) -> {
-            compoundTag.putString("effects", Key.namespaced(key));
-        });
-        protocol.registerClientbound(ClientboundConfigurationPackets1_21.REGISTRY_DATA, registryDataRewriter::handle);
-
         protocol.registerClientbound(ClientboundPackets25w14craftmine.LOGIN, wrapper -> {
             final int entityId = wrapper.passthrough(Types.INT);
             wrapper.passthrough(Types.BOOLEAN); // Hardcore

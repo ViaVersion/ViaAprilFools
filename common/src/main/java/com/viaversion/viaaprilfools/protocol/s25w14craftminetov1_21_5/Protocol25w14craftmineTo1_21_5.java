@@ -27,6 +27,7 @@ import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.data.Mappi
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.rewriter.BlockItemPacketRewriter25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.rewriter.ComponentRewriter25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.rewriter.EntityPacketRewriter25w14craftmine;
+import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.rewriter.RegistryDataRewriter25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.storage.CurrentContainer;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.*;
 import com.viaversion.viabackwards.api.BackwardsProtocol;
@@ -46,9 +47,9 @@ import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ServerboundPac
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ServerboundPackets1_21_5;
 import com.viaversion.viaversion.rewriter.AttributeRewriter;
 import com.viaversion.viaversion.rewriter.ParticleRewriter;
+import com.viaversion.viaversion.rewriter.RegistryDataRewriter;
 import com.viaversion.viaversion.rewriter.StatisticsRewriter;
 import com.viaversion.viaversion.rewriter.TagRewriter;
-import com.viaversion.viaversion.util.SerializerVersion;
 
 import static com.viaversion.viaversion.util.ProtocolUtil.packetTypeMap;
 
@@ -60,6 +61,7 @@ public final class Protocol25w14craftmineTo1_21_5 extends BackwardsProtocol<Clie
     private final ComponentRewriter25w14craftmine translatableRewriter = new ComponentRewriter25w14craftmine(this);
     private final ParticleRewriter<ClientboundPacket25w14craftmine> particleRewriter = new ParticleRewriter<>(this);
     private final TagRewriter<ClientboundPacket25w14craftmine> tagRewriter = new TagRewriter<>(this);
+    private final RegistryDataRewriter registryDataRewriter = new RegistryDataRewriter25w14craftmine(this);
 
     public Protocol25w14craftmineTo1_21_5() {
         super(ClientboundPacket25w14craftmine.class, ClientboundPacket1_21_5.class, ServerboundPacket25w14craftmine.class, ServerboundPacket1_21_5.class);
@@ -96,6 +98,8 @@ public final class Protocol25w14craftmineTo1_21_5 extends BackwardsProtocol<Clie
         particleRewriter.registerLevelParticles1_21_4(ClientboundPackets25w14craftmine.LEVEL_PARTICLES);
         particleRewriter.registerExplode1_21_2(ClientboundPackets25w14craftmine.EXPLODE);
 
+        registerClientbound(ClientboundConfigurationPackets1_21.REGISTRY_DATA, registryDataRewriter::handle);
+
         cancelClientbound(ClientboundPackets25w14craftmine.CHANGE_DIMENSION_TYPE); // Oh well
         cancelClientbound(ClientboundPackets25w14craftmine.OPEN_DOOR);
         cancelClientbound(ClientboundPackets25w14craftmine.UPDATE_PLAYER_UNLOCKS);
@@ -130,6 +134,11 @@ public final class Protocol25w14craftmineTo1_21_5 extends BackwardsProtocol<Clie
     }
 
     @Override
+    public RegistryDataRewriter getRegistryDataRewriter() {
+        return registryDataRewriter;
+    }
+
+    @Override
     public ParticleRewriter<ClientboundPacket25w14craftmine> getParticleRewriter() {
         return particleRewriter;
     }
@@ -152,10 +161,10 @@ public final class Protocol25w14craftmineTo1_21_5 extends BackwardsProtocol<Clie
     @Override
     protected PacketTypesProvider<ClientboundPacket25w14craftmine, ClientboundPacket1_21_5, ServerboundPacket25w14craftmine, ServerboundPacket1_21_5> createPacketTypesProvider() {
         return new SimplePacketTypesProvider<>(
-            packetTypeMap(unmappedClientboundPacketType, ClientboundPackets25w14craftmine.class, ClientboundConfigurationPackets1_21.class),
-            packetTypeMap(mappedClientboundPacketType, ClientboundPackets1_21_5.class, ClientboundConfigurationPackets1_21.class),
-            packetTypeMap(mappedServerboundPacketType, ServerboundPackets25w14craftmine.class, ServerboundConfigurationPackets1_20_5.class),
-            packetTypeMap(unmappedServerboundPacketType, ServerboundPackets1_21_5.class, ServerboundConfigurationPackets1_20_5.class)
+                packetTypeMap(unmappedClientboundPacketType, ClientboundPackets25w14craftmine.class, ClientboundConfigurationPackets1_21.class),
+                packetTypeMap(mappedClientboundPacketType, ClientboundPackets1_21_5.class, ClientboundConfigurationPackets1_21.class),
+                packetTypeMap(mappedServerboundPacketType, ServerboundPackets25w14craftmine.class, ServerboundConfigurationPackets1_20_5.class),
+                packetTypeMap(unmappedServerboundPacketType, ServerboundPackets1_21_5.class, ServerboundConfigurationPackets1_20_5.class)
         );
     }
 

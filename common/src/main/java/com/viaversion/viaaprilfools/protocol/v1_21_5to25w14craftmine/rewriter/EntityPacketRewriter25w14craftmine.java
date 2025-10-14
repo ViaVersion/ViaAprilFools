@@ -25,19 +25,13 @@ import com.viaversion.viaaprilfools.api.types.VAFTypes;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.Protocol1_21_5To_25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.ClientboundPackets25w14craftmine;
 import com.viaversion.viaversion.api.minecraft.GameMode;
-import com.viaversion.viaversion.api.minecraft.RegistryEntry;
 import com.viaversion.viaversion.api.minecraft.entities.EntityType;
 import com.viaversion.viaversion.api.minecraft.entitydata.types.EntityDataTypes1_21_5;
 import com.viaversion.viaversion.api.protocol.packet.PacketWrapper;
 import com.viaversion.viaversion.api.type.Types;
-import com.viaversion.viaversion.protocols.v1_20_5to1_21.packet.ClientboundConfigurationPackets1_21;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ClientboundPacket1_21_5;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ClientboundPackets1_21_5;
 import com.viaversion.viaversion.rewriter.EntityRewriter;
-import com.viaversion.viaversion.rewriter.RegistryDataRewriter;
-
-import static com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.data.DimensionTypes25w14craftmine.getGeneratedDimensionTag;
-import static com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.data.DimensionTypes25w14craftmine.getOverworldCavesDimensionEffectsTag;
 
 public final class EntityPacketRewriter25w14craftmine extends EntityRewriter<ClientboundPacket1_21_5, Protocol1_21_5To_25w14craftmine> {
 
@@ -62,15 +56,6 @@ public final class EntityPacketRewriter25w14craftmine extends EntityRewriter<Cli
         registerRemoveEntities(ClientboundPackets1_21_5.REMOVE_ENTITIES);
         registerPlayerAbilities(ClientboundPackets1_21_5.PLAYER_ABILITIES);
         registerGameEvent(ClientboundPackets1_21_5.GAME_EVENT);
-
-        final RegistryDataRewriter registryDataRewriter = new RegistryDataRewriter(protocol);
-        registryDataRewriter.addHandler("dimension_type", (key, compoundTag) -> {
-            // Use the ones that are sent with the minecraft:generated dimension as it's the most similar to
-            // a normal world, also still used in minecraft:overworld_caves
-            compoundTag.put("effects", getOverworldCavesDimensionEffectsTag());
-        });
-        registryDataRewriter.addEntries("dimension_type", new RegistryEntry("minecraft:generated", getGeneratedDimensionTag()));
-        protocol.registerClientbound(ClientboundConfigurationPackets1_21.REGISTRY_DATA, registryDataRewriter::handle);
 
         protocol.registerClientbound(ClientboundPackets1_21_5.LOGIN, wrapper -> {
             final int entityId = wrapper.passthrough(Types.INT);

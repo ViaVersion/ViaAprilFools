@@ -22,7 +22,6 @@ package com.viaversion.viaaprilfools.api;
 
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import com.viaversion.viaversion.protocol.SpecialProtocolVersion;
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -20,6 +20,11 @@
  */
 package com.viaversion.viaaprilfools.protocol.s20w14infinitetov1_16;
 
+import com.viaversion.viaaprilfools.api.data.VAFBackwardsMappingData;
+import com.viaversion.viaaprilfools.protocol.s20w14infinitetov1_16.packet.ClientboundPackets20w14infinite;
+import com.viaversion.viaaprilfools.protocol.s20w14infinitetov1_16.packet.ServerboundPackets20w14infinite;
+import com.viaversion.viaaprilfools.protocol.s20w14infinitetov1_16.rewriter.BlockItemPacketRewriter20w14infinite;
+import com.viaversion.viaaprilfools.protocol.s20w14infinitetov1_16.rewriter.EntityPacketRewriter20w14infinite;
 import com.viaversion.viabackwards.api.BackwardsProtocol;
 import com.viaversion.viabackwards.api.data.BackwardsMappingData;
 import com.viaversion.viabackwards.api.rewriters.SoundRewriter;
@@ -38,12 +43,6 @@ import com.viaversion.viaversion.rewriter.ParticleRewriter;
 import com.viaversion.viaversion.rewriter.RecipeRewriter;
 import com.viaversion.viaversion.rewriter.StatisticsRewriter;
 import com.viaversion.viaversion.rewriter.TagRewriter;
-import com.viaversion.viaaprilfools.api.data.VAFBackwardsMappingData;
-import com.viaversion.viaaprilfools.protocol.s20w14infinitetov1_16.rewriter.EntityPacketRewriter20w14infinite;
-import com.viaversion.viaaprilfools.protocol.s20w14infinitetov1_16.packet.ClientboundPackets20w14infinite;
-import com.viaversion.viaaprilfools.protocol.s20w14infinitetov1_16.packet.ServerboundPackets20w14infinite;
-import com.viaversion.viaaprilfools.protocol.s20w14infinitetov1_16.rewriter.BlockItemPacketRewriter20w14infinite;
-
 import java.util.UUID;
 
 public class Protocol20w14infiniteTo1_16 extends BackwardsProtocol<ClientboundPackets20w14infinite, ClientboundPackets1_16, ServerboundPackets20w14infinite, ServerboundPackets1_16> {
@@ -160,12 +159,12 @@ public class Protocol20w14infiniteTo1_16 extends BackwardsProtocol<ClientboundPa
 
         // The rest of not accessed tags added in older versions; #1830
         tagRewriter.addEmptyTags(RegistryType.BLOCK, "minecraft:bamboo_plantable_on", "minecraft:beds", "minecraft:bee_growables",
-                "minecraft:beehives", "minecraft:coral_plants", "minecraft:crops", "minecraft:dragon_immune", "minecraft:flowers",
-                "minecraft:portals", "minecraft:shulker_boxes", "minecraft:small_flowers", "minecraft:tall_flowers", "minecraft:trapdoors",
-                "minecraft:underwater_bonemeals", "minecraft:wither_immune", "minecraft:wooden_fences", "minecraft:wooden_trapdoors");
+            "minecraft:beehives", "minecraft:coral_plants", "minecraft:crops", "minecraft:dragon_immune", "minecraft:flowers",
+            "minecraft:portals", "minecraft:shulker_boxes", "minecraft:small_flowers", "minecraft:tall_flowers", "minecraft:trapdoors",
+            "minecraft:underwater_bonemeals", "minecraft:wither_immune", "minecraft:wooden_fences", "minecraft:wooden_trapdoors");
         tagRewriter.addEmptyTags(RegistryType.ENTITY, "minecraft:arrows", "minecraft:beehive_inhabitors", "minecraft:raiders", "minecraft:skeletons");
         tagRewriter.addEmptyTags(RegistryType.ITEM, "minecraft:beds", "minecraft:coals", "minecraft:fences", "minecraft:flowers",
-                "minecraft:lectern_books", "minecraft:music_discs", "minecraft:small_flowers", "minecraft:tall_flowers", "minecraft:trapdoors", "minecraft:walls", "minecraft:wooden_fences");
+            "minecraft:lectern_books", "minecraft:music_discs", "minecraft:small_flowers", "minecraft:tall_flowers", "minecraft:trapdoors", "minecraft:walls", "minecraft:wooden_fences");
         super.onMappingDataLoaded();
     }
 

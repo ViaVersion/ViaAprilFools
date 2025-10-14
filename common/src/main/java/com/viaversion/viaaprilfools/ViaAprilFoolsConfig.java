@@ -21,7 +21,6 @@
 package com.viaversion.viaaprilfools;
 
 import com.viaversion.viaversion.util.Config;
-
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;

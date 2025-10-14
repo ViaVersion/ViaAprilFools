@@ -22,7 +22,6 @@ package com.viaversion.viaaprilfools.api.data;
 
 import com.viaversion.viaaprilfools.ViaAprilFools;
 import com.viaversion.viaversion.api.data.MappingDataLoader;
-
 import java.io.File;
 import java.util.logging.Logger;
 

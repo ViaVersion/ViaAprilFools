@@ -25,7 +25,6 @@ import com.viaversion.viaaprilfools.ViaAprilFools;
 import com.viaversion.viabackwards.api.data.BackwardsMappingData;
 import com.viaversion.viaversion.api.data.Mappings;
 import com.viaversion.viaversion.api.protocol.Protocol;
-
 import java.util.logging.Logger;
 
 public class VAFBackwardsMappingData extends BackwardsMappingData {

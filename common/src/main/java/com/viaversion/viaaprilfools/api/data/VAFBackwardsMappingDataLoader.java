@@ -20,9 +20,8 @@
  */
 package com.viaversion.viaaprilfools.api.data;
 
-import com.viaversion.viabackwards.api.data.BackwardsMappingDataLoader;
 import com.viaversion.viaaprilfools.ViaAprilFools;
-
+import com.viaversion.viabackwards.api.data.BackwardsMappingDataLoader;
 import java.io.File;
 import java.util.logging.Logger;
 

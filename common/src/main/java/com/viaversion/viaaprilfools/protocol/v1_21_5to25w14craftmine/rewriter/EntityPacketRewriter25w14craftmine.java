@@ -35,13 +35,13 @@ import com.viaversion.viaversion.rewriter.EntityRewriter;
 
 public final class EntityPacketRewriter25w14craftmine extends EntityRewriter<ClientboundPacket1_21_5, Protocol1_21_5To_25w14craftmine> {
 
-    private static final int[] UNLOCKED_PLAYER_EFFECTS = new int[] {
-            15, // minecraft:crafting
-            20, // minecraft:inventory_slots_1
-            21, // minecraft:inventory_slots_2
-            22, // minecraft:inventory_slots_3
-            24, // minecraft:inventory_crafting
-            79  // minecraft:armaments
+    private static final int[] UNLOCKED_PLAYER_EFFECTS = new int[]{
+        15, // minecraft:crafting
+        20, // minecraft:inventory_slots_1
+        21, // minecraft:inventory_slots_2
+        22, // minecraft:inventory_slots_3
+        24, // minecraft:inventory_crafting
+        79  // minecraft:armaments
     };
 
     public EntityPacketRewriter25w14craftmine(final Protocol1_21_5To_25w14craftmine protocol) {

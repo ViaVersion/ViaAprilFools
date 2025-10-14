@@ -27,7 +27,6 @@ import com.viaversion.viaaprilfools.api.data.VAFMappingDataLoader;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.Protocol1_21_5To_25w14craftmine;
 import com.viaversion.viaversion.libs.gson.JsonElement;
 import com.viaversion.viaversion.libs.gson.JsonObject;
-
 import java.util.HashMap;
 import java.util.Map;
 

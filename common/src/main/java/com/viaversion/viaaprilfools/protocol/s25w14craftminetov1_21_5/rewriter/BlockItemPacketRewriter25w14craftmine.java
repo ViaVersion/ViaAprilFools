@@ -20,8 +20,18 @@
  */
 package com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.rewriter;
 
-import com.viaversion.nbt.tag.*;
-import com.viaversion.viaaprilfools.api.minecraft.item.*;
+import com.viaversion.nbt.tag.ByteTag;
+import com.viaversion.nbt.tag.CompoundTag;
+import com.viaversion.nbt.tag.FloatTag;
+import com.viaversion.nbt.tag.IntArrayTag;
+import com.viaversion.nbt.tag.StringTag;
+import com.viaversion.nbt.tag.Tag;
+import com.viaversion.viaaprilfools.api.minecraft.item.ItemExchangeValue;
+import com.viaversion.viaaprilfools.api.minecraft.item.LodestoneTracker25w14craftmine;
+import com.viaversion.viaaprilfools.api.minecraft.item.MobTrophyInfo;
+import com.viaversion.viaaprilfools.api.minecraft.item.RoomerinoComponentino;
+import com.viaversion.viaaprilfools.api.minecraft.item.StructuredDataKeys25w14craftmine;
+import com.viaversion.viaaprilfools.api.minecraft.item.WorldModifiers;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.Protocol25w14craftmineTo1_21_5;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.storage.CurrentContainer;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.ClientboundPacket25w14craftmine;
@@ -46,23 +56,29 @@ import com.viaversion.viaversion.rewriter.RecipeDisplayRewriter;
 import com.viaversion.viaversion.util.Key;
 import com.viaversion.viaversion.util.Limit;
 
-import static com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.storage.CurrentContainer.*;
-import static com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.rewriter.BlockItemPacketRewriter25w14craftmine.*;
+import static com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.storage.CurrentContainer.BLAST_FURNACE;
+import static com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.storage.CurrentContainer.FURNACE;
+import static com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.storage.CurrentContainer.MAP_MAKING;
+import static com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.rewriter.BlockItemPacketRewriter25w14craftmine.NEW_CRAFTING_SLOTS;
+import static com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.rewriter.BlockItemPacketRewriter25w14craftmine.PLAYER_INVENTORY_ID;
+import static com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.rewriter.BlockItemPacketRewriter25w14craftmine.addCraftingSlots;
+import static com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.rewriter.BlockItemPacketRewriter25w14craftmine.downgradeItemData;
+import static com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.rewriter.BlockItemPacketRewriter25w14craftmine.removeCraftingSlot;
+import static com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.rewriter.BlockItemPacketRewriter25w14craftmine.removeCraftingSlots;
+import static com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.rewriter.BlockItemPacketRewriter25w14craftmine.upgradeItemData;
 
 public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStructuredItemRewriter<ClientboundPacket25w14craftmine, ServerboundPacket1_21_5, Protocol25w14craftmineTo1_21_5> {
-
-    public BlockItemPacketRewriter25w14craftmine(final Protocol25w14craftmineTo1_21_5 protocol) {
-        super(protocol);
-    }
 
     static final int INVENTORY_ROW_WIDTH = 9;
     static final int SECOND_ROW_END = 18;
     static final int GENERIC_9X6_SIZE = 54;
-
     static final int TO_UNLOCK_EFFECTS_START = 51;
     static final int TO_DISCOVER_EFFECTS_START = 159;
-
     static final int SUPER_CHARGE_LEVEL = 4;
+
+    public BlockItemPacketRewriter25w14craftmine(final Protocol25w14craftmineTo1_21_5 protocol) {
+        super(protocol);
+    }
 
     @Override
     public void registerPackets() {
@@ -362,7 +378,7 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
                 protocol.getComponentRewriter().processTag(connection, name);
                 protocol.getComponentRewriter().processTag(connection, description);
                 dataContainer.set(StructuredDataKey.CUSTOM_NAME, name);
-                dataContainer.set(StructuredDataKey.LORE, new Tag[] { description });
+                dataContainer.set(StructuredDataKey.LORE, new Tag[]{description});
                 dataContainer.set(StructuredDataKey.ITEM_MODEL, new ItemModel(Key.of(itemModel)));
                 break;
             }
@@ -405,7 +421,7 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
 
         final boolean lodestoneTrackerExits = backupTag.getBoolean("lodestone_tracker|exits");
         container.replace(StructuredDataKey.LODESTONE_TRACKER, StructuredDataKeys25w14craftmine.LODESTONE_TRACKER,
-                tracker -> new LodestoneTracker25w14craftmine(tracker.position(), tracker.tracked(), lodestoneTrackerExits));
+            tracker -> new LodestoneTracker25w14craftmine(tracker.position(), tracker.tracked(), lodestoneTrackerExits));
 
         final FloatTag itemExchangeValueTag = backupTag.getFloatTag("item_exchange_value");
         if (itemExchangeValueTag != null) {

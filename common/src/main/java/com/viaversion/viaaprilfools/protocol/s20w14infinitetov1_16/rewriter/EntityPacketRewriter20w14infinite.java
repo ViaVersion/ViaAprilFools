@@ -20,6 +20,8 @@
  */
 package com.viaversion.viaaprilfools.protocol.s20w14infinitetov1_16.rewriter;
 
+import com.viaversion.viaaprilfools.protocol.s20w14infinitetov1_16.Protocol20w14infiniteTo1_16;
+import com.viaversion.viaaprilfools.protocol.s20w14infinitetov1_16.packet.ClientboundPackets20w14infinite;
 import com.viaversion.viaversion.api.Via;
 import com.viaversion.viaversion.api.minecraft.entities.EntityType;
 import com.viaversion.viaversion.api.minecraft.entities.EntityTypes1_16;
@@ -32,9 +34,6 @@ import com.viaversion.viaversion.protocols.v1_15_2to1_16.data.DimensionRegistrie
 import com.viaversion.viaversion.protocols.v1_15_2to1_16.packet.ClientboundPackets1_16;
 import com.viaversion.viaversion.rewriter.EntityRewriter;
 import com.viaversion.viaversion.util.Key;
-import com.viaversion.viaaprilfools.protocol.s20w14infinitetov1_16.packet.ClientboundPackets20w14infinite;
-import com.viaversion.viaaprilfools.protocol.s20w14infinitetov1_16.Protocol20w14infiniteTo1_16;
-
 import java.util.UUID;
 
 public class EntityPacketRewriter20w14infinite extends EntityRewriter<ClientboundPackets20w14infinite, Protocol20w14infiniteTo1_16> {

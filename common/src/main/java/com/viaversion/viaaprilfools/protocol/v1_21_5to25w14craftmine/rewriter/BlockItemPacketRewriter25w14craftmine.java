@@ -37,7 +37,6 @@ import com.viaversion.viaversion.api.minecraft.item.data.LodestoneTracker;
 import com.viaversion.viaversion.api.protocol.packet.PacketWrapper;
 import com.viaversion.viaversion.api.type.Types;
 import com.viaversion.viaversion.api.type.types.chunk.ChunkType1_21_5;
-import com.viaversion.viaversion.libs.mcstructs.text.components.StringComponent;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ClientboundPacket1_21_5;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ClientboundPackets1_21_5;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.rewriter.RecipeDisplayRewriter1_21_5;
@@ -45,31 +44,27 @@ import com.viaversion.viaversion.rewriter.BlockRewriter;
 import com.viaversion.viaversion.rewriter.RecipeDisplayRewriter;
 import com.viaversion.viaversion.rewriter.StructuredItemRewriter;
 import com.viaversion.viaversion.util.Limit;
-import com.viaversion.viaversion.util.SerializerVersion;
-
 import java.util.List;
 
 public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemRewriter<ClientboundPacket1_21_5, ServerboundPacket25w14craftmine, Protocol1_21_5To_25w14craftmine> {
 
     public static final List<StructuredDataKey<?>> NEW_DATA_TO_REMOVE = List.of(
-            StructuredDataKeys25w14craftmine.ITEM_EXCHANGE_VALUE, StructuredDataKeys25w14craftmine.WORLD_EFFECT_UNLOCK, StructuredDataKeys25w14craftmine.WORLD_EFFECT_HINT,
-            StructuredDataKeys25w14craftmine.MINE_ACTIVE, StructuredDataKeys25w14craftmine.SPECIAL_MINE, StructuredDataKeys25w14craftmine.MINE_COMPLETED,
-            StructuredDataKeys25w14craftmine.WORLD_MODIFIERS, StructuredDataKeys25w14craftmine.DIMENSION_ID, StructuredDataKeys25w14craftmine.ROOM, StructuredDataKeys25w14craftmine.SKY,
-            StructuredDataKeys25w14craftmine.TROPHY_TYPE, StructuredDataKeys25w14craftmine.MOB_TROPHY_TYPE
+        StructuredDataKeys25w14craftmine.ITEM_EXCHANGE_VALUE, StructuredDataKeys25w14craftmine.WORLD_EFFECT_UNLOCK, StructuredDataKeys25w14craftmine.WORLD_EFFECT_HINT,
+        StructuredDataKeys25w14craftmine.MINE_ACTIVE, StructuredDataKeys25w14craftmine.SPECIAL_MINE, StructuredDataKeys25w14craftmine.MINE_COMPLETED,
+        StructuredDataKeys25w14craftmine.WORLD_MODIFIERS, StructuredDataKeys25w14craftmine.DIMENSION_ID, StructuredDataKeys25w14craftmine.ROOM, StructuredDataKeys25w14craftmine.SKY,
+        StructuredDataKeys25w14craftmine.TROPHY_TYPE, StructuredDataKeys25w14craftmine.MOB_TROPHY_TYPE
     );
+
+    public static final int NEW_CRAFTING_SLOTS = 5;
+    public static final int PLAYER_INVENTORY_ID = 0;
 
     static final int THIRD_CRAFTING_SLOT = 3;
     static final int FOURTH_CRAFTING_SLOT = 4;
     static final int FIFTH_CRAFTING_SLOT = 5;
-
     static final int SIXTH_CRAFTING_SLOT = 6;
     static final int SEVENTH_CRAFTING_SLOT = 7;
     static final int EIGHTH_CRAFTING_SLOT = 8;
     static final int NINTH_CRAFTING_SLOT = 9;
-
-    public static final int NEW_CRAFTING_SLOTS = 5;
-
-    public static final int PLAYER_INVENTORY_ID = 0;
 
     public BlockItemPacketRewriter25w14craftmine(final Protocol1_21_5To_25w14craftmine protocol) {
         super(protocol);

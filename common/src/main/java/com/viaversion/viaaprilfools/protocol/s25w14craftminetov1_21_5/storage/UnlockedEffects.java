@@ -21,7 +21,6 @@
 package com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.storage;
 
 import com.viaversion.viaversion.api.connection.StorableObject;
-
 import java.util.List;
 
 public record UnlockedEffects(List<Integer> unlockedEffects) implements StorableObject {

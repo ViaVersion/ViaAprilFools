@@ -20,36 +20,29 @@
  */
 package com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.rewriter;
 
-import com.viaversion.nbt.tag.CompoundTag;
 import com.viaversion.viaaprilfools.api.minecraft.entities.EntityTypes25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.Protocol25w14craftmineTo1_21_5;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.storage.CurrentContainer;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.storage.UnlockedEffects;
-import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.ClientboundConfigurationPackets1_21;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.ClientboundPacket25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.ClientboundPackets25w14craftmine;
 import com.viaversion.viabackwards.api.rewriters.EntityRewriter;
-import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.minecraft.GameMode;
-import com.viaversion.viaversion.api.minecraft.RegistryEntry;
 import com.viaversion.viaversion.api.minecraft.entities.EntityType;
 import com.viaversion.viaversion.api.minecraft.entitydata.types.EntityDataTypes1_21_5;
 import com.viaversion.viaversion.api.protocol.packet.PacketWrapper;
 import com.viaversion.viaversion.api.type.Types;
 import com.viaversion.viaversion.api.type.types.version.VersionedTypes;
-import com.viaversion.viaversion.rewriter.RegistryDataRewriter;
-import com.viaversion.viaversion.util.Key;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public final class EntityPacketRewriter25w14craftmine extends EntityRewriter<ClientboundPacket25w14craftmine, Protocol25w14craftmineTo1_21_5> {
 
-    public static final EntityTypes25w14craftmine[] PET_ENTITIES = new EntityTypes25w14craftmine[] {
-            EntityTypes25w14craftmine.PET_ARMADILLO, EntityTypes25w14craftmine.PET_AXOLOTL, EntityTypes25w14craftmine.PET_BEE,
-            EntityTypes25w14craftmine.CAT, EntityTypes25w14craftmine.PET_FOX, EntityTypes25w14craftmine.PET_TURTLE, EntityTypes25w14craftmine.PET_POLAR_BEAR,
-            EntityTypes25w14craftmine.PET_SLIME, EntityTypes25w14craftmine.PET_WOLF, EntityTypes25w14craftmine.PET_CREEPER, EntityTypes25w14craftmine.PET_CHICKEN,
-            EntityTypes25w14craftmine.PET_FROG, EntityTypes25w14craftmine.PET_COW, EntityTypes25w14craftmine.PET_MOOSHROOM
+    public static final EntityTypes25w14craftmine[] PET_ENTITIES = new EntityTypes25w14craftmine[]{
+        EntityTypes25w14craftmine.PET_ARMADILLO, EntityTypes25w14craftmine.PET_AXOLOTL, EntityTypes25w14craftmine.PET_BEE,
+        EntityTypes25w14craftmine.CAT, EntityTypes25w14craftmine.PET_FOX, EntityTypes25w14craftmine.PET_TURTLE, EntityTypes25w14craftmine.PET_POLAR_BEAR,
+        EntityTypes25w14craftmine.PET_SLIME, EntityTypes25w14craftmine.PET_WOLF, EntityTypes25w14craftmine.PET_CREEPER, EntityTypes25w14craftmine.PET_CHICKEN,
+        EntityTypes25w14craftmine.PET_FROG, EntityTypes25w14craftmine.PET_COW, EntityTypes25w14craftmine.PET_MOOSHROOM
     };
 
     public EntityPacketRewriter25w14craftmine(final Protocol25w14craftmineTo1_21_5 protocol) {

@@ -24,7 +24,6 @@ import com.viaversion.nbt.tag.CompoundTag;
 import com.viaversion.viaaprilfools.ViaAprilFools;
 import com.viaversion.viaversion.api.data.MappingDataBase;
 import com.viaversion.viaversion.api.data.Mappings;
-
 import java.util.logging.Logger;
 
 public class VAFMappingData extends MappingDataBase {

@@ -33,7 +33,6 @@ import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.Protocol1_2
 import com.viaversion.viaversion.api.Via;
 import com.viaversion.viaversion.api.protocol.ProtocolManager;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
-
 import java.io.File;
 import java.util.logging.Logger;
 

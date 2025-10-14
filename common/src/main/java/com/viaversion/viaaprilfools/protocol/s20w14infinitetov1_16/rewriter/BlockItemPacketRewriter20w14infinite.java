@@ -20,6 +20,12 @@
  */
 package com.viaversion.viaaprilfools.protocol.s20w14infinitetov1_16.rewriter;
 
+import com.viaversion.nbt.tag.CompoundTag;
+import com.viaversion.nbt.tag.LongArrayTag;
+import com.viaversion.nbt.tag.Tag;
+import com.viaversion.viaaprilfools.protocol.s20w14infinitetov1_16.Protocol20w14infiniteTo1_16;
+import com.viaversion.viaaprilfools.protocol.s20w14infinitetov1_16.data.BiomeData20w14infinite;
+import com.viaversion.viaaprilfools.protocol.s20w14infinitetov1_16.packet.ClientboundPackets20w14infinite;
 import com.viaversion.viaversion.api.minecraft.chunks.Chunk;
 import com.viaversion.viaversion.api.minecraft.chunks.ChunkSection;
 import com.viaversion.viaversion.api.minecraft.chunks.DataPalette;
@@ -29,16 +35,9 @@ import com.viaversion.viaversion.api.type.Types;
 import com.viaversion.viaversion.api.type.types.chunk.ChunkType1_15;
 import com.viaversion.viaversion.api.type.types.chunk.ChunkType1_16;
 import com.viaversion.viaversion.protocols.v1_15_2to1_16.packet.ServerboundPackets1_16;
-import com.viaversion.nbt.tag.CompoundTag;
-import com.viaversion.nbt.tag.LongArrayTag;
-import com.viaversion.nbt.tag.Tag;
 import com.viaversion.viaversion.rewriter.BlockRewriter;
 import com.viaversion.viaversion.rewriter.ItemRewriter;
 import com.viaversion.viaversion.util.CompactArrayUtil;
-import com.viaversion.viaaprilfools.protocol.s20w14infinitetov1_16.packet.ClientboundPackets20w14infinite;
-import com.viaversion.viaaprilfools.protocol.s20w14infinitetov1_16.Protocol20w14infiniteTo1_16;
-import com.viaversion.viaaprilfools.protocol.s20w14infinitetov1_16.data.BiomeData20w14infinite;
-
 import java.util.Map;
 
 public class BlockItemPacketRewriter20w14infinite extends ItemRewriter<ClientboundPackets20w14infinite, ServerboundPackets1_16, Protocol20w14infiniteTo1_16> {

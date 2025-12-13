@@ -39,7 +39,10 @@ import java.util.logging.Logger;
 public interface ViaAprilFoolsPlatform {
 
     default void init(final File configFile) {
-        final ViaAprilFoolsConfig config = new ViaAprilFoolsConfig(configFile, getLogger());
+        init(new ViaAprilFoolsConfig(configFile, getLogger()));
+    }
+
+    default void init(final ViaAprilFoolsConfig config) {
         config.reload();
         ViaAprilFools.init(this, config);
         Via.getManager().getConfigurationProvider().register(config);

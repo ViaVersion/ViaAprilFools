@@ -139,7 +139,7 @@ public class EntityPacketRewriter20w14infinite extends EntityRewriter<Clientboun
                 if (attributeIdentifier == null) {
                     attributeIdentifier = "minecraft:" + key;
                     if (!Key.isValid(attributeIdentifier)) {
-                        if (!Via.getConfig().isSuppressConversionWarnings()) {
+                        if (Via.getConfig().logOtherConversionWarnings()) {
                             protocol.getLogger().warning("Invalid attribute: " + key);
                         }
                         actualSize--;

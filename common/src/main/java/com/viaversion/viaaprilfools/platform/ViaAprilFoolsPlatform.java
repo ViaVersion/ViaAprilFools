@@ -42,7 +42,7 @@ public interface ViaAprilFoolsPlatform {
         init(new ViaAprilFoolsConfig(configFile, getLogger()));
     }
 
-    default void init(final ViaAprilFoolsConfig config) {
+    default void init(final com.viaversion.viaaprilfools.platform.ViaAprilFoolsConfig config) {
         config.reload();
         ViaAprilFools.init(this, config);
         Via.getManager().getConfigurationProvider().register(config);

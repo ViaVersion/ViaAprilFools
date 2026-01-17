@@ -57,41 +57,17 @@ If you just want the latest jar file you can download it from [GitHub Actions](h
 
 ## Usage
 ViaAprilFools requires you to have an already functional ViaVersion implementation for your platform.
-If you don't have one you can check out [ViaLoader](https://github.com/ViaVersion/ViaLoader) for an abstracted and simplified, but still customizable implementation.
-You can also go to the other [ViaVersion](https://github.com/ViaVersion) repositories and look at their server and proxy implementations.
+If you don't have one you can check out [this documentation](https://github.com/ViaVersion/ViaVersion/wiki/Creating-a-new-ViaVersion-platform) in order to create one.
 
 ### Base Implementation
-#### ViaAprilFools platform implementation
-To get started you should create a class which implements the ViaAprilFools platform interface.
-Here is an example:
-```java
-public class ViaAprilFoolsPlatformImpl implements ViaAprilFoolsPlatform {
-
-    public ViaAprilFoolsPlatformImpl() {
-        this.init(this.getDataFolder());
-    }
-
-    @Override
-    public Logger getLogger() {
-        return Via.getPlatform().getLogger();
-    }
-
-    @Override
-    public File getDataFolder() {
-        return Via.getPlatform().getDataFolder();
-    }
-
-}
-```
-This is a very basic implementation which just uses the ViaVersion logger and data folder.
 
 #### Loading the platform
-After you have created your platform implementation you should load it in your ViaVersion implementation.
+To implement ViaAprilFools you need to create a new instance of its platform implementation class ``ViaAprilFoolsPlatformImpl`` when ViaVersion is being enabled.
 Here is an example:
 ```java
-Via.getManager().addEnableListener(ViaAprilFoolsPlatformImpl::new);
+new ViaAprilFoolsPlatformImpl();
 ```
-Make sure to add the enable listener before the Via manager is initialized (``((ViaManagerImpl) Via.getManager()).init();``).
+This should be done in your ``ViaManagerImpl.initAndLoad()`` method call as enable listener (or otherwise after the Via manager is initialized).
 
 #### Note
 If you want your platform to support the client protocols, you need the override the ``getClientProtocol`` function in your version provider:

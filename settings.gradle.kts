@@ -9,6 +9,8 @@ pluginManagement {
         id("io.papermc.hangar-publish-plugin") version "0.1.4"
         id("net.raphimc.class-token-replacer") version "1.1.7"
         id("com.modrinth.minotaur") version "2.+"
+
+        // A nice no-conflict comment for patching in downgrading
     }
 }
 

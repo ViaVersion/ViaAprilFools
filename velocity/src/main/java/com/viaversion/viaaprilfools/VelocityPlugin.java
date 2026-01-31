@@ -60,6 +60,7 @@ public class VelocityPlugin implements ViaAprilFoolsPlatform {
     @DataDirectory
     private Path configPath;
 
+    @SuppressWarnings("deprecation")
     @Subscribe(order = PostOrder.LATE)
     public void onProxyStart(ProxyInitializeEvent e) {
         this.logger = new LoggerWrapper(loggerSlf4j);

@@ -1,6 +1,6 @@
 name: ViaAprilFools
 main: com.viaversion.viaaprilfools.BukkitPlugin
-authors: [RK_01, FlorianMichael/EnZaXD]
+authors: [RK_01, EnZaXD]
 version: ${version}
 description: ${description}
 website: https://viaversion.com/aprilfools

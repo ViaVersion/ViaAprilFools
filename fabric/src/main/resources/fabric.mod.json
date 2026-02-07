@@ -14,7 +14,7 @@
   "environment": "*",
   "authors": [
     "RK_01",
-    "FlorianMichael/EnZaXD"
+    "Florian Reuth (EnZaXD)"
   ],
   "entrypoints": {
     "viafabric:via_api_initialized": [

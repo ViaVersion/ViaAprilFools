@@ -1,4 +1,4 @@
-import de.florianmichael.baseproject.*
+import de.florianreuth.baseproject.*
 
 plugins {
     id("net.raphimc.class-token-replacer")

@@ -2,7 +2,7 @@
  * This file is part of ViaAprilFools - https://github.com/ViaVersion/ViaAprilFools
  * Copyright (C) 2021-2026 the original authors
  *                         - RK_01/RaphiMC
- *                         - FlorianMichael/EnZaXD <git@florianmichael.de>
+ *                         - Florian Reuth <git@florianreuth.de>
  * Copyright (C) 2023-2026 ViaVersion and contributors
  *
  * This program is free software: you can redistribute it and/or modify

@@ -1,6 +1,9 @@
 /*
- * This file is part of ViaVersion - https://github.com/ViaVersion/ViaVersion
- * Copyright (C) 2016-2026 ViaVersion and contributors
+ * This file is part of ViaAprilFools - https://github.com/ViaVersion/ViaAprilFools
+ * Copyright (C) 2021-2026 the original authors
+ *                         - RK_01/RaphiMC
+ *                         - Florian Reuth <git@florianreuth.de>
+ * Copyright (C) 2023-2026 ViaVersion and contributors
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

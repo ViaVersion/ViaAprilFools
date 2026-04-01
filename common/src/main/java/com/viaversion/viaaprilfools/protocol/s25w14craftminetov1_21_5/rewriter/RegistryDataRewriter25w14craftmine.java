@@ -21,15 +21,17 @@
 package com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.rewriter;
 
 import com.viaversion.nbt.tag.CompoundTag;
+import com.viaversion.viabackwards.api.BackwardsProtocol;
+import com.viaversion.viabackwards.api.rewriters.BackwardsRegistryRewriter;
 import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.minecraft.RegistryEntry;
 import com.viaversion.viaversion.api.protocol.Protocol;
 import com.viaversion.viaversion.rewriter.RegistryDataRewriter;
 import com.viaversion.viaversion.util.Key;
 
-public final class RegistryDataRewriter25w14craftmine extends RegistryDataRewriter {
+public final class RegistryDataRewriter25w14craftmine extends BackwardsRegistryRewriter {
 
-    public RegistryDataRewriter25w14craftmine(Protocol<?, ?, ?, ?> protocol) {
+    public RegistryDataRewriter25w14craftmine(BackwardsProtocol<?, ?, ?, ?> protocol) {
         super(protocol);
 
         // Now back to inlined strings - reuse the dimension key

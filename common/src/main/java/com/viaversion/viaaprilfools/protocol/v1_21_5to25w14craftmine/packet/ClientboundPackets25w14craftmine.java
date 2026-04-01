@@ -74,7 +74,7 @@ public enum ClientboundPackets25w14craftmine implements ClientboundPacket25w14cr
     MOVE_ENTITY_ROT, // 0x31
     MOVE_VEHICLE, // 0x32
     OPEN_BOOK, // 0x33
-    OPEN_WINDOW, // 0x34
+    OPEN_SCREEN, // 0x34
     UPDATE_SCREEN, // 0x35
     OPEN_SIGN_EDITOR, // 0x36
     PING, // 0x37

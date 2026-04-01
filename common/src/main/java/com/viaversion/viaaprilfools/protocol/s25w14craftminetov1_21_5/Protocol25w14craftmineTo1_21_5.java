@@ -36,6 +36,7 @@ import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.Serv
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.ServerboundPacket25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.ServerboundPackets25w14craftmine;
 import com.viaversion.viabackwards.api.BackwardsProtocol;
+import com.viaversion.viabackwards.api.rewriters.BackwardsRegistryRewriter;
 import com.viaversion.viabackwards.api.rewriters.SoundRewriter;
 import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.minecraft.data.version.StructuredDataKeys1_21_5;
@@ -66,7 +67,7 @@ public final class Protocol25w14craftmineTo1_21_5 extends BackwardsProtocol<Clie
     private final ComponentRewriter25w14craftmine translatableRewriter = new ComponentRewriter25w14craftmine(this);
     private final ParticleRewriter<ClientboundPacket25w14craftmine> particleRewriter = new ParticleRewriter<>(this);
     private final TagRewriter<ClientboundPacket25w14craftmine> tagRewriter = new TagRewriter<>(this);
-    private final RegistryDataRewriter registryDataRewriter = new RegistryDataRewriter25w14craftmine(this);
+    private final BackwardsRegistryRewriter registryDataRewriter = new RegistryDataRewriter25w14craftmine(this);
 
     public Protocol25w14craftmineTo1_21_5() {
         super(ClientboundPacket25w14craftmine.class, ClientboundPacket1_21_5.class, ServerboundPacket25w14craftmine.class, ServerboundPacket1_21_5.class);
@@ -98,7 +99,7 @@ public final class Protocol25w14craftmineTo1_21_5 extends BackwardsProtocol<Clie
         translatableRewriter.registerComponentPacket(ClientboundPackets25w14craftmine.SYSTEM_CHAT);
         translatableRewriter.registerDisguisedChat(ClientboundPackets25w14craftmine.DISGUISED_CHAT);
         translatableRewriter.registerPlayerChat1_21_5(ClientboundPackets25w14craftmine.PLAYER_CHAT);
-        translatableRewriter.registerPing();
+        translatableRewriter.registerLoginDisconnect();
 
         particleRewriter.registerLevelParticles1_21_4(ClientboundPackets25w14craftmine.LEVEL_PARTICLES);
         particleRewriter.registerExplode1_21_2(ClientboundPackets25w14craftmine.EXPLODE);
@@ -139,7 +140,7 @@ public final class Protocol25w14craftmineTo1_21_5 extends BackwardsProtocol<Clie
     }
 
     @Override
-    public RegistryDataRewriter getRegistryDataRewriter() {
+    public BackwardsRegistryRewriter getRegistryDataRewriter() {
         return registryDataRewriter;
     }
 

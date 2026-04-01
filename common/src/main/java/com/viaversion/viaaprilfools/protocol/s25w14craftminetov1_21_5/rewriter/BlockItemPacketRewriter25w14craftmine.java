@@ -82,13 +82,13 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
 
     @Override
     public void registerPackets() {
-        final BlockRewriter<ClientboundPacket25w14craftmine> blockRewriter = BlockRewriter.for1_20_2(protocol);
+        final BlockRewriter<ClientboundPacket25w14craftmine> blockRewriter = BlockRewriter.for1_20_2(protocol, ChunkType1_21_5::new);
         blockRewriter.registerBlockEvent(ClientboundPackets25w14craftmine.BLOCK_EVENT);
         blockRewriter.registerBlockUpdate(ClientboundPackets25w14craftmine.BLOCK_UPDATE);
         blockRewriter.registerSectionBlocksUpdate1_20(ClientboundPackets25w14craftmine.SECTION_BLOCKS_UPDATE);
-        blockRewriter.registerLevelEvent1_21(ClientboundPackets25w14craftmine.LEVEL_EVENT, 2001);
-        blockRewriter.registerLevelChunk1_19(ClientboundPackets25w14craftmine.LEVEL_CHUNK_WITH_LIGHT, ChunkType1_21_5::new);
-        blockRewriter.registerBlockEntityData(ClientboundPackets25w14craftmine.BLOCK_ENTITY_DATA);
+        blockRewriter.registerLevelEvent1_21(ClientboundPackets25w14craftmine.LEVEL_EVENT);
+        blockRewriter.registerLevelChunk1_18(ClientboundPackets25w14craftmine.LEVEL_CHUNK_WITH_LIGHT);
+        blockRewriter.registerBlockEntityData1_18(ClientboundPackets25w14craftmine.BLOCK_ENTITY_DATA);
 
         protocol.registerClientbound(ClientboundPackets25w14craftmine.SET_CURSOR_ITEM, this::passthroughClientboundItem);
         registerCooldown1_21_2(ClientboundPackets25w14craftmine.COOLDOWN);
@@ -233,16 +233,13 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
             }
         });
 
-        protocol.registerClientbound(ClientboundPackets25w14craftmine.OPEN_WINDOW, ClientboundPackets1_21_5.OPEN_SCREEN, wrapper -> {
-            final int containerId = wrapper.passthrough(Types.VAR_INT);
-            final int containerTypeId = wrapper.read(Types.VAR_INT);
-            final int mappedId = protocol.getMappingData().getMenuMappings().getNewId(containerTypeId);
-            wrapper.write(Types.VAR_INT, mappedId);
+        registerOpenScreen(ClientboundPackets25w14craftmine.OPEN_SCREEN);
+        protocol.appendClientbound(ClientboundPackets25w14craftmine.OPEN_SCREEN, wrapper -> {
+            final int containerId = wrapper.get(Types.VAR_INT, 0);
+            final int containerTypeId =  wrapper.get(Types.VAR_INT, 1);
 
             final CurrentContainer currentContainer = wrapper.user().get(CurrentContainer.class);
             currentContainer.openContainer(containerId, containerTypeId);
-
-            protocol.getComponentRewriter().passthroughAndProcess(wrapper); // Title
 
             // Additional data - Throw away
             final int size = wrapper.read(Types.VAR_INT);

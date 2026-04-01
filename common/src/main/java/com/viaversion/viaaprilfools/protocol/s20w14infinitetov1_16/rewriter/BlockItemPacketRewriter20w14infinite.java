@@ -51,7 +51,7 @@ public class BlockItemPacketRewriter20w14infinite extends ItemRewriter<Clientbou
         this.registerCooldown(ClientboundPackets20w14infinite.COOLDOWN);
         this.registerSetContent(ClientboundPackets20w14infinite.CONTAINER_SET_CONTENT);
         this.registerSetSlot(ClientboundPackets20w14infinite.CONTAINER_SET_SLOT);
-        this.registerMerchantOffers(ClientboundPackets20w14infinite.MERCHANT_OFFERS);
+        this.registerMerchantOffers1_14_4(ClientboundPackets20w14infinite.MERCHANT_OFFERS);
         this.registerAdvancements(ClientboundPackets20w14infinite.UPDATE_ADVANCEMENTS);
         this.registerContainerClick(ServerboundPackets1_16.CONTAINER_CLICK);
         this.registerSetCreativeModeSlot(ServerboundPackets1_16.SET_CREATIVE_MODE_SLOT);
@@ -60,7 +60,7 @@ public class BlockItemPacketRewriter20w14infinite extends ItemRewriter<Clientbou
         blockRewriter.registerBlockUpdate(ClientboundPackets20w14infinite.BLOCK_UPDATE);
         blockRewriter.registerChunkBlocksUpdate(ClientboundPackets20w14infinite.CHUNK_BLOCKS_UPDATE);
         blockRewriter.registerBlockBreakAck(ClientboundPackets20w14infinite.BLOCK_BREAK_ACK);
-        blockRewriter.registerLevelEvent(ClientboundPackets20w14infinite.LEVEL_EVENT, 1010, 2001);
+        blockRewriter.registerLevelEvent1_13(ClientboundPackets20w14infinite.LEVEL_EVENT);
 
         protocol.registerClientbound(ClientboundPackets20w14infinite.LIGHT_UPDATE, new PacketHandlers() {
             @Override

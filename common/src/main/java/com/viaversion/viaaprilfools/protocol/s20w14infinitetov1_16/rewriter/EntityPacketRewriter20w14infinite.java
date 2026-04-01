@@ -62,7 +62,7 @@ public class EntityPacketRewriter20w14infinite extends EntityRewriter<Clientboun
 
     @Override
     protected void registerPackets() {
-        registerTrackerWithData(ClientboundPackets20w14infinite.ADD_ENTITY, EntityTypes1_16.FALLING_BLOCK);
+        registerTrackerWithData(ClientboundPackets20w14infinite.ADD_ENTITY);
         registerTracker(ClientboundPackets20w14infinite.ADD_MOB);
         registerTracker(ClientboundPackets20w14infinite.ADD_PLAYER, EntityTypes1_16.PLAYER);
         registerSetEntityData(ClientboundPackets20w14infinite.SET_ENTITY_DATA, Types1_14.ENTITY_DATA_LIST);

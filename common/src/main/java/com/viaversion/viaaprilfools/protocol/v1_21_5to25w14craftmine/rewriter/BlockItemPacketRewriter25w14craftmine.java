@@ -25,7 +25,6 @@ import com.viaversion.nbt.tag.Tag;
 import com.viaversion.viaaprilfools.api.minecraft.item.LodestoneTracker25w14craftmine;
 import com.viaversion.viaaprilfools.api.minecraft.item.StructuredDataKeys25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.Protocol1_21_5To_25w14craftmine;
-import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.ClientboundPackets25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.ServerboundPacket25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.ServerboundPackets25w14craftmine;
 import com.viaversion.viaversion.api.connection.UserConnection;
@@ -72,13 +71,13 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
 
     @Override
     public void registerPackets() {
-        final BlockRewriter<ClientboundPacket1_21_5> blockRewriter = BlockRewriter.for1_20_2(protocol);
+        final BlockRewriter<ClientboundPacket1_21_5> blockRewriter = BlockRewriter.for1_20_2(protocol, ChunkType1_21_5::new);
         blockRewriter.registerBlockEvent(ClientboundPackets1_21_5.BLOCK_EVENT);
         blockRewriter.registerBlockUpdate(ClientboundPackets1_21_5.BLOCK_UPDATE);
         blockRewriter.registerSectionBlocksUpdate1_20(ClientboundPackets1_21_5.SECTION_BLOCKS_UPDATE);
-        blockRewriter.registerLevelEvent1_21(ClientboundPackets1_21_5.LEVEL_EVENT, 2001);
-        blockRewriter.registerLevelChunk1_19(ClientboundPackets1_21_5.LEVEL_CHUNK_WITH_LIGHT, ChunkType1_21_5::new);
-        blockRewriter.registerBlockEntityData(ClientboundPackets1_21_5.BLOCK_ENTITY_DATA);
+        blockRewriter.registerLevelEvent1_21(ClientboundPackets1_21_5.LEVEL_EVENT);
+        blockRewriter.registerLevelChunk1_18(ClientboundPackets1_21_5.LEVEL_CHUNK_WITH_LIGHT);
+        blockRewriter.registerBlockEntityData1_18(ClientboundPackets1_21_5.BLOCK_ENTITY_DATA);
 
         protocol.registerClientbound(ClientboundPackets1_21_5.SET_CURSOR_ITEM, this::passthroughClientboundItem);
         registerCooldown1_21_2(ClientboundPackets1_21_5.COOLDOWN);
@@ -202,10 +201,8 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
             }
         });
 
-        protocol.registerClientbound(ClientboundPackets1_21_5.OPEN_SCREEN, ClientboundPackets25w14craftmine.OPEN_WINDOW, wrapper -> {
-            wrapper.passthrough(Types.VAR_INT); // Container id
-            handleMenuType(wrapper);
-            protocol.getComponentRewriter().passthroughAndProcess(wrapper); // Title
+        registerOpenScreen(ClientboundPackets1_21_5.OPEN_SCREEN);
+        protocol.appendClientbound(ClientboundPackets1_21_5.OPEN_SCREEN, wrapper -> {
             wrapper.write(Types.VAR_INT, 0); // Additional data - none
         });
     }
@@ -255,7 +252,7 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
 
     public static void upgradeItemData(final Item item, final StructuredDataContainer container) {
         container.replace(StructuredDataKey.LODESTONE_TRACKER, StructuredDataKeys25w14craftmine.LODESTONE_TRACKER,
-                tracker -> new LodestoneTracker25w14craftmine(tracker.position(), tracker.tracked(), false));
+            tracker -> new LodestoneTracker25w14craftmine(tracker.position(), tracker.tracked(), false));
     }
 
     @Override
@@ -267,7 +264,7 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
 
     public static void downgradeItemData(final Item item, final StructuredDataContainer container) {
         container.replace(StructuredDataKeys25w14craftmine.LODESTONE_TRACKER, StructuredDataKey.LODESTONE_TRACKER,
-                tracker -> new LodestoneTracker(tracker.position(), tracker.tracked()));
+            tracker -> new LodestoneTracker(tracker.position(), tracker.tracked()));
 
         container.remove(NEW_DATA_TO_REMOVE);
     }

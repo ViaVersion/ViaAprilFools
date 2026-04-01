@@ -91,7 +91,7 @@ public final class Protocol1_21_5To_25w14craftmine extends AbstractProtocol<Clie
         componentRewriter.registerComponentPacket(ClientboundPackets1_21_5.SYSTEM_CHAT);
         componentRewriter.registerDisguisedChat(ClientboundPackets1_21_5.DISGUISED_CHAT);
         componentRewriter.registerPlayerChat1_21_5(ClientboundPackets1_21_5.PLAYER_CHAT);
-        componentRewriter.registerPing();
+        componentRewriter.registerLoginDisconnect();
 
         particleRewriter.registerLevelParticles1_21_4(ClientboundPackets1_21_5.LEVEL_PARTICLES);
         particleRewriter.registerExplode1_21_2(ClientboundPackets1_21_5.EXPLODE);

@@ -51,7 +51,7 @@ public final class EntityPacketRewriter25w14craftmine extends EntityRewriter<Cli
     @Override
     public void registerPackets() {
         // Tracks entities, applies entity data rewrites registered below, untracks entities
-        registerTrackerWithData1_19(ClientboundPackets1_21_5.ADD_ENTITY, EntityTypes25w14craftmine.FALLING_BLOCK);
+        registerTrackerWithData1_19(ClientboundPackets1_21_5.ADD_ENTITY);
         registerSetEntityData(ClientboundPackets1_21_5.SET_ENTITY_DATA);
         registerRemoveEntities(ClientboundPackets1_21_5.REMOVE_ENTITIES);
         registerPlayerAbilities(ClientboundPackets1_21_5.PLAYER_ABILITIES);

@@ -35,36 +35,30 @@ public class BlockItemPacketRewriter3D_Shareware extends ItemRewriter<Clientboun
 
     @Override
     protected void registerPackets() {
-        this.registerCooldown(ClientboundPackets3D_Shareware.COOLDOWN);
-        this.registerSetContent(ClientboundPackets3D_Shareware.CONTAINER_SET_CONTENT);
-        this.registerSetSlot(ClientboundPackets3D_Shareware.CONTAINER_SET_SLOT);
-        this.registerSetEquippedItem(ClientboundPackets3D_Shareware.SET_EQUIPPED_ITEM);
-        this.registerAdvancements(ClientboundPackets3D_Shareware.UPDATE_ADVANCEMENTS);
-        this.registerContainerClick(ServerboundPackets1_14.CONTAINER_CLICK);
-        this.registerSetCreativeModeSlot(ServerboundPackets1_14.SET_CREATIVE_MODE_SLOT);
+        registerCooldown(ClientboundPackets3D_Shareware.COOLDOWN);
+        registerSetContent(ClientboundPackets3D_Shareware.CONTAINER_SET_CONTENT);
+        registerSetSlot(ClientboundPackets3D_Shareware.CONTAINER_SET_SLOT);
+        registerSetEquippedItem(ClientboundPackets3D_Shareware.SET_EQUIPPED_ITEM);
+        registerAdvancements(ClientboundPackets3D_Shareware.UPDATE_ADVANCEMENTS);
+        registerContainerClick(ServerboundPackets1_14.CONTAINER_CLICK);
+        registerSetCreativeModeSlot(ServerboundPackets1_14.SET_CREATIVE_MODE_SLOT);
+        protocol.registerClientbound(ClientboundPackets3D_Shareware.MERCHANT_OFFERS, wrapper -> {
+            wrapper.passthrough(Types.VAR_INT);
+            final int size = wrapper.passthrough(Types.UNSIGNED_BYTE);
 
-        this.protocol.registerClientbound(ClientboundPackets3D_Shareware.MERCHANT_OFFERS, new PacketHandlers() {
-            public void register() {
-                this.handler((wrapper) -> {
-                    wrapper.passthrough(Types.VAR_INT);
-                    int size = wrapper.passthrough(Types.UNSIGNED_BYTE);
+            for (int i = 0; i < size; ++i) {
+                passthroughClientboundItem(wrapper);
+                passthroughClientboundItem(wrapper);
+                if (wrapper.passthrough(Types.BOOLEAN)) {
+                    passthroughClientboundItem(wrapper);
+                }
 
-                    for (int i = 0; i < size; ++i) {
-                        BlockItemPacketRewriter3D_Shareware.this.handleItemToClient(wrapper.user(), wrapper.passthrough(Types.ITEM1_13_2));
-                        BlockItemPacketRewriter3D_Shareware.this.handleItemToClient(wrapper.user(), wrapper.passthrough(Types.ITEM1_13_2));
-                        if (wrapper.passthrough(Types.BOOLEAN)) {
-                            BlockItemPacketRewriter3D_Shareware.this.handleItemToClient(wrapper.user(), wrapper.passthrough(Types.ITEM1_13_2));
-                        }
-
-                        wrapper.passthrough(Types.BOOLEAN);
-                        wrapper.passthrough(Types.INT);
-                        wrapper.passthrough(Types.INT);
-                        wrapper.passthrough(Types.INT);
-                        wrapper.passthrough(Types.INT);
-                        wrapper.passthrough(Types.FLOAT);
-                    }
-
-                });
+                wrapper.passthrough(Types.BOOLEAN);
+                wrapper.passthrough(Types.INT);
+                wrapper.passthrough(Types.INT);
+                wrapper.passthrough(Types.INT);
+                wrapper.passthrough(Types.INT);
+                wrapper.passthrough(Types.FLOAT);
             }
         });
     }

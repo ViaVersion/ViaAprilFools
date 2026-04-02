@@ -25,8 +25,7 @@ import com.viaversion.viabackwards.api.BackwardsProtocol;
 import com.viaversion.viabackwards.api.rewriters.BackwardsRegistryRewriter;
 import com.viaversion.viaversion.api.connection.UserConnection;
 import com.viaversion.viaversion.api.minecraft.RegistryEntry;
-import com.viaversion.viaversion.api.protocol.Protocol;
-import com.viaversion.viaversion.rewriter.RegistryDataRewriter;
+import com.viaversion.viaversion.util.ArrayUtil;
 import com.viaversion.viaversion.util.Key;
 
 public final class RegistryDataRewriter25w14craftmine extends BackwardsRegistryRewriter {
@@ -40,16 +39,18 @@ public final class RegistryDataRewriter25w14craftmine extends BackwardsRegistryR
 
     @Override
     public RegistryEntry[] handle(UserConnection connection, String key, RegistryEntry[] entries) {
-        for (final RegistryEntry entry : entries) {
-            if (entry.tag() == null) {
+        for (int i = 0; i < entries.length; i++) {
+            final RegistryEntry entry = entries[i];
+            if (Key.equals(key, "dimension_type") && Key.equals(entry.key(), "generated")) {
+                // Remove the new dimension type
+                entries = ArrayUtil.remove(entries, i--);
                 continue;
             }
 
-            if (entry.tag() instanceof CompoundTag compoundTag) {
-                final String soundEvent = compoundTag.getString("sound_event");
-                if (soundEvent != null && soundEvent.startsWith("nothingtoseehere")) {
-                    // Cancelled in normal packets and easier than removing registry entries
-                    compoundTag.putString("sound_event", "minecraft:intentionally_empty");
+            if (entry.tag() instanceof final CompoundTag tag) {
+                final String soundEvent = tag.getString("sound_event");
+                if (soundEvent != null && Key.namespace(soundEvent).equals("nothingtoseehere")) { // Map to something else...
+                    tag.putString("sound_event", "intentionally_empty");
                 }
             }
         }

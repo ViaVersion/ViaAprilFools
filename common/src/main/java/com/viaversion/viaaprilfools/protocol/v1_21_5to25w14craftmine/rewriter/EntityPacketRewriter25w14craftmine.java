@@ -133,11 +133,6 @@ public final class EntityPacketRewriter25w14craftmine extends EntityRewriter<Cli
     }
 
     @Override
-    public void onMappingDataLoaded() {
-        mapTypes();
-    }
-
-    @Override
     public EntityType typeFromId(final int type) {
         return EntityTypes25w14craftmine.getTypeFromId(type);
     }

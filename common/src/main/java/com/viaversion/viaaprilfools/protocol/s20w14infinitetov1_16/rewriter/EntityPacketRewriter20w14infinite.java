@@ -179,11 +179,6 @@ public class EntityPacketRewriter20w14infinite extends EntityRewriter<Clientboun
     }
 
     @Override
-    public void onMappingDataLoaded() {
-        mapTypes();
-    }
-
-    @Override
     public EntityType typeFromId(int type) {
         return EntityTypes1_16.getTypeFromId(type);
     }

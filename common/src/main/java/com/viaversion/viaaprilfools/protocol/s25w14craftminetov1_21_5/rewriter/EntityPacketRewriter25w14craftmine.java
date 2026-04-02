@@ -131,8 +131,7 @@ public final class EntityPacketRewriter25w14craftmine extends EntityRewriter<Cli
 
     @Override
     public void onMappingDataLoaded() {
-        mapTypes();
-
+        super.onMappingDataLoaded();
         mapEntityTypeWithData(EntityTypes25w14craftmine.PET_ARMADILLO, EntityTypes25w14craftmine.ARMADILLO).tagName();
         mapEntityTypeWithData(EntityTypes25w14craftmine.PET_AXOLOTL, EntityTypes25w14craftmine.AXOLOTL).tagName();
         mapEntityTypeWithData(EntityTypes25w14craftmine.PET_BEE, EntityTypes25w14craftmine.BEE).tagName();

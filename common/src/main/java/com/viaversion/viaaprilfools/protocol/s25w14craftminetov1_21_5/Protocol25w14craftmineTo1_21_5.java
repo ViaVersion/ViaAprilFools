@@ -21,7 +21,7 @@
 package com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5;
 
 import com.viaversion.viaaprilfools.api.minecraft.entities.EntityTypes25w14craftmine;
-import com.viaversion.viaaprilfools.api.minecraft.item.StructuredDataKeys25w14craftmine;
+import com.viaversion.viaaprilfools.api.minecraft.item.VAFStructuredDataKeys;
 import com.viaversion.viaaprilfools.api.types.VAFTypes;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.data.MappingData25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.rewriter.BlockItemPacketRewriter25w14craftmine;
@@ -53,7 +53,6 @@ import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ServerboundPac
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ServerboundPackets1_21_5;
 import com.viaversion.viaversion.rewriter.AttributeRewriter;
 import com.viaversion.viaversion.rewriter.ParticleRewriter;
-import com.viaversion.viaversion.rewriter.RegistryDataRewriter;
 import com.viaversion.viaversion.rewriter.StatisticsRewriter;
 import com.viaversion.viaversion.rewriter.TagRewriter;
 
@@ -155,7 +154,7 @@ public final class Protocol25w14craftmineTo1_21_5 extends BackwardsProtocol<Clie
     }
 
     @Override
-    public Types1_20_5<StructuredDataKeys25w14craftmine, EntityDataTypes1_21_5> types() {
+    public Types1_20_5<VAFStructuredDataKeys, EntityDataTypes1_21_5> types() {
         return VAFTypes.V25W14CRAFTMINE;
     }
 

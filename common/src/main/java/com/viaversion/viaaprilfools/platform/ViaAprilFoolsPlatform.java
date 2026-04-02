@@ -30,6 +30,7 @@ import com.viaversion.viaaprilfools.protocol.scombattest8ctov1_16_2.ProtocolComb
 import com.viaversion.viaaprilfools.protocol.v1_14tos3d_shareware.Protocol1_14To3D_Shareware;
 import com.viaversion.viaaprilfools.protocol.v1_16_2toscombattest8c.Protocol1_16_2ToCombatTest8c;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.Protocol1_21_5To_25w14craftmine;
+import com.viaversion.viaaprilfools.protocol.v26_1tos26w14a.Protocol26_1To26w14a;
 import com.viaversion.viaversion.api.Via;
 import com.viaversion.viaversion.api.protocol.ProtocolManager;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
@@ -59,6 +60,8 @@ public interface ViaAprilFoolsPlatform {
 
         protocolManager.registerProtocol(new Protocol1_21_5To_25w14craftmine(), AprilFoolsProtocolVersion.s25w14craftMine, ProtocolVersion.v1_21_5);
         protocolManager.registerProtocol(new Protocol25w14craftmineTo1_21_5(), ProtocolVersion.v1_21_5, AprilFoolsProtocolVersion.s25w14craftMine);
+
+        protocolManager.registerProtocol(new Protocol26_1To26w14a(), AprilFoolsProtocolVersion.s26w14a, ProtocolVersion.v26_1);
     }
 
     Logger getLogger();

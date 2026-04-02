@@ -22,7 +22,7 @@ package com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine;
 
 import com.viaversion.viaaprilfools.api.data.VAFMappingData;
 import com.viaversion.viaaprilfools.api.minecraft.entities.EntityTypes25w14craftmine;
-import com.viaversion.viaaprilfools.api.minecraft.item.StructuredDataKeys25w14craftmine;
+import com.viaversion.viaaprilfools.api.minecraft.item.VAFStructuredDataKeys;
 import com.viaversion.viaaprilfools.api.types.VAFTypes;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.ClientboundConfigurationPackets1_21;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.ClientboundPacket25w14craftmine;
@@ -115,10 +115,10 @@ public final class Protocol1_21_5To_25w14craftmine extends AbstractProtocol<Clie
         EntityTypes25w14craftmine.initialize(this);
         ParticleType.Fillers.fill1_21_4(this);
         VAFTypes.V25W14CRAFTMINE.structuredData.filler(this).add(StructuredDataKey.CUSTOM_DATA, StructuredDataKey.MAX_STACK_SIZE,
-            StructuredDataKeys25w14craftmine.ITEM_EXCHANGE_VALUE, StructuredDataKey.MAX_DAMAGE, StructuredDataKey.UNBREAKABLE1_21_5, StructuredDataKeys25w14craftmine.WORLD_EFFECT_UNLOCK,
-            StructuredDataKeys25w14craftmine.WORLD_EFFECT_HINT, StructuredDataKeys25w14craftmine.MINE_ACTIVE, StructuredDataKeys25w14craftmine.SPECIAL_MINE,
-            StructuredDataKeys25w14craftmine.MINE_COMPLETED, StructuredDataKey.RARITY, StructuredDataKey.TOOLTIP_DISPLAY, StructuredDataKey.DAMAGE_RESISTANT1_21_2,
-            StructuredDataKey.CUSTOM_NAME, StructuredDataKey.LORE, StructuredDataKey.ENCHANTMENTS1_21_5, StructuredDataKeys25w14craftmine.MOB_TROPHY_TYPE,
+            VAFStructuredDataKeys.ITEM_EXCHANGE_VALUE, StructuredDataKey.MAX_DAMAGE, StructuredDataKey.UNBREAKABLE1_21_5, VAFStructuredDataKeys.WORLD_EFFECT_UNLOCK,
+            VAFStructuredDataKeys.WORLD_EFFECT_HINT, VAFStructuredDataKeys.MINE_ACTIVE, VAFStructuredDataKeys.SPECIAL_MINE,
+            VAFStructuredDataKeys.MINE_COMPLETED, StructuredDataKey.RARITY, StructuredDataKey.TOOLTIP_DISPLAY, StructuredDataKey.DAMAGE_RESISTANT1_21_2,
+            StructuredDataKey.CUSTOM_NAME, StructuredDataKey.LORE, StructuredDataKey.ENCHANTMENTS1_21_5, VAFStructuredDataKeys.MOB_TROPHY_TYPE,
             StructuredDataKey.CUSTOM_MODEL_DATA1_21_4, StructuredDataKey.BLOCKS_ATTACKS1_21_5, StructuredDataKey.PROVIDES_BANNER_PATTERNS1_21_5,
             StructuredDataKey.REPAIR_COST, StructuredDataKey.CREATIVE_SLOT_LOCK, StructuredDataKey.ENCHANTMENT_GLINT_OVERRIDE,
             StructuredDataKey.INTANGIBLE_PROJECTILE, StructuredDataKey.STORED_ENCHANTMENTS1_21_5, StructuredDataKey.DYED_COLOR1_21_5,
@@ -126,8 +126,8 @@ public final class Protocol1_21_5To_25w14craftmine extends AbstractProtocol<Clie
             StructuredDataKey.POTION_CONTENTS1_21_2, StructuredDataKey.SUSPICIOUS_STEW_EFFECTS, StructuredDataKey.WRITABLE_BOOK_CONTENT,
             StructuredDataKey.WRITTEN_BOOK_CONTENT, StructuredDataKey.TRIM1_21_5, StructuredDataKey.DEBUG_STICK_STATE, StructuredDataKey.ENTITY_DATA1_20_5,
             StructuredDataKey.BUCKET_ENTITY_DATA, StructuredDataKey.BLOCK_ENTITY_DATA1_20_5, StructuredDataKey.INSTRUMENT1_21_5,
-            StructuredDataKeys25w14craftmine.WORLD_MODIFIERS, StructuredDataKeys25w14craftmine.DIMENSION_ID, StructuredDataKeys25w14craftmine.SKY, StructuredDataKeys25w14craftmine.TROPHY_TYPE,
-            StructuredDataKey.RECIPES, StructuredDataKeys25w14craftmine.LODESTONE_TRACKER, StructuredDataKey.FIREWORK_EXPLOSION, StructuredDataKey.FIREWORKS,
+            VAFStructuredDataKeys.WORLD_MODIFIERS, VAFStructuredDataKeys.DIMENSION_ID, VAFStructuredDataKeys.SKY, VAFStructuredDataKeys.TROPHY_TYPE,
+            StructuredDataKey.RECIPES, VAFStructuredDataKeys.LODESTONE_TRACKER, StructuredDataKey.FIREWORK_EXPLOSION, StructuredDataKey.FIREWORKS,
             StructuredDataKey.PROFILE1_20_5, StructuredDataKey.NOTE_BLOCK_SOUND, StructuredDataKey.BANNER_PATTERNS, StructuredDataKey.BASE_COLOR,
             StructuredDataKey.POT_DECORATIONS, StructuredDataKey.BLOCK_STATE, StructuredDataKey.BEES1_20_5, StructuredDataKey.LOCK1_20_5,
             StructuredDataKey.CONTAINER_LOOT, StructuredDataKey.TOOL1_21_5, StructuredDataKey.ITEM_NAME, StructuredDataKey.OMINOUS_BOTTLE_AMPLIFIER,
@@ -141,7 +141,7 @@ public final class Protocol1_21_5To_25w14craftmine extends AbstractProtocol<Clie
             StructuredDataKey.RABBIT_VARIANT, StructuredDataKey.PIG_VARIANT, StructuredDataKey.FROG_VARIANT, StructuredDataKey.HORSE_VARIANT,
             StructuredDataKey.PAINTING_VARIANT, StructuredDataKey.LLAMA_VARIANT, StructuredDataKey.AXOLOTL_VARIANT, StructuredDataKey.CAT_VARIANT,
             StructuredDataKey.CAT_COLLAR, StructuredDataKey.SHEEP_COLOR, StructuredDataKey.SHULKER_COLOR, StructuredDataKey.PROVIDES_TRIM_MATERIAL1_21_5,
-            StructuredDataKey.BREAK_SOUND, StructuredDataKeys25w14craftmine.ROOM, StructuredDataKey.COW_VARIANT, StructuredDataKey.CHICKEN_VARIANT1_21_5, StructuredDataKey.WOLF_SOUND_VARIANT);
+            StructuredDataKey.BREAK_SOUND, VAFStructuredDataKeys.ROOM, StructuredDataKey.COW_VARIANT, StructuredDataKey.CHICKEN_VARIANT1_21_5, StructuredDataKey.WOLF_SOUND_VARIANT);
         super.onMappingDataLoaded();
     }
 

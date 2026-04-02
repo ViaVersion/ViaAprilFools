@@ -30,7 +30,7 @@ import com.viaversion.viaaprilfools.api.minecraft.item.ItemExchangeValue;
 import com.viaversion.viaaprilfools.api.minecraft.item.LodestoneTracker25w14craftmine;
 import com.viaversion.viaaprilfools.api.minecraft.item.MobTrophyInfo;
 import com.viaversion.viaaprilfools.api.minecraft.item.RoomerinoComponentino;
-import com.viaversion.viaaprilfools.api.minecraft.item.StructuredDataKeys25w14craftmine;
+import com.viaversion.viaaprilfools.api.minecraft.item.VAFStructuredDataKeys;
 import com.viaversion.viaaprilfools.api.minecraft.item.WorldModifiers;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.Protocol25w14craftmineTo1_21_5;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.storage.CurrentContainer;
@@ -47,7 +47,6 @@ import com.viaversion.viaversion.api.minecraft.item.data.ItemModel;
 import com.viaversion.viaversion.api.protocol.packet.PacketWrapper;
 import com.viaversion.viaversion.api.type.Types;
 import com.viaversion.viaversion.api.type.types.chunk.ChunkType1_21_5;
-import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ClientboundPackets1_21_5;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ServerboundPacket1_21_5;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ServerboundPackets1_21_5;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.rewriter.RecipeDisplayRewriter1_21_5;
@@ -297,37 +296,37 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
         super.backupInconvertibleData(connection, item, dataContainer, backupTag);
         rewriteWorldModifiers(connection, dataContainer);
 
-        saveIntData(StructuredDataKeys25w14craftmine.SPECIAL_MINE, dataContainer, backupTag);
-        saveIntData(StructuredDataKeys25w14craftmine.SKY, dataContainer, backupTag);
-        saveStringData(StructuredDataKeys25w14craftmine.TROPHY_TYPE, dataContainer, backupTag);
-        saveStringData(StructuredDataKeys25w14craftmine.DIMENSION_ID, dataContainer, backupTag);
+        saveIntData(VAFStructuredDataKeys.SPECIAL_MINE, dataContainer, backupTag);
+        saveIntData(VAFStructuredDataKeys.SKY, dataContainer, backupTag);
+        saveStringData(VAFStructuredDataKeys.TROPHY_TYPE, dataContainer, backupTag);
+        saveStringData(VAFStructuredDataKeys.DIMENSION_ID, dataContainer, backupTag);
 
-        if (dataContainer.has(StructuredDataKeys25w14craftmine.WORLD_EFFECT_UNLOCK)) {
+        if (dataContainer.has(VAFStructuredDataKeys.WORLD_EFFECT_UNLOCK)) {
             backupTag.putBoolean("world_effect_unlock", true);
         }
-        if (dataContainer.has(StructuredDataKeys25w14craftmine.WORLD_EFFECT_HINT)) {
+        if (dataContainer.has(VAFStructuredDataKeys.WORLD_EFFECT_HINT)) {
             backupTag.putBoolean("world_effect_hint", true);
         }
-        if (dataContainer.has(StructuredDataKeys25w14craftmine.MINE_ACTIVE)) {
+        if (dataContainer.has(VAFStructuredDataKeys.MINE_ACTIVE)) {
             backupTag.putBoolean("mine_active", true);
         }
 
-        final LodestoneTracker25w14craftmine lodestoneTracker = dataContainer.get(StructuredDataKeys25w14craftmine.LODESTONE_TRACKER);
+        final LodestoneTracker25w14craftmine lodestoneTracker = dataContainer.get(VAFStructuredDataKeys.LODESTONE_TRACKER);
         if (lodestoneTracker != null) {
             backupTag.putBoolean("lodestone_tracker|exits", lodestoneTracker.exits());
         }
 
-        final ItemExchangeValue exchangeValue = dataContainer.get(StructuredDataKeys25w14craftmine.ITEM_EXCHANGE_VALUE);
+        final ItemExchangeValue exchangeValue = dataContainer.get(VAFStructuredDataKeys.ITEM_EXCHANGE_VALUE);
         if (exchangeValue != null) {
             backupTag.putFloat("item_exchange_value", exchangeValue.value());
         }
 
-        final Boolean mineCompleted = dataContainer.get(StructuredDataKeys25w14craftmine.MINE_COMPLETED);
+        final Boolean mineCompleted = dataContainer.get(VAFStructuredDataKeys.MINE_COMPLETED);
         if (mineCompleted != null) {
             backupTag.putBoolean("mine_completed", mineCompleted);
         }
 
-        final WorldModifiers worldModifiers = dataContainer.get(StructuredDataKeys25w14craftmine.WORLD_MODIFIERS);
+        final WorldModifiers worldModifiers = dataContainer.get(VAFStructuredDataKeys.WORLD_MODIFIERS);
         if (worldModifiers != null) {
             final CompoundTag worldModifiersTag = new CompoundTag();
             worldModifiersTag.put("effects", new IntArrayTag(worldModifiers.effects()));
@@ -336,12 +335,12 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
             backupTag.put("world_modifiers", worldModifiersTag);
         }
 
-        final RoomerinoComponentino roomerinoComponentino = dataContainer.get(StructuredDataKeys25w14craftmine.ROOM);
+        final RoomerinoComponentino roomerinoComponentino = dataContainer.get(VAFStructuredDataKeys.ROOM);
         if (roomerinoComponentino != null) {
             backupTag.putString("room", roomerinoComponentino.id());
         }
 
-        final MobTrophyInfo mobTrophyInfo = dataContainer.get(StructuredDataKeys25w14craftmine.MOB_TROPHY_TYPE);
+        final MobTrophyInfo mobTrophyInfo = dataContainer.get(VAFStructuredDataKeys.MOB_TROPHY_TYPE);
         if (mobTrophyInfo != null) {
             final CompoundTag mobTrophyInfoTag = new CompoundTag();
             mobTrophyInfoTag.put("type", holderToTag(mobTrophyInfo.type(), (s, tag) -> tag.putString("id", s)));
@@ -357,7 +356,7 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
 
     // Try to reconstruct the item data, this is everything else than 1:1 but should be enough
     private void rewriteWorldModifiers(final UserConnection connection, final StructuredDataContainer dataContainer) {
-        final WorldModifiers worldModifiers = dataContainer.get(StructuredDataKeys25w14craftmine.WORLD_MODIFIERS);
+        final WorldModifiers worldModifiers = dataContainer.get(VAFStructuredDataKeys.WORLD_MODIFIERS);
         if (worldModifiers == null) {
             return;
         }
@@ -401,33 +400,33 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
             return;
         }
 
-        restoreIntData(StructuredDataKeys25w14craftmine.SPECIAL_MINE, container, customData);
-        restoreIntData(StructuredDataKeys25w14craftmine.SKY, container, customData);
-        restoreStringData(StructuredDataKeys25w14craftmine.TROPHY_TYPE, container, customData);
-        restoreStringData(StructuredDataKeys25w14craftmine.DIMENSION_ID, container, customData);
+        restoreIntData(VAFStructuredDataKeys.SPECIAL_MINE, container, customData);
+        restoreIntData(VAFStructuredDataKeys.SKY, container, customData);
+        restoreStringData(VAFStructuredDataKeys.TROPHY_TYPE, container, customData);
+        restoreStringData(VAFStructuredDataKeys.DIMENSION_ID, container, customData);
 
         if (backupTag.getBoolean("world_effect_unlock")) {
-            container.set(StructuredDataKeys25w14craftmine.WORLD_EFFECT_UNLOCK);
+            container.set(VAFStructuredDataKeys.WORLD_EFFECT_UNLOCK);
         }
         if (backupTag.getBoolean("world_effect_hint")) {
-            container.set(StructuredDataKeys25w14craftmine.WORLD_EFFECT_HINT);
+            container.set(VAFStructuredDataKeys.WORLD_EFFECT_HINT);
         }
         if (backupTag.getBoolean("mine_active")) {
-            container.set(StructuredDataKeys25w14craftmine.MINE_ACTIVE);
+            container.set(VAFStructuredDataKeys.MINE_ACTIVE);
         }
 
         final boolean lodestoneTrackerExits = backupTag.getBoolean("lodestone_tracker|exits");
-        container.replace(StructuredDataKey.LODESTONE_TRACKER, StructuredDataKeys25w14craftmine.LODESTONE_TRACKER,
+        container.replace(StructuredDataKey.LODESTONE_TRACKER, VAFStructuredDataKeys.LODESTONE_TRACKER,
             tracker -> new LodestoneTracker25w14craftmine(tracker.position(), tracker.tracked(), lodestoneTrackerExits));
 
         final FloatTag itemExchangeValueTag = backupTag.getFloatTag("item_exchange_value");
         if (itemExchangeValueTag != null) {
-            container.set(StructuredDataKeys25w14craftmine.ITEM_EXCHANGE_VALUE, new ItemExchangeValue(itemExchangeValueTag.asFloat()));
+            container.set(VAFStructuredDataKeys.ITEM_EXCHANGE_VALUE, new ItemExchangeValue(itemExchangeValueTag.asFloat()));
         }
 
         final ByteTag mineCompletedTag = backupTag.getByteTag("mine_completed");
         if (mineCompletedTag != null) {
-            container.set(StructuredDataKeys25w14craftmine.MINE_COMPLETED, mineCompletedTag.asBoolean());
+            container.set(VAFStructuredDataKeys.MINE_COMPLETED, mineCompletedTag.asBoolean());
         }
 
         final CompoundTag worldModifiersTag = backupTag.getCompoundTag("world_modifiers");
@@ -436,20 +435,20 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
             if (effectsTag != null) {
                 final int[] effects = effectsTag.getValue();
                 final boolean includeDescription = worldModifiersTag.getBoolean("include_description");
-                container.set(StructuredDataKeys25w14craftmine.WORLD_MODIFIERS, new WorldModifiers(effects, includeDescription));
+                container.set(VAFStructuredDataKeys.WORLD_MODIFIERS, new WorldModifiers(effects, includeDescription));
             }
         }
 
         final StringTag roomerinoComponentinoTag = backupTag.getStringTag("room");
         if (roomerinoComponentinoTag != null) {
-            container.set(StructuredDataKeys25w14craftmine.ROOM, new RoomerinoComponentino(roomerinoComponentinoTag.getValue()));
+            container.set(VAFStructuredDataKeys.ROOM, new RoomerinoComponentino(roomerinoComponentinoTag.getValue()));
         }
 
         final CompoundTag mobTrophyInfoTag = backupTag.getCompoundTag("mob_trophy/type");
         if (mobTrophyInfoTag != null) {
             final Holder<String> type = restoreHolder(mobTrophyInfoTag, "tag", s -> s.getString("id"));
             final boolean shiny = mobTrophyInfoTag.getBoolean("shiny");
-            container.set(StructuredDataKeys25w14craftmine.MOB_TROPHY_TYPE, new MobTrophyInfo(type, shiny));
+            container.set(VAFStructuredDataKeys.MOB_TROPHY_TYPE, new MobTrophyInfo(type, shiny));
         }
 
         removeCustomTag(container, customData);

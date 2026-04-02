@@ -35,6 +35,7 @@ public class AprilFoolsProtocolVersion {
     public static final ProtocolVersion s20w14infinite = registerAprilFools(709, "20w14infinite", ProtocolVersion.v1_15_2, ProtocolVersion.v1_16);
     public static final ProtocolVersion sCombatTest8c = registerSnapshot(803, "Combat Test 8c", ProtocolVersion.v1_16_1);
     public static final ProtocolVersion s25w14craftMine = registerAprilFools(770, 244, "25w14craftmine", ProtocolVersion.v1_21_5);
+    public static final ProtocolVersion s26w14a = registerAprilFools(775, 305, "26w14a", ProtocolVersion.v26_1);
 
     private static ProtocolVersion registerSnapshot(final int version, final String name, final ProtocolVersion origin) {
         final ProtocolVersion protocolVersion = new SpecialProtocolVersion(version, name, origin);

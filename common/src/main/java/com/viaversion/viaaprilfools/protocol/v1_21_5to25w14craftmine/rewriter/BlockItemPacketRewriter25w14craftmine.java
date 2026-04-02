@@ -23,7 +23,7 @@ package com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.rewriter;
 import com.viaversion.nbt.tag.CompoundTag;
 import com.viaversion.nbt.tag.Tag;
 import com.viaversion.viaaprilfools.api.minecraft.item.LodestoneTracker25w14craftmine;
-import com.viaversion.viaaprilfools.api.minecraft.item.StructuredDataKeys25w14craftmine;
+import com.viaversion.viaaprilfools.api.minecraft.item.VAFStructuredDataKeys;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.Protocol1_21_5To_25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.ServerboundPacket25w14craftmine;
 import com.viaversion.viaaprilfools.protocol.v1_21_5to25w14craftmine.packet.ServerboundPackets25w14craftmine;
@@ -48,10 +48,10 @@ import java.util.List;
 public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemRewriter<ClientboundPacket1_21_5, ServerboundPacket25w14craftmine, Protocol1_21_5To_25w14craftmine> {
 
     public static final List<StructuredDataKey<?>> NEW_DATA_TO_REMOVE = List.of(
-        StructuredDataKeys25w14craftmine.ITEM_EXCHANGE_VALUE, StructuredDataKeys25w14craftmine.WORLD_EFFECT_UNLOCK, StructuredDataKeys25w14craftmine.WORLD_EFFECT_HINT,
-        StructuredDataKeys25w14craftmine.MINE_ACTIVE, StructuredDataKeys25w14craftmine.SPECIAL_MINE, StructuredDataKeys25w14craftmine.MINE_COMPLETED,
-        StructuredDataKeys25w14craftmine.WORLD_MODIFIERS, StructuredDataKeys25w14craftmine.DIMENSION_ID, StructuredDataKeys25w14craftmine.ROOM, StructuredDataKeys25w14craftmine.SKY,
-        StructuredDataKeys25w14craftmine.TROPHY_TYPE, StructuredDataKeys25w14craftmine.MOB_TROPHY_TYPE
+        VAFStructuredDataKeys.ITEM_EXCHANGE_VALUE, VAFStructuredDataKeys.WORLD_EFFECT_UNLOCK, VAFStructuredDataKeys.WORLD_EFFECT_HINT,
+        VAFStructuredDataKeys.MINE_ACTIVE, VAFStructuredDataKeys.SPECIAL_MINE, VAFStructuredDataKeys.MINE_COMPLETED,
+        VAFStructuredDataKeys.WORLD_MODIFIERS, VAFStructuredDataKeys.DIMENSION_ID, VAFStructuredDataKeys.ROOM, VAFStructuredDataKeys.SKY,
+        VAFStructuredDataKeys.TROPHY_TYPE, VAFStructuredDataKeys.MOB_TROPHY_TYPE
     );
 
     public static final int NEW_CRAFTING_SLOTS = 5;
@@ -251,7 +251,7 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
     }
 
     public static void upgradeItemData(final Item item, final StructuredDataContainer container) {
-        container.replace(StructuredDataKey.LODESTONE_TRACKER, StructuredDataKeys25w14craftmine.LODESTONE_TRACKER,
+        container.replace(StructuredDataKey.LODESTONE_TRACKER, VAFStructuredDataKeys.LODESTONE_TRACKER,
             tracker -> new LodestoneTracker25w14craftmine(tracker.position(), tracker.tracked(), false));
     }
 
@@ -263,7 +263,7 @@ public final class BlockItemPacketRewriter25w14craftmine extends StructuredItemR
     }
 
     public static void downgradeItemData(final Item item, final StructuredDataContainer container) {
-        container.replace(StructuredDataKeys25w14craftmine.LODESTONE_TRACKER, StructuredDataKey.LODESTONE_TRACKER,
+        container.replace(VAFStructuredDataKeys.LODESTONE_TRACKER, StructuredDataKey.LODESTONE_TRACKER,
             tracker -> new LodestoneTracker(tracker.position(), tracker.tracked()));
 
         container.remove(NEW_DATA_TO_REMOVE);

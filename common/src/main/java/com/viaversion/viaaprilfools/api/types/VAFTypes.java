@@ -20,7 +20,9 @@
  */
 package com.viaversion.viaaprilfools.api.types;
 
-import com.viaversion.viaaprilfools.api.minecraft.item.StructuredDataKeys25w14craftmine;
+import com.viaversion.viaaprilfools.api.minecraft.entities.EntityDataTypes26w14a;
+import com.viaversion.viaaprilfools.api.minecraft.item.VAFStructuredDataKeys;
+import com.viaversion.viaversion.api.minecraft.data.version.StructuredDataKeys1_21_11;
 import com.viaversion.viaversion.api.minecraft.entitydata.types.EntityDataTypes1_21_5;
 import com.viaversion.viaversion.api.type.Types;
 import com.viaversion.viaversion.api.type.types.misc.HolderType;
@@ -41,6 +43,7 @@ public final class VAFTypes {
         }
     };
 
-    public static final Types1_20_5<StructuredDataKeys25w14craftmine, EntityDataTypes1_21_5> V25W14CRAFTMINE = new Types1_20_5<>(StructuredDataKeys25w14craftmine::new, EntityDataTypes1_21_5::new);
+    public static final Types1_20_5<VAFStructuredDataKeys, EntityDataTypes1_21_5> V25W14CRAFTMINE = new Types1_20_5<>(VAFStructuredDataKeys::new, EntityDataTypes1_21_5::new);
+    public static final Types1_20_5<StructuredDataKeys1_21_11, EntityDataTypes26w14a> V26W14A = new Types1_20_5<>(StructuredDataKeys1_21_11::new, EntityDataTypes26w14a::new);
 
 }

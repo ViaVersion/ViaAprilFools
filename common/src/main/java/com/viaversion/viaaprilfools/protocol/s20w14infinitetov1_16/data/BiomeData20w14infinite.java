@@ -23,7 +23,7 @@ package com.viaversion.viaaprilfools.protocol.s20w14infinitetov1_16.data;
 import com.viaversion.viaversion.libs.fastutil.ints.IntArrayList;
 import com.viaversion.viaversion.libs.fastutil.ints.IntList;
 
-public class BiomeData20w14infinite {
+public final class BiomeData20w14infinite {
 
     private static final IntList VALID_BIOMES = new IntArrayList();
 

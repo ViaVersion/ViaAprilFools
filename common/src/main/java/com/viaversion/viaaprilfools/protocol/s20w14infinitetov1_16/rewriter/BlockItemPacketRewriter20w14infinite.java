@@ -40,7 +40,7 @@ import com.viaversion.viaversion.rewriter.ItemRewriter;
 import com.viaversion.viaversion.util.CompactArrayUtil;
 import java.util.Map;
 
-public class BlockItemPacketRewriter20w14infinite extends ItemRewriter<ClientboundPackets20w14infinite, ServerboundPackets1_16, Protocol20w14infiniteTo1_16> {
+public final class BlockItemPacketRewriter20w14infinite extends ItemRewriter<ClientboundPackets20w14infinite, ServerboundPackets1_16, Protocol20w14infiniteTo1_16> {
 
     public BlockItemPacketRewriter20w14infinite(Protocol20w14infiniteTo1_16 protocol) {
         super(protocol, Types.ITEM1_13_2, Types.ITEM1_13_2_SHORT_ARRAY);
@@ -48,83 +48,69 @@ public class BlockItemPacketRewriter20w14infinite extends ItemRewriter<Clientbou
 
     @Override
     protected void registerPackets() {
-        this.registerCooldown(ClientboundPackets20w14infinite.COOLDOWN);
-        this.registerSetContent(ClientboundPackets20w14infinite.CONTAINER_SET_CONTENT);
-        this.registerSetSlot(ClientboundPackets20w14infinite.CONTAINER_SET_SLOT);
-        this.registerMerchantOffers1_14_4(ClientboundPackets20w14infinite.MERCHANT_OFFERS);
-        this.registerAdvancements(ClientboundPackets20w14infinite.UPDATE_ADVANCEMENTS);
-        this.registerContainerClick(ServerboundPackets1_16.CONTAINER_CLICK);
-        this.registerSetCreativeModeSlot(ServerboundPackets1_16.SET_CREATIVE_MODE_SLOT);
-        final BlockRewriter<ClientboundPackets20w14infinite> blockRewriter = BlockRewriter.for1_14(this.protocol);
+        registerCooldown(ClientboundPackets20w14infinite.COOLDOWN);
+        registerSetContent(ClientboundPackets20w14infinite.CONTAINER_SET_CONTENT);
+        registerSetSlot(ClientboundPackets20w14infinite.CONTAINER_SET_SLOT);
+        registerMerchantOffers1_14_4(ClientboundPackets20w14infinite.MERCHANT_OFFERS);
+        registerAdvancements(ClientboundPackets20w14infinite.UPDATE_ADVANCEMENTS);
+        registerContainerClick(ServerboundPackets1_16.CONTAINER_CLICK);
+        registerSetCreativeModeSlot(ServerboundPackets1_16.SET_CREATIVE_MODE_SLOT);
+
+        final BlockRewriter<ClientboundPackets20w14infinite> blockRewriter = BlockRewriter.for1_14(protocol);
         blockRewriter.registerBlockEvent(ClientboundPackets20w14infinite.BLOCK_EVENT);
         blockRewriter.registerBlockUpdate(ClientboundPackets20w14infinite.BLOCK_UPDATE);
         blockRewriter.registerChunkBlocksUpdate(ClientboundPackets20w14infinite.CHUNK_BLOCKS_UPDATE);
         blockRewriter.registerBlockBreakAck(ClientboundPackets20w14infinite.BLOCK_BREAK_ACK);
         blockRewriter.registerLevelEvent1_13(ClientboundPackets20w14infinite.LEVEL_EVENT);
 
-        protocol.registerClientbound(ClientboundPackets20w14infinite.LIGHT_UPDATE, new PacketHandlers() {
-            @Override
-            public void register() {
-                map(Types.VAR_INT); // x
-                map(Types.VAR_INT); // y
-                handler(wrapper -> wrapper.write(Types.BOOLEAN, true)); // Take neighbour's light into account as well
+        protocol.registerClientbound(ClientboundPackets20w14infinite.LIGHT_UPDATE, wrapper -> {
+            wrapper.passthrough(Types.VAR_INT); // x
+            wrapper.passthrough(Types.VAR_INT); // y
+            wrapper.write(Types.BOOLEAN, true); // Take neighbor's light into account as well
+        });
+        protocol.registerClientbound(ClientboundPackets20w14infinite.LEVEL_CHUNK, wrapper -> {
+            final Chunk chunk = wrapper.read(ChunkType1_15.TYPE);
+            wrapper.write(ChunkType1_16.TYPE, chunk);
+            chunk.setIgnoreOldLightData(chunk.isFullChunk());
+
+            for (int s = 0; s < chunk.getSections().length; s++) {
+                final ChunkSection section = chunk.getSections()[s];
+                if (section == null) {
+                    continue;
+                }
+
+                final DataPalette blockPalette = section.palette(PaletteType.BLOCKS);
+                for (int i = 0; i < blockPalette.size(); i++) {
+                    int old = blockPalette.idByIndex(i);
+                    blockPalette.setIdByIndex(i, protocol.getMappingData().getNewBlockStateId(old));
+                }
+            }
+
+            if (chunk.getBiomeData() != null) {
+                for (int i = 0; i < chunk.getBiomeData().length; i++) {
+                    if (!BiomeData20w14infinite.isValid(chunk.getBiomeData()[i])) {
+                        chunk.getBiomeData()[i] = 1; // plains
+                    }
+                }
+            }
+
+            final CompoundTag heightMaps = chunk.getHeightMap();
+            for (Map.Entry<String, Tag> heightMapTag : heightMaps) {
+                LongArrayTag heightMap = (LongArrayTag) heightMapTag.getValue();
+                int[] heightMapData = new int[256];
+                CompactArrayUtil.iterateCompactArray(9, heightMapData.length, heightMap.getValue(), (i, v) -> heightMapData[i] = v);
+                heightMap.setValue(CompactArrayUtil.createCompactArrayWithPadding(9, heightMapData.length, i -> heightMapData[i]));
             }
         });
-        protocol.registerClientbound(ClientboundPackets20w14infinite.LEVEL_CHUNK, new PacketHandlers() {
-            @Override
-            public void register() {
-                handler(wrapper -> {
-                    Chunk chunk = wrapper.read(ChunkType1_15.TYPE);
-                    wrapper.write(ChunkType1_16.TYPE, chunk);
-
-                    chunk.setIgnoreOldLightData(chunk.isFullChunk());
-
-                    for (int s = 0; s < chunk.getSections().length; s++) {
-                        ChunkSection section = chunk.getSections()[s];
-                        if (section == null) continue;
-                        final DataPalette blockPalette = section.palette(PaletteType.BLOCKS);
-                        for (int i = 0; i < blockPalette.size(); i++) {
-                            int old = blockPalette.idByIndex(i);
-                            blockPalette.setIdByIndex(i, protocol.getMappingData().getNewBlockStateId(old));
-                        }
-                    }
-
-                    if (chunk.getBiomeData() != null) {
-                        for (int i = 0; i < chunk.getBiomeData().length; i++) {
-                            if (!BiomeData20w14infinite.isValid(chunk.getBiomeData()[i])) {
-                                chunk.getBiomeData()[i] = 1; // plains
-                            }
-                        }
-                    }
-
-                    CompoundTag heightMaps = chunk.getHeightMap();
-                    for (Map.Entry<String, Tag> heightMapTag : heightMaps) {
-                        LongArrayTag heightMap = (LongArrayTag) heightMapTag.getValue();
-                        int[] heightMapData = new int[256];
-                        CompactArrayUtil.iterateCompactArray(9, heightMapData.length, heightMap.getValue(), (i, v) -> heightMapData[i] = v);
-                        heightMap.setValue(CompactArrayUtil.createCompactArrayWithPadding(9, heightMapData.length, i -> heightMapData[i]));
-                    }
-                });
-            }
-        });
-        protocol.registerClientbound(ClientboundPackets20w14infinite.SET_EQUIPMENT, new PacketHandlers() {
-            @Override
-            public void register() {
-                map(Types.VAR_INT); // 0 - Entity ID
-
-                handler(wrapper -> {
-                    int slot = wrapper.read(Types.VAR_INT);
-                    wrapper.write(Types.BYTE, (byte) slot);
-                    handleItemToClient(wrapper.user(), wrapper.passthrough(Types.ITEM1_13_2));
-                });
-            }
+        protocol.registerClientbound(ClientboundPackets20w14infinite.SET_EQUIPMENT, wrapper -> {
+            wrapper.passthrough(Types.VAR_INT); // Entity id
+            final int slot = wrapper.read(Types.VAR_INT);
+            wrapper.write(Types.BYTE, (byte) slot);
+            passthroughClientboundItem(wrapper);
         });
 
-        protocol.registerServerbound(ServerboundPackets1_16.EDIT_BOOK, new PacketHandlers() {
-            @Override
-            public void register() {
-                handler(wrapper -> handleItemToServer(wrapper.user(), wrapper.passthrough(Types.ITEM1_13_2)));
-            }
+        protocol.registerServerbound(ServerboundPackets1_16.EDIT_BOOK, wrapper -> {
+            handleItemToServer(wrapper.user(), wrapper.passthrough(Types.ITEM1_13_2));
         });
     }
 

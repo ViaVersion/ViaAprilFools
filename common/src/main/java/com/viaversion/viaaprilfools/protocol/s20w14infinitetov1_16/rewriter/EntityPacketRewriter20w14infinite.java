@@ -36,10 +36,10 @@ import com.viaversion.viaversion.rewriter.EntityRewriter;
 import com.viaversion.viaversion.util.Key;
 import java.util.UUID;
 
-public class EntityPacketRewriter20w14infinite extends EntityRewriter<ClientboundPackets20w14infinite, Protocol20w14infiniteTo1_16> {
+public final class EntityPacketRewriter20w14infinite extends EntityRewriter<ClientboundPackets20w14infinite, Protocol20w14infiniteTo1_16> {
 
     private final PacketHandler DIMENSION_HANDLER = wrapper -> {
-        int dimension = wrapper.read(Types.INT);
+        final int dimension = wrapper.read(Types.INT);
         String dimensionType;
         String dimensionName = switch (dimension) {
             case -1 -> dimensionType = "minecraft:the_nether";
@@ -70,7 +70,7 @@ public class EntityPacketRewriter20w14infinite extends EntityRewriter<Clientboun
 
         protocol.registerClientbound(ClientboundPackets20w14infinite.ADD_GLOBAL_ENTITY, ClientboundPackets1_16.ADD_ENTITY, wrapper -> {
             final int entityId = wrapper.passthrough(Types.VAR_INT); // entity id
-            wrapper.user().getEntityTracker(Protocol20w14infiniteTo1_16.class).addEntity(entityId, EntityTypes1_16.LIGHTNING_BOLT);
+            tracker(wrapper.user()).addEntity(entityId, EntityTypes1_16.LIGHTNING_BOLT);
 
             wrapper.write(Types.UUID, UUID.randomUUID()); // uuid
             wrapper.write(Types.VAR_INT, EntityTypes1_16.LIGHTNING_BOLT.getId()); // entity type

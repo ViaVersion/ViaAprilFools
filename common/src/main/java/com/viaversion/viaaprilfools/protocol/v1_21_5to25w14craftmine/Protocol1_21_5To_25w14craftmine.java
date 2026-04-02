@@ -113,20 +113,7 @@ public final class Protocol1_21_5To_25w14craftmine extends AbstractProtocol<Clie
     @Override
     protected void onMappingDataLoaded() {
         EntityTypes25w14craftmine.initialize(this);
-        VAFTypes.V25W14CRAFTMINE.particle.filler(this)
-            .reader("block", ParticleType.Readers.BLOCK)
-            .reader("block_marker", ParticleType.Readers.BLOCK)
-            .reader("dust_pillar", ParticleType.Readers.BLOCK)
-            .reader("falling_dust", ParticleType.Readers.BLOCK)
-            .reader("block_crumble", ParticleType.Readers.BLOCK)
-            .reader("dust", ParticleType.Readers.DUST1_21_2)
-            .reader("dust_color_transition", ParticleType.Readers.DUST_TRANSITION1_21_2)
-            .reader("vibration", ParticleType.Readers.VIBRATION1_20_3)
-            .reader("sculk_charge", ParticleType.Readers.SCULK_CHARGE)
-            .reader("shriek", ParticleType.Readers.SHRIEK)
-            .reader("entity_effect", ParticleType.Readers.COLOR)
-            .reader("trail", ParticleType.Readers.TRAIL1_21_4)
-            .reader("item", ParticleType.Readers.item(VAFTypes.V25W14CRAFTMINE.item));
+        ParticleType.Fillers.fill1_21_4(this);
         VAFTypes.V25W14CRAFTMINE.structuredData.filler(this).add(StructuredDataKey.CUSTOM_DATA, StructuredDataKey.MAX_STACK_SIZE,
             StructuredDataKeys25w14craftmine.ITEM_EXCHANGE_VALUE, StructuredDataKey.MAX_DAMAGE, StructuredDataKey.UNBREAKABLE1_21_5, StructuredDataKeys25w14craftmine.WORLD_EFFECT_UNLOCK,
             StructuredDataKeys25w14craftmine.WORLD_EFFECT_HINT, StructuredDataKeys25w14craftmine.MINE_ACTIVE, StructuredDataKeys25w14craftmine.SPECIAL_MINE,

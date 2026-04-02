@@ -47,7 +47,7 @@ public final class MappingData25w14craftmine extends VAFBackwardsMappingData {
             TRANSLATIONS.put(entry.getKey(), entry.getValue().getAsString());
         }
 
-        final CompoundTag worldEffects = VAFMappingDataLoader.INSTANCE.loadNBTFromFile("world-effects.nbt");
+        final CompoundTag worldEffects = VAFMappingDataLoader.INSTANCE.loadNBTFromFile("world-effects-25w14craftmine.nbt");
         WORLD_EFFECTS = new CompoundTag[worldEffects.size()];
         for (Map.Entry<String, Tag> effect : worldEffects) {
             final int index = Integer.parseInt(effect.getKey());

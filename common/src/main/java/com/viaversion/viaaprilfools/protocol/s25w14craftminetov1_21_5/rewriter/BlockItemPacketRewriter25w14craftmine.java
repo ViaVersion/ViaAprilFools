@@ -188,7 +188,7 @@ public final class BlockItemPacketRewriter25w14craftmine extends BackwardsStruct
             passthroughHashedItem(wrapper); // Carried item
         });
         protocol.registerClientbound(ClientboundPackets25w14craftmine.CONTAINER_SET_DATA, wrapper -> {
-            final short containerId = wrapper.passthrough(Types.UNSIGNED_BYTE);
+            final int containerId = wrapper.passthrough(Types.VAR_INT);
             final short property = wrapper.passthrough(Types.SHORT);
 
             final CurrentContainer currentContainer = wrapper.user().get(CurrentContainer.class);

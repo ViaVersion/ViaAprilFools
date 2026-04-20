@@ -20,8 +20,10 @@
  */
 package com.viaversion.viaaprilfools;
 
+import com.viaversion.viaaprilfools.api.VAFServerVersionProvider;
 import com.viaversion.viaaprilfools.platform.ViaAprilFoolsPlatform;
 import com.viaversion.viaversion.api.Via;
+import com.viaversion.viaversion.api.protocol.version.VersionProvider;
 import java.io.File;
 import java.util.logging.Logger;
 
@@ -30,8 +32,19 @@ public class ViaAprilFoolsPlatformImpl implements ViaAprilFoolsPlatform {
     private final Logger logger;
 
     public ViaAprilFoolsPlatformImpl() {
+        this(true);
+    }
+
+    public ViaAprilFoolsPlatformImpl(final boolean clientSide) {
         logger = Via.getPlatform().createLogger("ViaAprilFools");
         init(new File(getDataFolder(), "viaaprilfools.yml"));
+
+        if (!clientSide) {
+            Via.getManager().addPostEnableListener(() -> {
+                final VersionProvider delegate = Via.getManager().getProviders().get(VersionProvider.class);
+                Via.getManager().getProviders().use(VersionProvider.class, new VAFServerVersionProvider(delegate));
+            });
+        }
     }
 
     @Override

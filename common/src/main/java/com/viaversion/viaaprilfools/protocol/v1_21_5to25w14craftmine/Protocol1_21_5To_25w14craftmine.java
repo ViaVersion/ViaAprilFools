@@ -43,8 +43,8 @@ import com.viaversion.viaversion.api.protocol.packet.provider.SimplePacketTypesP
 import com.viaversion.viaversion.api.type.types.misc.ParticleType;
 import com.viaversion.viaversion.api.type.types.version.VersionedTypes;
 import com.viaversion.viaversion.api.type.types.version.VersionedTypesHolder;
-import com.viaversion.viaversion.data.entity.EntityTrackerBase;
-import com.viaversion.viaversion.data.item.ItemHasherBase;
+import com.viaversion.viaversion.protocol.shared_registration.RegistrationContext;
+import com.viaversion.viaversion.protocol.shared_registration.def.base.ConfigurationRegistrations;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ClientboundPacket1_21_5;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ClientboundPackets1_21_5;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ServerboundPacket1_21_5;
@@ -147,8 +147,14 @@ public final class Protocol1_21_5To_25w14craftmine extends AbstractProtocol<Clie
 
     @Override
     public void init(final UserConnection connection) {
-        addEntityTracker(connection, new EntityTrackerBase(connection, EntityTypes25w14craftmine.PLAYER));
-        addItemHasher(connection, new ItemHasherBase(this, connection));
+        addEntityTracker(connection);
+        addItemHasher(connection);
+    }
+
+    @Override
+    protected void applySharedRegistrations() {
+        super.applySharedRegistrations();
+        ConfigurationRegistrations.registerConfigurationStateSwitching(new RegistrationContext<>(this, getClientVersion(), null));
     }
 
     @Override

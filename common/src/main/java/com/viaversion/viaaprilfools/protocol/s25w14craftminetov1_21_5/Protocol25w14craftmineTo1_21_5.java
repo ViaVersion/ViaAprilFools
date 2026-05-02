@@ -20,7 +20,6 @@
  */
 package com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5;
 
-import com.viaversion.viaaprilfools.api.minecraft.entities.EntityTypes25w14craftmine;
 import com.viaversion.viaaprilfools.api.minecraft.item.StructuredDataKeys25w14craftmine;
 import com.viaversion.viaaprilfools.api.types.VAFTypes;
 import com.viaversion.viaaprilfools.protocol.s25w14craftminetov1_21_5.data.MappingData25w14craftmine;
@@ -45,15 +44,14 @@ import com.viaversion.viaversion.api.protocol.packet.provider.PacketTypesProvide
 import com.viaversion.viaversion.api.protocol.packet.provider.SimplePacketTypesProvider;
 import com.viaversion.viaversion.api.type.types.version.Types1_20_5;
 import com.viaversion.viaversion.api.type.types.version.VersionedTypes;
-import com.viaversion.viaversion.data.entity.EntityTrackerBase;
-import com.viaversion.viaversion.data.item.ItemHasherBase;
+import com.viaversion.viaversion.protocol.shared_registration.RegistrationContext;
+import com.viaversion.viaversion.protocol.shared_registration.def.base.ConfigurationRegistrations;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ClientboundPacket1_21_5;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ClientboundPackets1_21_5;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ServerboundPacket1_21_5;
 import com.viaversion.viaversion.protocols.v1_21_4to1_21_5.packet.ServerboundPackets1_21_5;
 import com.viaversion.viaversion.rewriter.AttributeRewriter;
 import com.viaversion.viaversion.rewriter.ParticleRewriter;
-import com.viaversion.viaversion.rewriter.RegistryDataRewriter;
 import com.viaversion.viaversion.rewriter.StatisticsRewriter;
 import com.viaversion.viaversion.rewriter.TagRewriter;
 
@@ -114,9 +112,15 @@ public final class Protocol25w14craftmineTo1_21_5 extends BackwardsProtocol<Clie
 
     @Override
     public void init(final UserConnection connection) {
-        addEntityTracker(connection, new EntityTrackerBase(connection, EntityTypes25w14craftmine.PLAYER));
-        addItemHasher(connection, new ItemHasherBase(this, connection));
+        addEntityTracker(connection);
+        addItemHasher(connection);
         connection.put(new CurrentContainer());
+    }
+
+    @Override
+    protected void applySharedRegistrations() {
+        super.applySharedRegistrations();
+        ConfigurationRegistrations.registerConfigurationStateSwitching(new RegistrationContext<>(this, getClientVersion(), null));
     }
 
     @Override

@@ -21,7 +21,6 @@
 package com.viaversion.viaaprilfools;
 
 import com.viaversion.viaversion.api.Via;
-import com.viaversion.viaversion.api.ViaManager;
 import com.viaversion.viaversion.api.protocol.version.VersionProvider;
 import net.fabricmc.loader.api.FabricLoader;
 import com.viaversion.viaaprilfools.api.VAFServerVersionProvider;

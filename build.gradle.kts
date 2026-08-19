@@ -1,4 +1,4 @@
-import de.florianreuth.baseproject.core.configureEmbeddedDependencies
+import de.florianreuth.baseproject.core.configureShadedDependencies
 import de.florianreuth.baseproject.integration.branchName
 import de.florianreuth.baseproject.integration.latestCommitHash
 import de.florianreuth.baseproject.integration.latestCommitMessage
@@ -44,7 +44,7 @@ subprojects {
 
 }
 
-val shade = configureEmbeddedDependencies()
+val shade = configureShadedDependencies()
 
 dependencies {
     subprojects.forEach {

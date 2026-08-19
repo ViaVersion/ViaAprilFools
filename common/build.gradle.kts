@@ -1,4 +1,4 @@
-import de.florianreuth.baseproject.*
+import de.florianreuth.baseproject.integration.latestCommitHash
 
 plugins {
     id("net.raphimc.class-token-replacer")

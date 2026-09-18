@@ -44,7 +44,7 @@ public enum ServerboundPackets25w14craftmine implements ServerboundPacket25w14cr
     CONTAINER_SLOT_STATE_CHANGED, // 0x13
     COOKIE_RESPONSE, // 0x14
     CUSTOM_PAYLOAD, // 0x15
-    DEBUG_SAMPLE_SUBSCRIPTION, // 0x16
+    DEBUG_SUBSCRIPTION_REQUEST, // 0x16
     EDIT_BOOK, // 0x17
     ENTITY_TAG_QUERY, // 0x18
     INTERACT, // 0x19

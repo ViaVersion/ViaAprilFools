@@ -1,3 +1,7 @@
+plugins {
+    id("via.addon_subproject")
+}
+
 dependencies {
-    compileOnly(project(":viaaprilfools-common"))
+    compileOnly(projects.viaaprilfoolsCommon)
 }

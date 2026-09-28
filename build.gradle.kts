@@ -1,55 +1,20 @@
-import de.florianreuth.baseproject.core.configureShadedDependencies
-import de.florianreuth.baseproject.integration.branchName
-import de.florianreuth.baseproject.integration.latestCommitHash
-import de.florianreuth.baseproject.integration.latestCommitMessage
-import de.florianreuth.baseproject.setupProject
-import de.florianreuth.baseproject.setupViaPublishing
+import de.florianreuth.baseproject.viaRelease
 
 plugins {
     `java-library`
-    id("io.papermc.hangar-publish-plugin")
-    id("com.modrinth.minotaur")
-    id("de.florianreuth.baseproject")
+    alias(libs.plugins.hangar.publish)
+    alias(libs.plugins.minotaur)
+    id("base.java")
+    id("via.maven_publish")
+    id("configuration.shaded_dependencies")
 }
-
-allprojects {
-
-    setupProject()
-    setupViaPublishing()
-
-    repositories {
-        maven("https://repo.viaversion.com")
-        maven("https://repo.papermc.io/repository/maven-public")
-        maven("https://maven.fabricmc.net")
-    }
-
-}
-
-subprojects {
-
-    dependencies {
-        compileOnly("com.viaversion:viaversion:5.12.0")
-        compileOnly("com.viaversion:viabackwards:5.12.0")
-    }
-
-    tasks {
-        processResources {
-            val projectVersion = project.version
-            val projectDescription = project.description
-            filesMatching(listOf("plugin.yml", "fabric.mod.json", "META-INF/sponge_plugins.json")) {
-                expand(mapOf("version" to projectVersion, "description" to projectDescription))
-            }
-        }
-    }
-
-}
-
-val shade = configureShadedDependencies()
 
 dependencies {
-    subprojects.forEach {
-        shade(it)
-    }
+    shadedDependencies(projects.viaaprilfoolsCommon)
+    shadedDependencies(projects.viaaprilfoolsBukkit)
+    shadedDependencies(projects.viaaprilfoolsFabric)
+    shadedDependencies(projects.viaaprilfoolsSponge)
+    shadedDependencies(projects.viaaprilfoolsVelocity)
 }
 
 tasks {
@@ -60,29 +25,18 @@ tasks {
     }
 }
 
-val branch = branchName()
-val baseVersion = version as String
-val isRelease = !baseVersion.contains('-')
-val isMainBranch = branch == "main"
-if (!isRelease || isMainBranch) { // Only publish releases from the main branch
-    val suffixedVersion = if (isRelease) baseVersion else baseVersion + "+" + System.getenv("GITHUB_RUN_NUMBER")
-    val changelogContent = if (isRelease) {
-        "See [GitHub](https://github.com/ViaVersion/ViaAprilFools) for release notes."
-    } else {
-        val commitHash = latestCommitHash()
-        "[$commitHash](https://github.com/ViaVersion/ViaAprilFools/commit/$commitHash) ${latestCommitMessage()}"
-    }
-
+val release = viaRelease("main")
+if (!release.isRelease || release.isMainBranch) { // Only publish releases from the main branch
     modrinth {
         val mcVersions: List<String> = (property("minecraft_versions") as String)
             .split(",")
             .map { it.trim() }
         token.set(System.getenv("MODRINTH_TOKEN"))
         projectId.set("viaaprilfools")
-        versionType.set(if (isRelease) "release" else if (isMainBranch) "beta" else "alpha")
-        versionNumber.set(suffixedVersion)
-        versionName.set(suffixedVersion)
-        changelog.set(changelogContent)
+        versionType.set(release.modrinthVersionType)
+        versionNumber.set(release.version)
+        versionName.set(release.version)
+        changelog.set(release.changelog)
         uploadFile.set(tasks.jar.flatMap { it.archiveFile })
         gameVersions.set(mcVersions)
         loaders.add("fabric")
@@ -103,10 +57,10 @@ if (!isRelease || isMainBranch) { // Only publish releases from the main branch
 
     hangarPublish {
         publications.register("plugin") {
-            version.set(suffixedVersion)
+            version.set(release.version)
             id.set("ViaAprilFools")
-            channel.set(if (isRelease) "Release" else if (isMainBranch) "Snapshot" else "Alpha")
-            changelog.set(changelogContent)
+            channel.set(release.hangarChannel)
+            changelog.set(release.changelog)
             apiKey.set(System.getenv("HANGAR_TOKEN"))
             platforms {
                 paper {

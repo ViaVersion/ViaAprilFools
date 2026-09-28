@@ -1,4 +1,9 @@
+plugins {
+    id("via.addon_subproject")
+}
+
 dependencies {
-    compileOnly(project(":viaaprilfools-common"))
-    compileOnly("com.velocitypowered:velocity-api:3.4.0")?.also { annotationProcessor(it) }
+    compileOnly(projects.viaaprilfoolsCommon)
+    compileOnly(libs.velocity.api)
+    annotationProcessor(libs.velocity.api)
 }
